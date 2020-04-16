@@ -298,7 +298,7 @@ namespace SalesApp.views
         private async void SignIn_ClickedAsync(object sender, EventArgs e)
         {
             // await DisplayAlert("Alert", "Make Sure your GPS is Enabled", "Ok");
-            await RetrieveLocation();
+             RetrieveLocation();
         }
 
         private async void CancelSignIn_ClickedAsync(object sender, EventArgs e)
@@ -343,7 +343,7 @@ namespace SalesApp.views
         }
 
 
-        private async Task RetrieveLocation()
+        private async void RetrieveLocation()
         {
 
             try

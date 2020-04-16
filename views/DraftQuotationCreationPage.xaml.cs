@@ -826,6 +826,94 @@ namespace SalesApp.views
 
                 vals["is_direct_so"] = false;
 
+                if (shipping_picker.SelectedIndex == 0)
+                {
+
+                    vals["picking_policy"] = "direct";
+                }
+
+                else if (shipping_picker.SelectedIndex == 1)
+                {
+                    vals["picking_policy"] = "one";
+                }
+
+                else
+                {
+                    vals["picking_policy"] = false;
+                }
+
+
+                vals["client_order_ref"] = cus_reference.Text;
+                //  vals["discount"] = dis1.Text;
+                // vals["multi_discount"] = overper_string;
+
+
+                try
+                {
+                    var warehouse_id = App.warehousList.FirstOrDefault(x => x.name == warehouse_picker.SelectedItem.ToString()).id;
+                    vals["warehouse_id"] = warehouse_id;
+
+                    if (warehouse_id == 0)
+                    {
+                        vals["warehouse_id"] = false;
+                    }
+                }
+
+                catch
+                {
+                    vals["warehouse_id"] = false;
+                }
+
+
+                try
+                {
+                    var team_id = App.salesteam.FirstOrDefault(x => x.Value == salesteam_picker.SelectedItem.ToString()).Key;
+                    vals["team_id"] = team_id;
+
+                    if (team_id == 0)
+                    {
+                        vals["team_id"] = false;
+                    }
+                }
+
+                catch
+                {
+                    vals["team_id"] = false;
+                }
+
+                try
+                {
+                    var analaytic_id = App.analayticList.FirstOrDefault(x => x.name == analytic_picker.SelectedItem.ToString()).id;
+                    vals["project_id"] = analaytic_id;
+
+                    if (analaytic_id == 0)
+                    {
+                        vals["project_id"] = false;
+                    }
+                }
+
+                catch
+                {
+                    vals["project_id"] = false;
+                }
+
+
+                try
+                {
+                    var branch_id = App.branchList.FirstOrDefault(x => x.name == branch_picker.SelectedItem.ToString()).id;
+                    vals["branch_id"] = branch_id;
+
+                    if (branch_id == 0)
+                    {
+                        vals["branch_id"] = false;
+                    }
+                }
+
+                catch
+                {
+                    vals["branch_id"] = false;
+                }
+
                 //  vals["discount"] = dis1.Text;
                 // vals["multi_discount"] = overper_string;
 
@@ -1090,8 +1178,8 @@ namespace SalesApp.views
                 }
 
 
-                orderLineList1.Add(new OrderLinesList(searchprod.Text, Convert.ToDouble(oqty.Text), Convert.ToDouble(up.Text), taxidList, orderline_des.Text, taxname, dis1.Text, multidis.Text));
-                //  abc.Add(new Dictionary<string, dynamic>(xyz));
+              //  orderLineList1.Add(new OrderLinesList(searchprod.Text, Convert.ToDouble(oqty.Text), Convert.ToDouble(up.Text), taxidList, orderline_des.Text, taxname, dis1.Text, multidis.Text,SerialIdList));
+
 
                 orderListview.ItemsSource = orderLineList1;
                 orderListview.RowHeight = 40;
@@ -1113,6 +1201,100 @@ namespace SalesApp.views
 
 
             }
+        }
+
+        private void Tab1Clicked(object sender, EventArgs ea)
+        {
+            tab1stack.BackgroundColor = Color.FromHex("#363E4B");
+            tab1.BackgroundColor = Color.FromHex("#363E4B");
+            tab2stack.BackgroundColor = Color.White;
+            tab2.BackgroundColor = Color.White;
+            tab2frame.BackgroundColor = Color.FromHex("#363E4B");
+            tab2borderstack.BackgroundColor = Color.White;
+            orderLineList.IsVisible = true;
+            OtherInfoStack1.IsVisible = false;
+            //  OtherInfoStack2.IsVisible = false;
+            tab1frame.BackgroundColor = Color.FromHex("#363E4B");
+            tab1borderstack.BackgroundColor = Color.FromHex("#363E4B");
+            OrderLineList1.IsVisible = true;
+
+            // tap2_clicked = false;
+
+            //if (editbtn_clicked == true)
+            //{
+            //    addbtn_orderline.IsVisible = true;
+            //}
+            //savebtn_layout.IsVisible = true;
+
+            tab1.TextColor = Color.White;
+            tab2.TextColor = Color.Black;
+
+            airconImg.IsVisible = true;
+            AddAirCon.IsVisible = true;
+        }
+
+        private void Tab2Clicked(object sender, EventArgs ea)
+        {
+            tab2stack.BackgroundColor = Color.FromHex("#363E4B");
+            tab2.BackgroundColor = Color.FromHex("#363E4B");
+            tab1stack.BackgroundColor = Color.White;
+            tab1.BackgroundColor = Color.White;
+            tab2borderstack.BackgroundColor = Color.FromHex("#363E4B");
+            tab2frame.BackgroundColor = Color.FromHex("#363E4B");
+            orderLineList.IsVisible = false;
+            OtherInfoStack1.IsVisible = true;
+            //  OtherInfoStack2.IsVisible = true;
+            tab1frame.BackgroundColor = Color.FromHex("#363E4B");
+            tab1borderstack.BackgroundColor = Color.White;
+            OrderLineList1.IsVisible = false;
+
+            //  listview_editlayout.IsVisible = false;
+            orderLineGrid.IsVisible = false;
+            Addtax_line.IsVisible = false;
+            airconImg1.IsVisible = false;
+
+            discount_grid.IsVisible = false;
+            taxlistviewGrid.IsVisible = false;
+            //   addbtn_orderline.IsVisible = false;
+
+            tab1.TextColor = Color.Black;
+            tab2.TextColor = Color.White;
+
+            if (salesperson_picker.SelectedItem == null)
+            {
+                salesperson_picker.ItemsSource = App.salespersons.Select(x => x.Value).ToList();
+            }
+
+               shipping_picker.Items.Clear();
+
+                shipping_picker.Items.Add("Deliver each product when available");
+                shipping_picker.Items.Add("Deliver all products at once");
+                shipping_picker.SelectedIndex = -1;
+          
+
+            if (warehouse_picker.SelectedItem == null)
+            {
+                warehouse_picker.ItemsSource = App.warehousList.Select(x => x.name).ToList();
+            }
+            if (analytic_picker.SelectedItem == null)
+            {
+                analytic_picker.ItemsSource = App.analayticList.Select(x => x.name).ToList();
+            }
+            if (branch_picker.SelectedItem == null)
+            {
+                branch_picker.ItemsSource = App.branchList.Select(x => x.name).ToList();
+            }
+
+            if (salesteam_picker.SelectedItem == null)
+            {
+                salesteam_picker.ItemsSource = App.salesteam.Select(x => x.Value).ToList();
+            }
+            //   tap2_clicked = true;
+
+            airconImg.IsVisible = false;
+
+            //  savebtn_layout.IsVisible = false;
+
         }
 
 
@@ -1158,6 +1340,9 @@ namespace SalesApp.views
             }
 
         }
+
+
+
 
         private async void uploadClicked(object sender, EventArgs e)
         {

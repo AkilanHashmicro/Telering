@@ -318,35 +318,7 @@ namespace SalesApp.models
 
 
             public string _colorCode;
-            //public string ColorCode
-            //{
-            //    get
-            //    {
-            //        string tempColours = Settings.StageColourCode;
-            //        Dictionary<string, string> stageColours = new Dictionary<string, string>();
-
-            //        stageColours.Add("draft", "#3498db");
-            //        stageColours.Add("sent", "#e67e22");
-            //        stageColours.Add("sale", "#c0392b");
-            //        stageColours.Add("done", "#2ecc71");
-            //        stageColours.Add("cancel", "#d35400");
-
-            //        tempColours = tempColours.Substring(1, tempColours.Length - 1);
-
-            //        foreach (String data in tempColours.Split(','))
-            //        {
-            //            stageColours.Add(data.Split('^')[0], data.Split('^')[1]);
-            //        }
-            //        _colorCode = stageColours[state];
-
-            //        return _colorCode;
-            //    }
-            //    set
-            //    {
-
-            //    }
-            //}
-
+           
 
             public string sale_update_date
             {
@@ -370,9 +342,6 @@ namespace SalesApp.models
             [JsonProperty("date_order")]
             public string dateOrder { get; set; }
 
-
-
-
             public string DateOrder
             {
                 get
@@ -390,6 +359,15 @@ namespace SalesApp.models
             }
            
             public List<OrderLine> order_line { get; set; }
+            public string warehouse_id { get; set; }
+            public string team_id { get; set; }
+            public string client_order_ref { get; set; }
+            public string branch_id { get; set; }
+            public string picking_policy { get; set; }
+            public string project_id { get; set; }
+
+            public string journal_id { get; set; }
+
         }
 
 
@@ -518,6 +496,15 @@ namespace SalesApp.models
 
             public int id { get; set; }
 
+            public string warehouse_id { get; set; }
+            public string team_id { get; set; }
+            public string client_order_ref { get; set; }
+            public string branch_id { get; set; }
+            public string picking_policy { get; set; }
+            public string project_id { get; set; }
+
+            public string journal_id { get; set; }
+
             //   var rootObj = JsonConvert.DeserializeObject<sa>(myjson);
 
         }
@@ -547,45 +534,29 @@ namespace SalesApp.models
 
             // [JsonProperty("taxes")]
             public object[] taxes { get; set; }
+            public object[] lots { get; set; }
 
             //[JsonProperty("product_name")]
             public string product_name { get; set; }
 
+
             public string tax_names { get; set; }
+            public string lot_names { get; set; }
 
 
             public Object[] tax_id { get; set; }
 
             public Object[] taxes_id { get; set; }
 
-           // public string _tax;
-            //public string tax_namecut
-            //{
-            //    get
-            //    {
-            //        try
-            //        {
-            //            tax_names = tax_names.Substring(1);
-            //            return tax_names;
-            //        }
-
-            //        catch
-            //        {
-            //            return "";
-            //        }
-            //    }
-
-            //    set
-            //    {
-
-            //    }
-            //}
-
+            public Object[] lot_ids { get; set; }
+ 
             public string discount { get; set; }
 
             public string multi_discount { get; set; }
 
             public List<int> taxesid { get; set; }
+
+            public List<int> lotid { get; set; }
 
             // public string description { get; set; }
 
@@ -619,6 +590,28 @@ namespace SalesApp.models
             // [JsonProperty("price_unit")]
             public string name { get; set; }
         }
+
+        public class warehouse
+        {
+            
+            public int id { get; set; }
+            public string name { get; set; }
+        }
+
+        public class branch
+        {
+
+            public int id { get; set; }
+            public string name { get; set; }
+        }
+
+        public class analytic
+        {
+
+            public int id { get; set; }
+            public string name { get; set; }
+        }
+
 
         public class paytermList
         {
@@ -721,7 +714,6 @@ namespace SalesApp.models
         }
 
 
-
         public class OrderLinesListForUpdate
         {
             public int id { get; set; }
@@ -738,12 +730,14 @@ namespace SalesApp.models
             //  public string description { get; set; }
             // public string Taxes { get; set; }
             public object[] tax_id { get; set; }
+            public object[] serial_id { get; set; }
 
         }
 
         public class OrderLinesList
         {
             public string product { get; set; }
+            public int product_id { get; set; }
             public double ordered_qty { get; set; }
             public double unit_price { get; set; }
             public string description { get; set; }
@@ -755,10 +749,27 @@ namespace SalesApp.models
             // public string Taxes { get; set; }
 
             public List<int> tax_id { get; set; }
+            public List<int> serial_id { get; set; }
 
-            public OrderLinesList(string Product, double Ordered_Qty, double UnitPrice, List<int> TaxesIdList, string order_description, string tax_string, string fin_discount, string multidiscount)
+            //public int warehouse_id { get; set; }
+            //public string picking_policy { get; set; }
+            //public int user_id { get; set; }
+            //public int team_id { get; set; }
+            //public int branch_id { get; set; }
+            //public int project_id { get; set; }
+            //public string client_order_ref { get; set; }
+
+
+            //public OrderLinesList(string Product, double Ordered_Qty, double UnitPrice, List<int> TaxesIdList, string order_description, string tax_string, string fin_discount, string multidiscount,
+            //                     int Warehouse_id, string Picking_policy, int User_id, int Team_id, int Branch_id, int Project_id, string Client_Order_Ref)
+            //{
+
+            public OrderLinesList(string Product,int Product_Id, double Ordered_Qty, double UnitPrice, List<int> TaxesIdList, string order_description, string tax_string, 
+                                  string fin_discount, string multidiscount,List<int> SerialIdList
+                                  )
             {
                 product = Product;
+                product_id = Product_Id;
                 ordered_qty = Ordered_Qty;
                 unit_price = UnitPrice;
                 tax_id = TaxesIdList;
@@ -766,6 +777,13 @@ namespace SalesApp.models
                 taxstring = tax_string;
                 discount = fin_discount;
                 multi_discount = multidiscount;
+                serial_id = SerialIdList;
+                //warehouse_id = Warehouse_id;
+                //picking_policy = Picking_policy;
+                //user_id = User_id;
+                //team_id = Team_id;
+                //project_id = Project_id;
+                //client_order_ref = Client_Order_Ref;
             }
 
 
@@ -788,7 +806,6 @@ namespace SalesApp.models
             //public string unit_price { get; set; }
             //public string description { get; set; }
             // public string Taxes { get; set; }
-
 
             public string customer_lead { get; set; }
 
@@ -1513,6 +1530,36 @@ namespace SalesApp.models
             public string file { get; set; }
 
             public string file_name { get; set; }
+        }
+
+        public class account_journal
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+        }
+
+        public class serial_list
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+
+
+
+            public serial_list( string Name)
+            {
+               //  id = Id;
+                name = Name;
+               // Command tapCommand = new Command<object>(serialTapped);
+            }
+
+            private void OnTapped(object obj)
+            {
+                serial_list myobj = obj as serial_list;
+
+                var itemToRemove = App.serialListRemove.Single(r => r.name == myobj.name);
+
+                App.serialListRemove.Remove(itemToRemove);
+            }
         }
 
     }

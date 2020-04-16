@@ -22,26 +22,27 @@ namespace SalesApp.views
 
             BarBackgroundColor = Color.FromHex("#363E4B");
 
-            var crmLeadPage = new NavigationPage(new CrmLeadPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
-            crmLeadPage.Icon = "lead.png";
-            Children.Add(crmLeadPage);
+            //var crmLeadPage = new NavigationPage(new CrmLeadPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
+            //crmLeadPage.Icon = "lead.png";
+            //Children.Add(crmLeadPage);
 
-            App.load_rpc = false;
 
-            var crmOppurtunityPage = new NavigationPage(new OppurtunityPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
-            crmOppurtunityPage.Icon = "oppurtunity.png";
-            //crmOppurtunityPage.Title = "Opportunity";
-            Children.Add(crmOppurtunityPage);
+            //var crmOppurtunityPage = new NavigationPage(new OppurtunityPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
+            //crmOppurtunityPage.Icon = "oppurtunity.png";
+            ////crmOppurtunityPage.Title = "Opportunity";
+            //Children.Add(crmOppurtunityPage);
 
-            var crmquotPage = new NavigationPage(new DraftQuotationsPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
-            crmquotPage.Icon = "draftquot.png";
-            //crmOppurtunityPage.Title = "Opportunity";
-            Children.Add(crmquotPage);
+            //var crmquotPage = new NavigationPage(new DraftQuotationsPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
+            //crmquotPage.Icon = "draftquot.png";
+            ////crmOppurtunityPage.Title = "Opportunity";
+            //Children.Add(crmquotPage);
 
 
             var quotationPage = new NavigationPage(new QuotationPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
             quotationPage.Icon = "quotations.png";
             Children.Add(quotationPage);
+
+            App.load_rpc = false;
 
             var salesOrderPage = new NavigationPage(new SalesOrderPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
             salesOrderPage.Icon = "salesorder.png";
@@ -61,19 +62,19 @@ namespace SalesApp.views
 
             BarBackgroundColor = Color.FromHex("#363E4B");
 
-            var crmLeadPage = new NavigationPage(new CrmLeadPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
-            crmLeadPage.Icon = "lead.png";
-            Children.Add(crmLeadPage);
+            //var crmLeadPage = new NavigationPage(new CrmLeadPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
+            //crmLeadPage.Icon = "lead.png";
+            //Children.Add(crmLeadPage);
 
-            var crmOppurtunityPage = new NavigationPage(new OppurtunityPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
-            crmOppurtunityPage.Icon = "oppurtunity.png";
-            //crmOppurtunityPage.Title = "Opportunity";
-            Children.Add(crmOppurtunityPage);
+            //var crmOppurtunityPage = new NavigationPage(new OppurtunityPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
+            //crmOppurtunityPage.Icon = "oppurtunity.png";
+            ////crmOppurtunityPage.Title = "Opportunity";
+            //Children.Add(crmOppurtunityPage);
 
-            var crmquotPage = new NavigationPage(new DraftQuotationsPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
-            crmquotPage.Icon = "draftquot.png";
-            //crmOppurtunityPage.Title = "Opportunity";
-            Children.Add(crmquotPage);
+            //var crmquotPage = new NavigationPage(new DraftQuotationsPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
+            //crmquotPage.Icon = "draftquot.png";
+            ////crmOppurtunityPage.Title = "Opportunity";
+            //Children.Add(crmquotPage);
 
             var quotationPage = new NavigationPage(new QuotationPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
             quotationPage.Icon = "quotations.png";
@@ -91,29 +92,30 @@ namespace SalesApp.views
 
             var tabPage = this as TabbedPage;
 
-            if (tabs == "tab1")
+            //if (tabs == "tab1")
+            //{
+            //    tabPage.CurrentPage = tabPage.Children[0];
+            //}
+
+            //else if (tabs == "tab2")
+            //{
+            //    tabPage.CurrentPage = tabPage.Children[1];
+            //}
+
+            //else if (tabs == "tab3")
+            //{
+            //    tabPage.CurrentPage = tabPage.Children[2];
+            //}
+
+            //else
+                if (tabs == "tab4")
             {
                 tabPage.CurrentPage = tabPage.Children[0];
             }
 
-            else if (tabs == "tab2")
-            {
-                tabPage.CurrentPage = tabPage.Children[1];
-            }
-
-            else if (tabs == "tab3")
-            {
-                tabPage.CurrentPage = tabPage.Children[2];
-            }
-
-            else if (tabs == "tab4")
-            {
-                tabPage.CurrentPage = tabPage.Children[3];
-            }
-
             else if (tabs == "tab5")
             {
-                tabPage.CurrentPage = tabPage.Children[4];
+                tabPage.CurrentPage = tabPage.Children[1];
             }
 
 

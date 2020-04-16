@@ -285,7 +285,7 @@ namespace SalesApp.wizard
             else { }
         }
 
-        private async Task ButtonMarkWon_ClickedAsync(object sender, EventArgs e)
+        private async void ButtonMarkWon_ClickedAsync(object sender, EventArgs e)
         {
             List<CRMLead> crmLeadData1 = Controller.InstanceCreation().crmLeadData();
                 

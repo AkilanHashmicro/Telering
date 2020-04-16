@@ -1,47 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
+
 using Xamarin.Forms;
 using static SalesApp.models.CRMModel;
 
 namespace SalesApp.Pages
 {
-    public partial class TaxSelectionPage : PopupPage
+    public partial class SerialSelectionPage : PopupPage
     {
-        
-        string taxnew = "";
-
-
-        public TaxSelectionPage()
+        string serialnew = "";
+        public SerialSelectionPage()
         {
             InitializeComponent();
-
+                     
             if (App.NetAvailable == true)
             {
-                taxpickerListView.ItemsSource = App.taxList;
-               
-            }
-
-            if (App.NetAvailable == false)
-            {
-
-                //proesult = App.ProductListDb;
-                taxpickerListView.ItemsSource = App.taxListdb;
-            }
-        }
-
-
-        public TaxSelectionPage(string taxstring)
-        {
-            InitializeComponent();
-
-            taxnew = taxstring;
-
-            if (App.NetAvailable == true)
-            {
-                taxpickerListView.ItemsSource = App.taxList;
+                serialpickerListView.ItemsSource = App.serialList;
 
             }
 
@@ -49,31 +25,50 @@ namespace SalesApp.Pages
             {
 
                 //proesult = App.ProductListDb;
-                taxpickerListView.ItemsSource = App.taxListdb;
+               // taxpickerListView.ItemsSource = App.taxListdb;
+            }
+        }
+        public SerialSelectionPage(string serialstring)
+        {
+            InitializeComponent();
+
+            serialnew = serialstring;
+
+            if (App.NetAvailable == true)
+            {
+                serialpickerListView.ItemsSource = App.serialList;
+
+            }
+
+            if (App.NetAvailable == false)
+            {
+
+                //proesult = App.ProductListDb;
+               // taxpickerListView.ItemsSource = App.taxListdb;
             }
         }
 
-        private void taxpickerListView_ItemTapped(object sender, ItemTappedEventArgs ea)
+        private void serialpickerListView_ItemTapped(object sender, ItemTappedEventArgs ea)
         {
 
-            if (taxnew == "tax_new")
+            if (serialnew == "serial_new")
             {
-                taxes masterItemObj = (taxes)ea.Item;
+                serial_list masterItemObj = (serial_list)ea.Item;
 
-                MessagingCenter.Send<string, String>("MyApp", "taxnewPickerMsg", masterItemObj.Name);
+                MessagingCenter.Send<string, String>("MyApp", "serialnewPickerMsg", masterItemObj.name);
 
                 Navigation.PopPopupAsync();
             }
 
             else
             {
-                taxes masterItemObj = (taxes)ea.Item;
+                serial_list masterItemObj = (serial_list)ea.Item;
 
-                MessagingCenter.Send<string, String>("MyApp", "taxPickerMsg", masterItemObj.Name);
+                MessagingCenter.Send<string, String>("MyApp", "serialPickerMsg", masterItemObj.name);
 
                 Navigation.PopPopupAsync();
             }
-            // Navigation.PushPopupAsync(new CrmLeadDetailWizard(masterItemObj, "Lead"));
+          
         }
 
         private void ViewCell_Tapped(object sender, EventArgs e)

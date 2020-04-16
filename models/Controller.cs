@@ -113,6 +113,14 @@ namespace SalesApp.models
             return tarList;
         }
 
+        public List<serial_list> getserialList(int product_id)
+        {
+            List<serial_list> serList = new List<serial_list>();
+            JArray result = odooConnector.odooMethodCall_serial<JArray>("product.product", "get_serial_numbers", product_id);
+            serList = result.ToObject<List<serial_list>>();
+            return serList;
+        }
+
         public List<CRMLead> crmLeadData()
         {
             String[] colourcodes = new String[] { "#3498db", "#e67e22", "#c0392b", "#2ecc71", "#d35400", "#27ae60", " #e74c3c", "#2980b9" };
@@ -150,6 +158,7 @@ namespace SalesApp.models
 
                App.commisiongroupList = res["commission_group"].ToObject<List<commisiongroupList>>();
 
+             
                 App.salesteam = res["sales_team"].ToObject<Dictionary<int, string>>();
                 App.salespersons = res["sales_persons"].ToObject<Dictionary<int, string>>();
 
@@ -157,9 +166,11 @@ namespace SalesApp.models
 
                 App.user_location_string = res["location"].ToString();
 
-               
+                App.branchList = res["branch"].ToObject<List<branch>>();
+                App.warehousList = res["warehouse"].ToObject<List<warehouse>>();
+                App.analayticList = res["analytic_account"].ToObject<List<analytic>>();
 
-
+                App.journalList = res["account_journal"].ToObject<List<account_journal>>();
 
  // App User DB Starts Here ********************//
 
@@ -248,7 +259,7 @@ namespace SalesApp.models
 
                 App.nextActivityList = res["next_activity"].ToObject<List<next_activity>>();
 
-                App.crmList = res["crm_leads"].ToObject<List<CRMLead>>();
+            //    App.crmList = res["crm_leads"].ToObject<List<CRMLead>>();
 
 
 // Lead DB Starts Here ********************//
@@ -320,7 +331,7 @@ namespace SalesApp.models
 
 // Lead DB Ends
 
-                App.crmOpprList = res["crm_quotations"].ToObject<List<CRMOpportunities>>();
+            //    App.crmOpprList = res["crm_quotations"].ToObject<List<CRMOpportunities>>();
 
 
 
@@ -384,7 +395,7 @@ namespace SalesApp.models
 
                 App.salesQuotList = res["sale_quotations"].ToObject<List<SalesQuotation>>();
 
-                App.draftQuotList = res["draft_quotations"].ToObject<List<SalesQuotation>>();
+             //   App.draftQuotList = res["draft_quotations"].ToObject<List<SalesQuotation>>();
 
 
  // Quot DB Starts Here ********************//
@@ -543,6 +554,8 @@ namespace SalesApp.models
                 Settings.StageColourCode = colorCodeData;
                 App.cusdict = res["Customers"].ToObject<Dictionary<int, string>>();
 
+               App.cusList = res["Customers_List"].ToObject<List<Customers>>();
+
                 App.reasondict = res["lost_reason"].ToObject<Dictionary<int, string>>();
 
                 App.crmleadtags = res["crm_lead_tags"].ToObject<Dictionary<int, string>>();
@@ -592,9 +605,9 @@ namespace SalesApp.models
 
                 App.crmList = res["crm_leads"].ToObject<List<CRMLead>>();
 
-                App.crmOpprList = res["crm_quotations"].ToObject<List<CRMOpportunities>>();
+            //    App.crmOpprList = res["crm_quotations"].ToObject<List<CRMOpportunities>>();
 
-                App.draftQuotList = res["draft_quotations"].ToObject<List<SalesQuotation>>();
+            //    App.draftQuotList = res["draft_quotations"].ToObject<List<SalesQuotation>>();
 
                 App.salesQuotList = res["sale_quotations"].ToObject<List<SalesQuotation>>();
 
@@ -627,6 +640,8 @@ namespace SalesApp.models
 
                 App.cusdict = res["Customers"].ToObject<Dictionary<int, string>>();
 
+                App.cusList = res["Customers_List"].ToObject<List<Customers>>();
+
                 App.reasondict = res["lost_reason"].ToObject<Dictionary<int, string>>();
 
                 App.salesteam = res["sales_team"].ToObject<Dictionary<int, string>>();
@@ -643,6 +658,13 @@ namespace SalesApp.models
                 App.productList = res["Products"].ToObject<List<ProductsList>>();
 
                  App.locationsList = res["Location"].ToObject<List<LocationsList>>();
+
+                App.branchList = res["branch"].ToObject<List<branch>>();
+                App.warehousList = res["warehouse"].ToObject<List<warehouse>>();
+                App.analayticList = res["analytic_account"].ToObject<List<analytic>>();
+
+                App.journalList = res["account_journal"].ToObject<List<account_journal>>();
+
                 return App.crmList;
             }
             catch (Exception ea)
@@ -857,6 +879,12 @@ namespace SalesApp.models
 
         }
 
+        public string getpricelistData(string model, string method, int product_id, int cus_id, int pricelist_id, double product_qty, string date)
+        {
+            string flag = odooConnector.odoogettingpricelist(model, method, product_id,cus_id,pricelist_id,product_qty,date);
+            return flag;
+        }
+
         public string UpdateCRMOpporData(string modelName, string methodName, Dictionary<string, dynamic> vals)
         {
             string flag = odooConnector.odooUpdatecrmOppMeeting(modelName, methodName, vals);
@@ -981,6 +1009,12 @@ namespace SalesApp.models
         public JObject GetCustomerDetailData(int cus_id)
         {
             JObject dt = odooConnector.odooMethodCall_promotions<dynamic>("res.partner", "get_customer_detail", cus_id);
+            return dt;
+        }
+
+        public JObject GetCustomerUnitPriceData(int cus_id)
+        {
+            JObject dt = odooConnector.odooMethodCall_promotions<dynamic>("res.partner", "get_partner_pricelist", cus_id);
             return dt;
         }
 

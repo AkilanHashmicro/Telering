@@ -53,6 +53,8 @@ namespace SalesApp.views
                     List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
                 }
 
+             //  List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
+
                 salesOrderListView.ItemsSource = App.salesOrderList;
             }
 

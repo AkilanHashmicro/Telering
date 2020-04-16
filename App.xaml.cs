@@ -59,8 +59,13 @@ namespace SalesApp
         public static List<ProductsList> productList = new List<ProductsList>();
         public static List<LocationsList> locationsList = new List<LocationsList>();
        
+        public static List<branch> branchList = new List<branch>();
+        public static List<warehouse> warehousList = new List<warehouse>();
+        public static List<analytic> analayticList = new List<analytic>();
 
         public static List<taxes> taxList = new List<taxes>();
+
+        public static List<serial_list> serialList = new List<serial_list>();
 
         public static List<ContactsCreationList> concreationList = new List<ContactsCreationList>();
 
@@ -69,6 +74,7 @@ namespace SalesApp
         public static List<commisiongroupList> commisiongroupList = new List<commisiongroupList>();
 
         public static List<taxes> taxListRemove = new List<taxes>();
+        public static List<serial_list> serialListRemove = new List<serial_list>();
         public static Dictionary<int, string> cusdict = new Dictionary<int, string>();
         public static Dictionary<int, string> reasondict = new Dictionary<int, string>();
         public static Dictionary<int, string> tagsDict = new Dictionary<int, string>();
@@ -86,6 +92,7 @@ namespace SalesApp
         public static List<Product_PriceList> product_PriceList = new List<Product_PriceList>();
         public static List<all_delivery_method> all_delivery_method = new List<all_delivery_method>();
 
+        public static List<account_journal> journalList = new List<account_journal>();
 
         public static int userid = 0;
         public static int partner_id = 0;

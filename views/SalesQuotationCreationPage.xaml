@@ -45,38 +45,64 @@
            Color="#5b5d68"></BoxView>
                         
 
-
-           <!--     <Grid>
-                    <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"></ColumnDefinition>
-                    <ColumnDefinition Width="6*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>-->
-
-                      <StackLayout >
+                  <!--    <StackLayout >
                     <Label  Text="Quotation Reference" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
                    <StackLayout Padding="0,0,10,0">
                             <Label Text="" x:Name="quotref" IsEnabled="false"/> 
-                </StackLayout>
+                </StackLayout>-->
                         
 
                 <StackLayout >
                     <Label  Text="Customer" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
-                <StackLayout >
+                        <StackLayout  >
+                     <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=".9*" />
+                                    <ColumnDefinition Width=".1*" />
+                                </Grid.ColumnDefinitions> 
+                                    
+                   <StackLayout Grid.Column="0">
+                                
+                              <Entry  Text=""  Margin="0,0,-30,0"  x:Name="searchcus" InputTransparent="true" />
+
+         <StackLayout.GestureRecognizers>
+          <TapGestureRecognizer
+        Tapped="customerentry"
+        NumberOfTapsRequired="1">
+        </TapGestureRecognizer>
+        </StackLayout.GestureRecognizers>
+
+                </StackLayout>
+                                <StackLayout Grid.Column="1" >
+                                <Image x:Name="cusdropimg1" Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,15,0,0" />                        
+                                </StackLayout>
+                          </Grid>
+
+                            
+                </StackLayout>
+              
+
+                        
+              <!--  <StackLayout >
                      <Grid >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="8*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions> 
-                                <Picker Grid.Column="0"  Margin="0,0,-30,0" Title="Sample" x:Name="cuspicker1" SelectedIndexChanged="cus_indexChanged" />  
+                                <Picker Grid.Column="0"  Margin="0,0,-30,0" Title="Sample" x:Name="cuspicker1" SelectedIndexChanged="cus_indexChangedAsync" />  
                             <StackLayout Grid.Column="1" >
                                 <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,20,0,0" />                        
                                 </StackLayout>
                           </Grid>
-                </StackLayout>
+                </StackLayout>-->
+
+
+
+                        
 
                  <Grid Padding="10,0,10,0" x:Name="cus_alert"  IsVisible="false">
                                 <Grid.ColumnDefinitions>
@@ -119,26 +145,55 @@
                  <Label Text="Please select order date." FontSize="Micro" TextColor="#ce434a" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start"/>
                                              
                 </Grid>
-                             
-                 
-                <StackLayout  >
-                    <Label  Text="Expiration Date" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
+
+          <StackLayout>
+                    <Label  Text="Payment Journal" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
+                <StackLayout  >
+                     <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions> 
+                                <Picker Grid.Column="0"  Margin="0,0,-30,0" TextColor="Black"   x:Name="payment_jounal_picker" IsEnabled="false" />  
+                            <StackLayout Grid.Column="1" >
+                                <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,20,0,0" />                        
+                                </StackLayout>
+                          </Grid>
+           </StackLayout>
+
+              <Grid Padding="10,0,10,0" x:Name="payment_journal_alert"  IsVisible="false">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="8*" />
+                                </Grid.ColumnDefinitions>
+                 <Image   Source="emptyAlert.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0"/>
+                 
+                 <Label Text="Please select payment journal" FontSize="Micro" TextColor="#ce434a" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start"/>
+                                             
+              </Grid>
+                        
+                 
+                <StackLayout>
+                    <Label  Text="Expiration Date" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
+                </StackLayout>
+<!--
                 <StackLayout x:Name="expdate_entry_stack">
                      <Grid >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="8*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions> 
+                             
                                 <Entry Grid.Column="0" x:Name="exdateentry" Text="" Margin="0,0,-30,0" Focused="exdateentry_focused"  />  
                             <StackLayout Grid.Column="1" >
                                 <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,20,0,0" />                        
                                 </StackLayout>
                           </Grid>
-                </StackLayout>
+                </StackLayout>-->
 
-                <StackLayout  x:Name="expirdate_picker_stack" IsVisible="false">
+                <StackLayout  x:Name="expirdate_picker_stack" >
                      <Grid >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="8*" />
@@ -151,7 +206,7 @@
                           </Grid>
                 </StackLayout>
 
-                 <Grid Padding="10,0,10,0" x:Name="expirdate_alert"  IsVisible="false">
+              <!--   <Grid Padding="10,0,10,0" x:Name="expirdate_alert"  IsVisible="false">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="8*" />
@@ -160,9 +215,9 @@
                  
                  <Label Text="Please select expiration date." FontSize="Micro" TextColor="#ce434a" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start"/>
                                              
-                </Grid>
+                </Grid>-->
 
-                 <StackLayout  >
+                <!-- <StackLayout  >
                     <Label  Text="Delivery Deadline" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
@@ -204,8 +259,10 @@
                                              
                 </Grid>
 
+-->
 
-                  <StackLayout  >
+                        
+             <!--     <StackLayout  >
                     <Label  Text="Invoice Address" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
@@ -231,9 +288,9 @@
                  
                  <Label Text="Please select invoice adress" FontSize="Micro" TextColor="#ce434a" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start"/>
                                              
-                </Grid>
+                </Grid>-->
 
-                 <StackLayout  >
+        <!--         <StackLayout  >
                     <Label  Text="Delivery Address" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
@@ -261,8 +318,9 @@
                                              
                 </Grid>
 
-
-                               <StackLayout  >
+-->
+                        
+           <!--                    <StackLayout  >
                     <Label  Text="Contact Person" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
@@ -278,25 +336,29 @@
                                 </StackLayout>
                           </Grid>
                 </StackLayout>
+-->
 
+                        
                  <StackLayout  >
                     <Label  Text="Pricelist" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
                 <StackLayout  >
-                     <Grid >
+                <!--     <Grid >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="8*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions> 
-                                <Picker Grid.Column="0"  Margin="0,0,-30,0" Title="" x:Name="pricelist_picker"  />  
+                                <Picker Grid.Column="0"  Margin="0,0,-30,0" TextColor="Black" x:Name="pricelist_picker" IsEnabled="false" />  
                             <StackLayout Grid.Column="1" >
                                 <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,20,0,0" />                        
                                 </StackLayout>
-                          </Grid>
+                          </Grid>-->
+
+                   <Entry x:Name="price_list_label" Text="" TextColor="Black"  />       
                 </StackLayout>
 
-                 <Grid Padding="10,0,10,0" x:Name="pricelist_alert"  IsVisible="false">
+              <Grid Padding="10,0,10,0" x:Name="pricelist_alert"  IsVisible="false">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="8*" />
@@ -308,7 +370,7 @@
                 </Grid>
 
                
-                <StackLayout >
+               <!-- <StackLayout >
                     <Label  Text="Payment Terms"  TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
@@ -318,7 +380,7 @@
                                     <ColumnDefinition Width="8*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions> 
-                                <Picker Grid.Column="0"  Margin="0,0,-30,0" Title="Sample" x:Name="ptpicker"  />  
+                                <Picker Grid.Column="0"  Margin="0,0,-30,0"  x:Name="ptpicker"  />  
                             <StackLayout Grid.Column="1" >
                                 <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,20,0,0"/>                        
                                 </StackLayout>
@@ -326,18 +388,21 @@
                 </StackLayout>
 
 
-                         <Grid Padding="10,0,10,0" x:Name="paymentterms_alert"  IsVisible="false">
+                  <Grid Padding="10,0,10,0" x:Name="paymentterms_alert"  IsVisible="false">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="8*" />
                                 </Grid.ColumnDefinitions>
                  <Image   Source="emptyAlert.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0"/>
                  
-                 <Label Text="Please select delivery deadline" FontSize="Micro" TextColor="#ce434a" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start"/>
+                 <Label Text="Please select payment term" FontSize="Micro" TextColor="#ce434a" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start"/>
                                              
                 </Grid>
+-->
 
-              <StackLayout >
+
+                        
+            <!--  <StackLayout >
                     <Label  Text="PO Number Reference"  TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
@@ -376,7 +441,9 @@
                               </Grid>
                     </StackLayout>
 
+-->
 
+             <!--           
                   <StackLayout  >
                     <Label  Text="Tax Term" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
@@ -435,8 +502,11 @@
                  <StackLayout Padding="0,0,10,0">
                             <Entry Text="" x:Name="franco"/> 
                 </StackLayout>
+-->
 
-                <StackLayout >
+
+                        
+       <!--         <StackLayout >
                     <Label  Text="Comission Group"  TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
@@ -452,10 +522,10 @@
                                 </StackLayout>
                           </Grid>
                 </StackLayout>
-
+-->
                
 
-                         <StackLayout >
+            <!--     <StackLayout >
                     <Label  Text="Delivery Method"  TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"/>
                 </StackLayout>
 
@@ -470,9 +540,9 @@
                                 <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,20,0,0"/>                        
                                 </StackLayout>
                           </Grid>
-                </StackLayout>
+                </StackLayout>-->
 
-                 <Grid Padding="10,0,10,0" x:Name="delmethod_alert"  IsVisible="false">
+              <!--   <Grid Padding="10,0,10,0" x:Name="delmethod_alert"  IsVisible="false">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="8*" />
@@ -481,11 +551,11 @@
                  
                  <Label Text="Please select delivery method" FontSize="Micro" TextColor="#ce434a" Grid.Row="0" Grid.Column="1" HorizontalTextAlignment="Start"/>
                                              
-                </Grid>
+                </Grid>-->
                         
 
-                   <StackLayout   x:Name="tab1frame" HorizontalOptions="Start">
-                     <StackLayout  x:Name="tab1borderstack">
+             <!--      <StackLayout   x:Name="tab1frame_notes" HorizontalOptions="Start">
+                     <StackLayout  x:Name="tab1borderstack_notes">
                     <Label  Text="Special Notes :" x:Name="special_text"  FontSize="Small" FontAttributes="Bold" TextColor="#363E4B" HorizontalOptions="Start" VerticalOptions="Start" />                     
                      </StackLayout>
                     </StackLayout>
@@ -500,24 +570,56 @@
                                 </StackLayout>
                   </StackLayout>
 
-                        <BoxView Color="Transparent" HeightRequest="5"/>
+                        <BoxView Color="Transparent" HeightRequest="5"/>-->
+
+
+                        
                         
       <!-- //order Lines starts here-->
                     
-                <StackLayout HorizontalOptions="Center" VerticalOptions="Center" x:Name="tab1stack" Padding="5" >                         
+               <!-- <StackLayout HorizontalOptions="Center" VerticalOptions="Center" x:Name="tab1stack" Padding="5" >                         
                     <Label  Text="ORDER LINES" x:Name="tab1" FontSize="15" FontAttributes="Bold" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="Center" />                                        
-                 </StackLayout>   
+                 </StackLayout> -->  
+
+           <StackLayout Padding="0,10,0,10" >
+                    
+                <Grid BackgroundColor="#363E4B" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0" x:Name="tab1stack" BackgroundColor="#128197"> 
+                         <StackLayout Padding="1,1,1,1" BackgroundColor="#363E4B" x:Name="tab1frame">
+                        <StackLayout BackgroundColor="#363E4B" x:Name="tab1borderstack">
+                    <Button  Text="Order Lines" x:Name="tab1" FontSize="Small" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"  Clicked="Tab1Clicked" BackgroundColor="#363E4B"/>                     
+                     </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    
+                    <StackLayout Grid.Column="1" x:Name="tab2stack" BackgroundColor="White">
+                        <StackLayout Padding="1,1,1,1" BackgroundColor="#363E4B" x:Name="tab2frame">
+                        <StackLayout BackgroundColor="White" x:Name="tab2borderstack">
+                          <Button  Text="Other Information" FontSize="Small" x:Name="tab2" BackgroundColor="White" TextColor="Black" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Clicked="Tab2Clicked" />    
+                       </StackLayout>
+                        </StackLayout>
+                     </StackLayout>
+                   
+                 </Grid>
+                                        
+               </StackLayout>
+
+                        
                                     
                     <StackLayout x:Name="orderLineList">
                     
                  <Grid BackgroundColor="#128197" Padding="1,1,1,1"  >
                                 
                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width=".35*"/>
+                                        <ColumnDefinition Width=".50*"/>
                                         <ColumnDefinition Width=".25*"/>
                                         <ColumnDefinition Width=".10*"/>
                                         <ColumnDefinition Width=".15*"/>
-                                        <ColumnDefinition Width=".15*"/>
+                                        <!--<ColumnDefinition Width=".15*"/>-->
                                     </Grid.ColumnDefinitions>
                             
                     <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="0"  HorizontalOptions="Start" BackgroundColor="White"/>
@@ -531,12 +633,12 @@
                     <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="2"  HorizontalOptions="End" BackgroundColor="White"/>
 
                      <Label Grid.Row="0" Grid.Column="3" Text="Tax" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-                    <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="3"  HorizontalOptions="End" BackgroundColor="White"/>
+                   <!-- <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="3"  HorizontalOptions="End" BackgroundColor="White"/>-->
 
-                    <Label Grid.Row="0" Grid.Column="4" Text="Dis %" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+             <!--       <Label Grid.Row="0" Grid.Column="4" Text="Dis %" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                     <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="4"  HorizontalOptions="End" BackgroundColor="White"/>
                    
-                   
+                   -->
                    </Grid>
 
                    </StackLayout>
@@ -549,18 +651,18 @@
                                     <Grid>
                                                 
                                        <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width=".35*"/>
+                                        <ColumnDefinition Width=".50*"/>
                                         <ColumnDefinition Width=".25*"/>
                                         <ColumnDefinition Width=".10*"/>
                                         <ColumnDefinition Width=".15*"/>
-                                        <ColumnDefinition Width=".15*"/>
+                                       <!-- <ColumnDefinition Width=".15*"/>-->
                                     </Grid.ColumnDefinitions>
                                                                                 
                                         <Label x:Name="pro" Grid.Column="0"  Text="{Binding product}" TextColor="Black" Margin="2,0,0,5" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>                                                                              
                                             <Label  x:Name="unprice" Grid.Column="1" Text="{Binding unit_price}" TextColor="Black" Margin="2,0" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"/>                                                                                    
                                             <Label  Grid.Column="2"  Text="{Binding ordered_qty}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>
                                                 <Label  Grid.Column="3"  Text="{Binding taxstring}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>
-                                                <Label  Grid.Column="4"  Text="{Binding discount}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>
+                                              <!--  <Label  Grid.Column="4"  Text="{Binding discount}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>-->
                      
                                          </Grid>
                                             </ViewCell>
@@ -577,7 +679,7 @@
                 </StackLayout>
 
                     
-               <Grid Padding="10" x:Name="orderLineGrid" IsVisible="false">
+      <Grid Padding="10" x:Name="orderLineGrid" IsVisible="false">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width=".3*"/>
                     <ColumnDefinition Width=".7*"/>
@@ -619,14 +721,18 @@
                 <Entry x:Name="orderline_des"  Grid.Row="1" Grid.Column="1"  />
                                
                 <Label Text="Ordered Qty" TextColor="#102b1e" FontAttributes="Bold"  FontSize="Small" Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <Entry x:Name="oqty" Text=""  Grid.Row="2" Grid.Column="1" Keyboard="Numeric"  />
+                <Entry x:Name="oqty" Text="1"  Grid.Row="2" Grid.Column="1" Keyboard="Numeric"  />
 
                 <Label Text="Unit Price" TextColor="#102b1e" FontAttributes="Bold"  FontSize="Small" Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center"/>
-                <Entry x:Name="up" Text=""  Grid.Row="3" Grid.Column="1" Keyboard="Numeric" />
-                                        
+                <Entry x:Name="up" Text="" IsEnabled="false" FontAttributes="Bold" TextColor="Black" Grid.Row="3" Grid.Column="1" Keyboard="Numeric" />
+
+                            
+                
+
+                            
                 </Grid>
 
-                        <Grid Padding="10,-5,10,0"  x:Name="discount_grid" IsVisible="false">
+      <!--    <Grid Padding="10,-5,10,0"  x:Name="discount_grid" IsVisible="false">
 
                              <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width=".3*" />
@@ -659,25 +765,12 @@
 
                </StackLayout>
 
-                            </Grid>
+           </Grid>-->
 
-   <!-- <StackLayout>
-        <Entry Placeholder="Phone number" InputTransparent="true" TextColor="Black" x:Name="phone"/>
-       <StackLayout.GestureRecognizers>
-          <TapGestureRecognizer
-        Tapped="productentry"
-        NumberOfTapsRequired="1">
-        </TapGestureRecognizer>
-        </StackLayout.GestureRecognizers>
-  </StackLayout>-->
-                        
                         
            <StackLayout Padding="10,0,10,0" x:Name="taxlistviewGrid" IsVisible="false" >
-               <!-- <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".2*"/>
-                    <ColumnDefinition Width=".8*"/>
-                </Grid.ColumnDefinitions>-->
-
+             
+            
                              <Label Text="Taxes" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"   VerticalTextAlignment="Center"/>
                            
                 <Frame Padding="10,5,0,0"  CornerRadius="20" BackgroundColor="#363E4B" x:Name="taxStackLayout" IsVisible="false"  > 
@@ -707,26 +800,209 @@
                     </Frame>
           </StackLayout>
 
-                         <Image Margin="20,10,0,0" x:Name="Addtax_line" IsVisible="false" Source="plusyellow.png" WidthRequest="25" HeightRequest="25" HorizontalOptions="Start" />
-                                            
-              <!--  <Grid Padding="10" x:Name="addtaxGrid" IsVisible="false">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".7*"/>
-                    <ColumnDefinition Width=".3*"/>
-                </Grid.ColumnDefinitions>
-                                                         
-                <Image x:Name="Addtax" Grid.Row="0" Grid.Column="1" Source="plusyellow.png" WidthRequest="25" HeightRequest="25" HorizontalOptions="Start"/>
-                <Picker x:Name="taxpicker"   Grid.Row="0" Grid.Column="0"  />                        
-            </Grid>-->
-                                     
+             <Image Margin="20,10,0,0" x:Name="Addtax_line" IsVisible="false" Source="plusyellow.png" WidthRequest="25" HeightRequest="25" HorizontalOptions="Start" />                                          
+                      
                     <BoxView Color="Transparent" HeightRequest="5"/>
+
+<!--//SERIAL NO STARTS HERE///-->
+
+               <StackLayout Padding="10,0,10,0" x:Name="seriallistviewGrid" IsVisible="false" >
+             
+            
+                             <Label Text="Serial No" TextColor="#102b1e" FontAttributes="Bold" FontSize="Small"   VerticalTextAlignment="Center"/>
+                           
+                <Frame Padding="10,5,0,0"  CornerRadius="20" BackgroundColor="#363E4B" x:Name="serialStackLayout" IsVisible="false"  > 
+                     <ListView x:Name="serialListView" SeparatorColor="#FFA212" BackgroundColor="#363E4B"  >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell Tapped="ViewCellserial_Tapped"> 
+                                        <Grid>                                            
+                                        <Grid.ColumnDefinitions>
+                                      <ColumnDefinition Width=".9*"/>
+                                      <ColumnDefinition Width=".1*"/>
+                                                        
+                                        </Grid.ColumnDefinitions>  
+
+                                       <Label Grid.Column="0" Margin="5,5,0,0" Text="{Binding name}" FontSize="Small" FontAttributes="Bold"  TextColor="White"/>                                                                                                     
+
+                                             <Image Grid.Column="1" x:Name="serialcancelImg" Source="closewhite.png" Margin="5,0,5,5" WidthRequest="7" HeightRequest="7" >
+                                                 <Image.GestureRecognizers>
+                                                            <TapGestureRecognizer Tapped="serialListviewcloseClicked" CommandParameter="{Binding .}" />
+                                                        </Image.GestureRecognizers>
+                                                 </Image>
+                                        </Grid>
+                                      </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Frame>
+          </StackLayout>
+
+             <Image Margin="20,10,0,0" x:Name="Addserial_line" IsVisible="false" Source="plusyellow.png" WidthRequest="25" HeightRequest="25" HorizontalOptions="Start" />                                          
+                      
+                    <BoxView Color="Transparent" HeightRequest="5"/>
+
                     
-            <StackLayout Padding="20,0,0,0" x:Name="airconImg1" IsVisible="false" HorizontalOptions="Center">
-                    <!--<Image x:Name="AddAirCon1" Source="add_icon.png" WidthRequest="25" HeightRequest="25" HorizontalOptions="Start"/>-->
+            <StackLayout Padding="20,0,0,0" x:Name="airconImg1" IsVisible="false" HorizontalOptions="Center">              
                          <Button x:Name="addorderline_Btn" Text="Add Order Lines" TextColor="White" BackgroundColor="#363E4B" Clicked="ol_clicked" />
             </StackLayout>
 
-                    <BoxView Color="Transparent" HeightRequest="5"/>
+                 
+
+
+             <StackLayout Padding="10,0,10,0" x:Name="OtherInfoStack1" IsVisible="false">
+
+             <Label Text="Shipping Information" TextColor="#128197" FontSize="Medium"/>
+                       
+                        <Grid Padding="10,0,0,0">                                 
+                        <StackLayout   Padding="0,0,0,0">
+                            <Label Text="Warehouse"  FontAttributes="Bold" TextColor="#102b1e" FontSize="Small" />
+                        </StackLayout>
+                       
+                             <StackLayout Padding="5,20,0,0" >
+                           <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions> 
+                                <Picker Grid.Column="0"  Margin="0,-5,-30,0" x:Name="warehouse_picker" TextColor="Black" />  
+                              <StackLayout Grid.Column="1" >
+                                <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,15,0,0" />                        
+                                </StackLayout>
+                          </Grid>                                     
+                             </StackLayout>                            
+                        </Grid>             
+           
+                     <Grid Padding="10,0,0,0">                                 
+                        <StackLayout   Padding="0,0,0,0">
+                            <Label Text="Shipping Policy"  FontAttributes="Bold" TextColor="#102b1e" FontSize="Small" />
+                        </StackLayout>
+                       
+                             <StackLayout Padding="5,20,0,0" >
+                           <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions> 
+                                <Picker Grid.Column="0"  Margin="0,-5,-30,0" x:Name="shipping_picker" TextColor="Black" />  
+                              <StackLayout Grid.Column="1" >
+                                <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,15,0,0" />                        
+                                </StackLayout>
+                          </Grid>                                     
+                             </StackLayout>                            
+                        </Grid> 
+
+
+                <Label Text="Sales Information" TextColor="#128197" FontSize="Medium"/>    
+                            
+                  <Grid Padding="10,0,0,0"> 
+                                
+                        <StackLayout   Padding="0,0,0,0">
+                            <Label Text="Salesperson"  FontAttributes="Bold" TextColor="#102b1e" FontSize="Small" />
+                        </StackLayout>
+                       
+                             <StackLayout Padding="5,20,0,0"  x:Name="sales_personsedit" >
+                           <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions> 
+                                <Picker Grid.Column="0"  Margin="0,-5,-30,0" x:Name="salesperson_picker" TextColor="Black" />  
+                              <StackLayout Grid.Column="1" >
+                                <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,15,0,0" />                        
+                                </StackLayout>
+                          </Grid> 
+                                    
+                           </StackLayout>
+                            
+                     </Grid>
+
+                   <!--          <Grid Padding="10,0,0,0">
+                        <StackLayout   >
+                            <Label Text="Tags" FontAttributes="Bold" TextColor="#102b1e" FontSize="Small" />
+                        </StackLayout>
+                            
+                   
+                           <StackLayout Padding="5,20,0,0"    >
+                           <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions> 
+                                <Picker Grid.Column="0"  Margin="0,-5,-30,0" x:Name="tags_picker" TextColor="Black" />  
+                            <StackLayout Grid.Column="1" >
+                                <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,15,0,0" />                        
+                                </StackLayout>
+                          </Grid>                                              
+                        </StackLayout>                            
+                    </Grid>-->
+
+                         <!-- <Grid Padding="10,0,0,0">
+                        <StackLayout   >
+                            <Label Text="SalesTeam" FontAttributes="Bold" TextColor="#102b1e" FontSize="Small" />
+                        </StackLayout>
+                            
+                   
+                           <StackLayout Padding="5,20,0,0"   x:Name="sales_teamedit"  >
+                           <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions> 
+                                <Picker Grid.Column="0"  Margin="0,-5,-30,0" x:Name="salesteam_picker" TextColor="Black" />  
+                            <StackLayout Grid.Column="1" >
+                                <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,15,0,0" />                        
+                                </StackLayout>
+                          </Grid>                                              
+                        </StackLayout>                            
+                    </Grid>    
+
+                   <Grid Padding="10,0,0,0">
+                        <StackLayout   >
+                            <Label Text="Branch" FontAttributes="Bold" TextColor="#102b1e" FontSize="Small" />
+                        </StackLayout>
+                            
+                   
+                           <StackLayout Padding="5,20,0,0">
+                           <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions> 
+                                <Picker Grid.Column="0"  Margin="0,-5,-30,0" x:Name="branch_picker" TextColor="Black" />  
+                            <StackLayout Grid.Column="1" >
+                                <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,15,0,0" />                        
+                                </StackLayout>
+                          </Grid>                                              
+                        </StackLayout>                            
+                    </Grid>
+-->
+                   <StackLayout Padding="10,10,10,0" >
+                           <Label Text="Customer Reference" FontAttributes="Bold" TextColor="#102b1e" FontSize="Small" />
+                           <Entry Text="" x:Name="cus_reference" TextColor="#102b1e" FontSize="Small"/>   
+                   </StackLayout>
+
+                  <!--  <Grid Padding="10,0,0,0">
+                        <StackLayout   >
+                            <Label Text="Analytic Account" FontAttributes="Bold" TextColor="#102b1e" FontSize="Small" />
+                        </StackLayout>
+                                               
+                           <StackLayout Padding="5,20,0,0"   >
+                           <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions> 
+                                <Picker Grid.Column="0"  Margin="0,-5,-30,0" x:Name="analytic_picker" TextColor="Black" />  
+                            <StackLayout Grid.Column="1" >
+                                <Image  Source="drdown.png" WidthRequest="10" HeightRequest="10" Margin="0,15,0,0" />                        
+                                </StackLayout>
+                          </Grid>                                              
+                        </StackLayout>                            
+                    </Grid>
+                            -->
+                            
+              </StackLayout>
                                                                        
                     <BoxView HeightRequest="20" BackgroundColor="Transparent"/>
             <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">

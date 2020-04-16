@@ -302,6 +302,18 @@ namespace SalesApp.OdooRpc
             return result;
         }
 
+        public string odoogettingpricelist(string model, string method, int product_id, int cus_id, int pricelist_id, double product_qty, string date)
+        {
+            if (this.Uid == 0)
+            {
+                this.Uid = App.userid_db;
+            }
+
+            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { this.Database, this.Uid, Settings.UserPassword, model, method, new object[] { product_id},cus_id,pricelist_id,product_qty,date });
+            string result = odooServerCall<string>(jsonRpcUrl, parameters);
+            return result;
+        }
+
 
         public bool odooUpdatesaleorder(string model, string method, int sale_id, Dictionary<string, dynamic> vals)
         {
@@ -507,6 +519,22 @@ namespace SalesApp.OdooRpc
             return responseData;
         }
 
+        public dynamic odooMethodCall_serial<T>(string model, string method, int product_id)
+        {
+            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { this.Database, this.Uid, Settings.UserPassword, model, method, new object[] {product_id } });
+            T responseData = odooServerCall<T>(jsonRpcUrl, parameters);
+
+            try
+            {
+                if (responseData.ToString().Equals("Odoo Error"))
+                {
+                    return responseData;
+                }
+            }
+            catch { }
+            return responseData;
+        }
+
         public dynamic odooMethodCall<T>(string model, string method, List<int> ids)
         {
             JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { this.Database, this.Uid, Settings.UserPassword, model, method, ids });
@@ -538,7 +566,7 @@ namespace SalesApp.OdooRpc
 
         public dynamic odooMethodSaleOrderConfirm(string model, string method, int saleorderId)
         {
-            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { this.Database, this.Uid, Settings.UserPassword, model, method,new object[] { }, saleorderId });
+            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { this.Database, this.Uid, Settings.UserPassword, model, method,new object[] { saleorderId}  });
             string responseData = odooServerCall<string>(jsonRpcUrl, parameters);
            // return responseData;
             try

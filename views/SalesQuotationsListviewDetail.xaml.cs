@@ -27,6 +27,8 @@ namespace SalesApp.views
         String file_uploadstring = "";
         String file_uploadname = "";
 
+        int product_id = 0;
+
         Dictionary<int, string> cus_selectdict = new Dictionary<int, string>();
         List<Attachments> attachres = new List<Attachments>();
 
@@ -37,12 +39,17 @@ namespace SalesApp.views
         bool tap2_clicked = false;
 
         List<int> taxidList = new List<int>();
+        List<int> serialidList = new List<int>();
 
         object[] taxidListObj = new object[10];
 
         int saleoder_id = 0;
 
         int orderline_id = 0;
+
+        int cus_id = 0;
+
+        int price_list_id = 0;
 
         SalesQuotationDB dbobj = new SalesQuotationDB();
 
@@ -51,6 +58,7 @@ namespace SalesApp.views
         List<OrderLine> final_listview = new List<OrderLine>();
 
         List<taxes> taxList_edit = new List<taxes>();
+        List<serial_list> serialList_edit = new List<serial_list>();
 
        // List<OrderLine> tax_orderline = new List<OrderLine>();
 
@@ -99,20 +107,25 @@ namespace SalesApp.views
 
             obj = item;
 
-            quot_ref.Text = item.quotation_reference;
+         //   quot_ref.Text = item.quotation_reference;
 
             Cus.Text = item.customer;
            // CD.Text = item.DateOrder;
-            PT.Text = item.payment_term;
-            CG.Text = item.commission_group;
+           // PT.Text = item.payment_term;
+           // CG.Text = item.commission_group;
             SP.Text = item.sales_person;
-            ST.Text = item.sales_team;
-            CR.Text = item.customer_reference;
-            FP.Text = item.fiscal_position;
+         //   ST.Text = item.team_id;
+            CR.Text = item.client_order_ref;
+          //  FP.Text = item.fiscal_position;
             saleoder_id = item.id;
-            userlocation.Text = App.user_location_string;
 
+          //  branch_name.Text = item.branch_id;
+          //  analytic_account.Text = item.project_id;
+            WH.Text = item.warehouse_id;
+            shipping_policy.Text = item.picking_policy;
 
+            payment_journal.Text = item.journal_id;
+          //  userlocation.Text = App.user_location_string;
 
             attachres = Controller.InstanceCreation().getfileAtachment(saleoder_id);
 
@@ -128,56 +141,50 @@ namespace SalesApp.views
 
             final_listview = item.order_line;
 
+        
+
+
+            for (int i = 0; i < item.order_line.Count; i++)
+            {
+              //  serialList_edit.Add(item.order_line[i].lot_ids[i].);
+            }
+
+
             orderListview.ItemsSource = item.order_line;
 
             amt_untax.Text = item.amount_untaxed;
             amt_tax.Text = item.amount_tax;
             amt_total.Text = item.amount_total;
-            ponumref_lbl.Text = item.po_number_reference;
+          //  ponumref_lbl.Text = item.po_number_reference;
 
             order_date.Text = item.DateOrder;
             expir_date.Text = item.validity_date;
-            delidead_date.Text = item.delivery_deadline;
-            contperson.Text = item.contact_person;
+           // delidead_date.Text = item.delivery_deadline;
+          //  contperson.Text = item.contact_person;
             pricelist.Text = item.pricelist;
-            invaddr.Text = item.invoice_address;
-            deladdr.Text = item.delivery_deadline;
-            taxterm.Text = item.tax_term;
-            podate_date.Text = item.po_date;
-            franco_lbl.Text = item.franco;
-            filename_lbl.Text = item.file_name;
-            delmethod_lbl.Text = item.carrier;
-            comments.Text = item.special_notes;
+          //  invaddr.Text = item.invoice_address;
+          //  deladdr.Text = item.delivery_deadline;
+          //  taxterm.Text = item.tax_term;
+          //  podate_date.Text = item.po_date;
+           // franco_lbl.Text = item.franco;
+           // filename_lbl.Text = item.file_name;
+         //   delmethod_lbl.Text = item.carrier;
+           // comments.Text = item.special_notes;
 
             file_uploadstring = item.po_file;
             file_uploadname = item.file_name;
-            specialnotes_noedit.Text = item.special_notes;
+          //  specialnotes_noedit.Text = item.special_notes;
            // quotref_lbl.Text = item.quotation_reference;
 
            // tax_listview.ItemsSource = item.order_line;
 
-            orderListview.HeightRequest = item.order_line.Count * 35;
+            orderListview.HeightRequest = item.order_line.Count * 50;
 
             var sq_editRecognizer = new TapGestureRecognizer();
             sq_editRecognizer.Tapped += async (s, e) =>
             {
-                // handle the tap              
-                // noedit_layout.IsVisible = false;
-
-                // List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
-
+               
                 total_cal.IsVisible = false;
-
-
-                //try
-                //{
-                //    String res = Controller.InstanceCreation().SaleOrderConfirm("sale.order", "confirm_sale_quotation", saleoder_id);
-                //}
-
-                //catch
-                //{
-                //    int j = 0;
-                //}
 
                 if (App.NetAvailable ==false)
                 {
@@ -195,123 +202,171 @@ namespace SalesApp.views
                     editbtn_clicked = true;
 
                     cus_edit.IsVisible = true;
-                   // con_dateedit.IsVisible = true;
-                    ptpicker_edit.IsVisible = true;
-                    commissionpicker_edit.IsVisible = true;
-                    sales_teamedit.IsVisible = true;
+                  
+               //     ptpicker_edit.IsVisible = true;
+              
+                   // sales_teamedit.IsVisible = true;
                     sales_personsedit.IsVisible = true;
                    
 
-
+                  //  branch_edit.IsVisible = true;
+                   // analytic_edit.IsVisible = true;
+                    wh_edit.IsVisible = true;
+                    sp_edit.IsVisible = true;
 
 
                     cr_edit.IsVisible = true;
-                    fp_edit.IsVisible = true;
-                    is_edit.IsVisible = true;
+                    //fp_edit.IsVisible = true;
+                    //is_edit.IsVisible = true;
 
-                 //   quotref_edit.IsVisible = true;
                     orderdate_dateedit.IsVisible = true;
                     expir_dateedit.IsVisible = true;
-                    delidead_dateedit.IsVisible = true;
-                    contperson_edit.IsVisible = true;
+          
                     pricelist_edit.IsVisible = true;
-                    invaddr_edit.IsVisible = true;
-                    deladdr_edit.IsVisible = true;
-                    ponumref_edit.IsVisible = true;
-                    taxterm_edit.IsVisible = true;
-                    podate_dateedit.IsVisible = true;
-                    franco_edit.IsVisible = true;
-                    pofile_edit.IsVisible = true;
-                    delmethod_edit.IsVisible = true;
-
+                 
+                 //   delmethod_edit.IsVisible = true;
+                    payment_journaledit.IsVisible = true;
 
 
                     cus_noedit.IsVisible = false;
-                  //  con_datenoedit.IsVisible = false;
-                    ptpicker_noedit.IsVisible = false;
-                    commissionpicker_noedit.IsVisible = false;
-                    sales_teamnoedit.IsVisible = false;
+                
+                  //  ptpicker_noedit.IsVisible = false;
+                 
+                  //  sales_teamnoedit.IsVisible = false;
                     sales_personsnoedit.IsVisible = false;
 
-                    cr_noedit.IsVisible = false;
-                    fp_noedit.IsVisible = false;
-                    is_noedit.IsVisible = false;
+                    //branch_noedit.IsVisible = false;
+                    //analytic_noedit.IsVisible = false;
+                    wh_noedit.IsVisible = false;
+                    sp_noedit.IsVisible = false;
 
-                   // quotref_noedit.IsVisible = false;
+                    cr_noedit.IsVisible = false;
+                    //fp_noedit.IsVisible = false;
+                    //is_noedit.IsVisible = false;
+
+                 
                     orderdate_datenoedit.IsVisible = false;
                     expir_datenoedit.IsVisible = false;
-                    delidead_datenoedit.IsVisible = false;
-                    contperson_noedit.IsVisible = false;
+                
                     pricelist_noedit.IsVisible = false;
-                    invaddr_noedit.IsVisible = false;
-                    deladdr_noedit.IsVisible = false;
-                    ponumref_noedit.IsVisible = false;
-                    taxterm_noedit.IsVisible = false;
-                    podate_datenoedit.IsVisible = false;
-                    franco_noedit.IsVisible = false;
-                    pofile_noedit.IsVisible = false;
-                    delmethod_noedit.IsVisible = false;
+                
+                 //   delmethod_noedit.IsVisible = false;
+                    payment_journalnoedit.IsVisible = false;
 
-
+                 
 
                     try
 
                     {
 
-                      //  od_Picker.Date = item.order_date;
+       
+                        if (item.dateOrder != "")
+                        {
+                            DateTime oDate = DateTime.Parse(item.dateOrder);
+                            od_Picker.Date = oDate;
+                        }
 
-                        salesteam_picker.ItemsSource = App.salesteam.Select(x => x.Value).ToList();
-                        salesteam_picker.SelectedItem = item.sales_team;
-                        salesteam_picker.SelectedIndex = 0;
+                        if (item.validity_date != "")
+                        {
+                            DateTime oDate = DateTime.Parse(item.validity_date);
+                            expir_Picker.Date = oDate;
+                        }
+
+                        //salesteam_picker.ItemsSource = App.salesteam.Select(x => x.Value).ToList();
+                        //salesteam_picker.SelectedItem = item.sales_team;
+                        //salesteam_picker.SelectedIndex = 0;
 
 
                         salesperson_picker.ItemsSource = App.salespersons.Select(x => x.Value).ToList();
                         salesperson_picker.SelectedItem = item.sales_person;
                         salesperson_picker.SelectedIndex = 0;
 
-                        cuspicker1.ItemsSource = App.cusdict.Select(x => x.Value).ToList();
-                        cuspicker1.SelectedItem = item.customer;
+                        //cuspicker1.ItemsSource = App.cusdict.Select(x => x.Value).ToList();
+                        //cuspicker1.SelectedItem = item.customer;
+
+                        searchcus.Text = item.customer;
+
+                        payment_Picker.ItemsSource = App.journalList.Select(x => x.name).ToList();
+                        payment_Picker.SelectedItem = item.journal_id;
+
+        //newly added starts here
+
+                        //if (item.branch_id != "")
+                        //{
+                        //    branch_picker.ItemsSource = App.branchList.Select(x => x.name).ToList();
+                        //    branch_picker.SelectedItem = item.branch_id;
+                        //}
+
+                        //else 
+                        //{
+                        //    branch_picker.ItemsSource = App.branchList.Select(x => x.name).ToList();
+                        //    branch_picker.SelectedIndex = -1;
+                        //}
 
 
-                        var cusid = App.cusdict.FirstOrDefault(x => x.Value == cuspicker1.SelectedItem.ToString()).Key;
+                        //if (item.project_id != "")
+                        //{
+                        //    analytic_picker.ItemsSource = App.analayticList.Select(x => x.name).ToList();
+                        //    analytic_picker.SelectedItem = item.project_id;
+                        //}
 
+                        //else
+                        //{
+                        //    analytic_picker.ItemsSource = App.analayticList.Select(x => x.name).ToList();
+                        //    analytic_picker.SelectedIndex = -1;
+                        //}
+
+                        if (item.warehouse_id == "")
+                        {
+                            warehouse_picker.ItemsSource = App.warehousList.Select(x => x.name).ToList();
+                            warehouse_picker.SelectedIndex = -1;
+                        }
+
+                        else
+                        {
+                            warehouse_picker.ItemsSource = App.warehousList.Select(x => x.name).ToList();
+                            warehouse_picker.SelectedItem = item.warehouse_id;
+
+                        }
+
+
+                        if (item.picking_policy == "")
+                        {
+                            shipping_picker.Items.Add("Deliver each product when available");
+                            shipping_picker.Items.Add("Deliver all products at once");
+                            shipping_picker.SelectedIndex = -1;
+                        }
+
+                        else
+                        {
+                            shipping_picker.Items.Add("Deliver each product when available");
+                            shipping_picker.Items.Add("Deliver all products at once");
+                            shipping_picker.SelectedItem = item.picking_policy;
+                        }
+                          
+                        cr_entry.Text = item.client_order_ref;
+
+     //newly added ends here
+
+                      //  var cusid = App.cusdict.FirstOrDefault(x => x.Value == cuspicker1.SelectedItem.ToString()).Key;
+                        var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
                         JObject con_dict = App.cus_address.FirstOrDefault(x => x.Key == cusid.ToString()).Value;
 
                         cus_selectdict = con_dict.ToObject<Dictionary<int, string>>();
 
-                        invaddr_Picker.ItemsSource = cus_selectdict.Select(x => x.Value).ToList();
-                        invaddr_Picker.SelectedItem = item.invoice_address;
-                       // invaddr_Picker.SelectedIndex = 0;
+                        //pricelist_Picker.ItemsSource = App.product_PriceList.Select(x => x.name).ToList();
+                        //pricelist_Picker.SelectedItem = item.pricelist;
 
-                        deladdr_Picker.ItemsSource = cus_selectdict.Select(x => x.Value).ToList();
-                        deladdr_Picker.SelectedItem = item.delivery_address;
-                       // deladdr_Picker.SelectedIndex = 0;
+                     //   price_list_label.Text = item.pricelist;
 
-                        contperson_Picker.ItemsSource = cus_selectdict.Select(x => x.Value).ToList();
-                        contperson_Picker.SelectedIndex = -1;
+                        JObject obj = Controller.InstanceCreation().GetCustomerUnitPriceData(cusid);
 
-                       
-                        pricelist_Picker.ItemsSource = App.product_PriceList.Select(x => x.name).ToList();
-                        pricelist_Picker.SelectedItem = item.pricelist;
-
-                        ponumref_entry.Text = item.po_number_reference;
-                        franco_entry.Text = item.franco;
-
-
-                        taxterm_Picker.Items.Add("Free tax");
-                        taxterm_Picker.Items.Add("Pay via PT. LABORINDO SARANA");
-                        taxterm_Picker.Items.Add("Pay via Customer");
-                        taxterm_Picker.SelectedIndex = 0;
-
-                        delmethod_Picker.ItemsSource = App.all_delivery_method.Select(x => x.name).ToList();
-                        delmethod_Picker.SelectedItem = item.carrier;
-
-                        filename_lbl.Text = item.file_name;
-                        pofile_noedit.IsVisible = true;
-
-                        specialnotes_noedit.IsVisible = false;
-                        specialnotes_edit.IsVisible = true;
-                        comments.Text = item.special_notes;
+                        price_list_id = obj["id"].ToObject<int>();
+                        string price_list_name = obj["name"].ToObject<string>();
+                        price_list_label.Text = price_list_name;
+                      
+                       // delmethod_Picker.ItemsSource = App.all_delivery_method.Select(x => x.name).ToList();
+                       // delmethod_Picker.SelectedItem = item.carrier;
 
                     }
 
@@ -333,26 +388,18 @@ namespace SalesApp.views
                     catch
                     {
 
-                       // await  DisplayAlert("Alert-2", "Please Try Again","Ok");
-
                         String enteredDate = DateTime.Now.ToString("yyyy-MM-dd");
 
                         DateTime dt =DateTime.Parse(enteredDate);
 
-                      //  cd_Picker.Date = dt;
-                       
-                      //  cd_Picker.Date= cd_Picker.Date;
+             
                     }
 
                     try
                     {
 
-                        ptpicker.ItemsSource = App.paytermList.Select(x => x.name).ToList();
-                        ptpicker.SelectedItem = item.payment_term;
-
-
-                        comgroup_picker.ItemsSource = App.commisiongroupList.Select(x => x.name).ToList();
-                        comgroup_picker.SelectedItem = item.commission_group;
+                       // ptpicker.ItemsSource = App.paytermList.Select(x => x.name).ToList();
+                       // ptpicker.SelectedItem = item.payment_term;
 
                     }
 
@@ -365,8 +412,9 @@ namespace SalesApp.views
 
 
                     orderLineGrid_ol.IsVisible = false;
-                    discount_grid_ol.IsVisible = false;
+                 //   discount_grid_ol.IsVisible = false;
                     taxlistviewGrid_ol.IsVisible = false;
+                    seriallistviewGrid_ol.IsVisible = false;
 
                     addbtn_orderline.IsVisible = true;
 
@@ -385,8 +433,9 @@ namespace SalesApp.views
             addbtn_orderlineRecognizer.Tapped +=  (s, e) =>
             {
                 orderLineGrid_ol.IsVisible = true;
-                discount_grid_ol.IsVisible = true;
+             //   discount_grid_ol.IsVisible = true;
                 taxlistviewGrid_ol.IsVisible = true;
+                seriallistviewGrid_ol.IsVisible = true;
                 addbtn_orderline.IsVisible = false;
                 savebtn_layout.IsVisible = true;
                 updatebtn.IsVisible = false;
@@ -395,14 +444,20 @@ namespace SalesApp.views
                 orderline_des_ol.Text = "";
                 up_ol.Text = "";
                 oqty_ol.Text = "";
+                //dis1_ol.Text = "";
+                //multidis_ol.Text = "";
 
                 add_new_orderline = true;
-                taxlistviewGrid_ol.BackgroundColor = Color.FromHex("#F0EEEF");
-                taxStackLayout_ol.BackgroundColor = Color.FromHex("#F0EEEF");
-                taxListView_ol.BackgroundColor = Color.FromHex("#F0EEEF");
+
+                taxListView_ol.ItemsSource = null;
+                taxStackLayout_ol.IsVisible = false;
+                serialStackLayout_ol.IsVisible = false;
 
                 taxlistviewGrid_ol.Padding = new Thickness(15, 0, 0, 0);
+                seriallistviewGrid_ol.Padding = new Thickness(15, 0, 0, 0);
+
                 taxStackLayout_ol.Padding = new Thickness(15, 0, 0, 0);
+                serialStackLayout_ol.Padding = new Thickness(15, 0, 0, 0);
                
             };
             Add_OrderLineBtn.GestureRecognizers.Add(addbtn_orderlineRecognizer);
@@ -420,6 +475,21 @@ namespace SalesApp.views
             };
             Addtax_line.GestureRecognizers.Add(Addtax_lineImgRecognizer);
 
+            var Addserial_lineImgRecognizer = new TapGestureRecognizer();
+            Addserial_lineImgRecognizer.Tapped += (s, e) => {
+
+                // addtaxGrid.IsVisible = true;
+                Addserial_line.IsVisible = true; 
+
+            //  int product_id = App.productList.FirstOrDefault(x => x.Name == searchprod.Text.ToString()).Id;
+
+               App.serialList = Controller.InstanceCreation().getserialList(product_id);
+
+                Navigation.PushPopupAsync(new SerialSelectionPage());
+
+            };
+            Addserial_line.GestureRecognizers.Add(Addserial_lineImgRecognizer);
+
             var Addtax_lineImgRecognizer_ol = new TapGestureRecognizer();
             Addtax_lineImgRecognizer_ol.Tapped += (s, e) => {
 
@@ -431,247 +501,329 @@ namespace SalesApp.views
             };
             Addtax_line_ol.GestureRecognizers.Add(Addtax_lineImgRecognizer_ol);
 
+            var Addserial_lineImgRecognizer_ol = new TapGestureRecognizer();
+            Addserial_lineImgRecognizer_ol.Tapped += (s, e) => {
+
+                // addtaxGrid.IsVisible = true;
+                Addserial_line.IsVisible = false;
+                Addserial_line_ol.IsVisible = true;
+
+                int product_id = App.productList.FirstOrDefault(x => x.Name == searchprod_ol.Text.ToString()).Id;
+
+                App.serialList = Controller.InstanceCreation().getserialList(product_id);
+
+                Navigation.PushPopupAsync(new SerialSelectionPage("serial_new"));
+
+            };
+            Addserial_line_ol.GestureRecognizers.Add(Addserial_lineImgRecognizer_ol);
+
         }
 
-        //public SalesQuotationsListviewDetail(SalesQuotationDB item)
-        //{
-        //    InitializeComponent();
-        //    NavigationPage.SetHasNavigationBar(this, false);
-
-        //    //    App.orderLineList = item.order_line;
+     
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
 
-        //    dbobj = item;
+            MessagingCenter.Subscribe<string, int>("MyApp", "PickerMsg", (sender, arg) =>
+            {
+                // HideLbl.Text = "New Quotation Creation";
 
-        //    Cus.Text = item.customer;
-        //    // CD.Text = item.DateOrder;
-        //  //  CD.Text = item.date_Order;
-        //    PT.Text = item.payment_term.ToString();
-        //    SP.Text = item.sales_person;
-        //    ST.Text = item.sales_team;
-        //    CR.Text = item.customer_reference;
-        //    FP.Text = item.fiscal_position;
-        //    saleoder_id = item.id;
+                if (App.productList.Count != 0)
+                {
+                    var productlis = from pro in App.productList
+                                     where pro.Id == arg
+                                     select pro;
 
-        //    List<OrderLine> or_linelistdb = new List<OrderLine>();
+                    foreach (var prodresults in productlis)
+                    {
+                        searchprod.Text = prodresults.Name;
+                        orderline_des.Text = prodresults.Name;
+                        up.Text = prodresults.list_price;
 
-          
-
-        //            var json_orderline = JsonConvert.SerializeObject(item.order_line);
-
-        //            String convertstring = json_orderline.ToString();
-
-        //            //  "\"[{\\\"customer_lead\\\":\\\"0\\\",\\\"price_unit\\\":\\\"10000\\\",\\\"product_uom_qty\\\":\\\"10\\\",\\\"price_subtotal\\\":\\\"100000\\\",\\\"taxes\\\":[],\\\"product_name\\\":\\\"Floordeck 1000x060 MM\\\"},{\\\"customer_lead\\\":\\\"0\\\",\\\"price_unit\\\":\\\"1\\\",\\\"product_uom_qty\\\":\\\"1\\\",\\\"price_subtotal\\\":\\\"1\\\",\\\"taxes\\\":[\\\"Sales Tax N/A SRCA-S\\\"],\\\"product_name\\\":\\\"Floordeck 1000x060 MM\\\"}]\""
-
-        //            String finstring = convertstring.Replace("\\", "");
-
-        //            finstring = finstring.Substring(1);
-
-        //            finstring = finstring.Remove(finstring.Length - 1);
-
-        //            JArray stringres = JsonConvert.DeserializeObject<JArray>(finstring);
-
-        //            //  or_linelistdb = JsonConvert.DeserializeObject<List<OrderLine>>(finstring);
+                        searchprod_ol.Text = prodresults.Name;
+                        orderline_des_ol.Text = prodresults.Name;
+                        up_ol.Text = prodresults.list_price;
+                        product_id = prodresults.Id;
+                    }
 
 
-        //            //  OrderLine stringres = JsonConvert.DeserializeObject<OrderLine>(json_orderline)
+                    string order_date = od_Picker.Date.ToString("yyyy-MM-dd");
+                    var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
 
-        //            int cus_lead = 0;
-        //            string prod_name = "";
+                    string pricelist = Controller.InstanceCreation().getpricelistData("product.product", "get_pricelist_price", product_id, cusid, price_list_id, Convert.ToDouble(oqty.Text), order_date);
 
-           
-        //        foreach (JObject obj in stringres)
-        //        {
-        //            OrderLine or_line = new OrderLine();
-        //           object[] tax_id = new object[2];
+                    up_ol.Text = pricelist;
+                }
 
-        //            or_line.product_name = obj["product_name"].ToString();
-        //            or_line.product_uom_qty = obj["product_uom_qty"].ToString();
-        //            or_line.price_subtotal = obj["price_subtotal"].ToString();
-        //            or_line.taxes = tax_id;
+                else
+                {
+                    var productlis = from pro in App.ProductListDb
+                                     where pro.Id == arg
+                                     select pro;
 
-        //        try
-        //        {
-        //            or_line.tax_names = obj["tax_names"].ToString();
-        //        }
-        //        catch
-        //        {
-        //            or_line.tax_names = "";
-        //        }
-
-        //        try
-        //        {
-        //            or_line.discount = obj["discount"].ToString();
-        //        }
-
-        //        catch
-        //        {
-        //            or_line.discount = "";
-        //        }
+                    foreach (var prodresults in productlis)
+                    {
+                        searchprod.Text = prodresults.Name;
+                        orderline_des.Text = prodresults.Name;
+                        up.Text = prodresults.list_price;
+                    }
+                }
 
 
-        //            or_linelistdb.Add(or_line);
-        //        }
-           
+                int i = 0;
 
-        //    orderListview.ItemsSource = or_linelistdb;
-
-
-        //    var sq_editRecognizer = new TapGestureRecognizer();
-        //    sq_editRecognizer.Tapped += async (s, e) =>
-        //    {
-        //        await DisplayAlert("Alert", "Need Internet Connection", "Ok");
-        //    };
-        //    sq_editbtn.GestureRecognizers.Add(sq_editRecognizer);
-
-        //    //orderListview.ItemsSource = item.order_line;
-
-
-        //}
+            });
 
 
 
-        //protected override void OnAppearing()
-        //{
-        //    base.OnAppearing();
+            MessagingCenter.Subscribe<string, int>("MyApp", "CusPickerMsg", (sender, arg) =>
+            {
+                // HideLbl.Text = "New Quotation Creation";
 
+                if (App.cusList.Count != 0)
+                {
+                    var productlis = from pro in App.cusList
+                                     where pro.id == arg
+                                     select pro;
 
-        //    MessagingCenter.Subscribe<string, int>("MyApp", "PickerMsg", (sender, arg) =>
-        //    {
-        //        // HideLbl.Text = "New Quotation Creation";
+                    foreach (var prodresults in productlis)
+                    {
+                        searchcus.Text = prodresults.name;
+                        cus_id = prodresults.id;
+                    }
+                }
 
-        //        if (App.productList.Count != 0)
-        //        {
-        //            var productlis = from pro in App.productList
-        //                             where pro.Id == arg
-        //                             select pro;
+                else
+                {
+                    var productlis = from pro in App.cusList
+                                     where pro.id == arg
+                                     select pro;
 
-        //            foreach (var prodresults in productlis)
-        //            {
-        //                searchprod.Text = prodresults.Name;
-        //                orderline_des.Text = prodresults.Name;
-        //                up.Text = prodresults.list_price;
+                    foreach (var prodresults in productlis)
+                    {
+                        searchcus.Text = prodresults.name;
+                        cus_id = prodresults.id;
+                    }
+                }
 
-        //                searchprod_ol.Text = prodresults.Name;
-        //                orderline_des_ol.Text = prodresults.Name;
-        //                up_ol.Text = prodresults.list_price;
-        //            }
-        //        }
+                var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text).Key;
 
-        //        else
-        //        {
-        //            var productlis = from pro in App.ProductListDb
-        //                             where pro.Id == arg
-        //                             select pro;
+                JObject obj = Controller.InstanceCreation().GetCustomerUnitPriceData(cusid);
 
-        //            foreach (var prodresults in productlis)
-        //            {
-        //                searchprod.Text = prodresults.Name;
-        //                orderline_des.Text = prodresults.Name;
-        //                up.Text = prodresults.list_price;
-        //            }
-        //        }
+                price_list_id = obj["id"].ToObject<int>();
+                string price_list_name = obj["name"].ToObject<string>();
+                price_list_label.Text = price_list_name;
 
 
 
 
-        //        int i = 0;
+            });
 
-        //    });
+            MessagingCenter.Subscribe<string, string>("MyApp", "taxPickerMsg", (sender, arg) =>
+            {
 
+                taxListView.ItemsSource = null;
 
+                taxList_edit.Add(new taxes(arg));
 
+                taxList_edit = taxList_edit.GroupBy(i => i.Name).Select(g => g.First()).ToList();
+                // taxpicker.IsVisible = false;
+                taxStackLayout.IsVisible = true;
+                taxListView.ItemsSource = taxList_edit;
+                taxListView.RowHeight = 30;
+                taxListView.HeightRequest = 30 * taxList_edit.Count;
 
-        //    MessagingCenter.Subscribe<string, string>("MyApp", "taxPickerMsg", (sender, arg) =>
-        //    {
+                taxStackLayout.BackgroundColor = Color.FromHex("#363E4B");
+                taxListView.BackgroundColor = Color.FromHex("#363E4B");
+                taxStackLayout.CornerRadius = 20;
 
-        //        taxListView.ItemsSource = null;
-
-        //        taxList_edit.Add(new taxes(arg));
-
-        //        taxList_edit = taxList_edit.GroupBy(i => i.Name).Select(g => g.First()).ToList();
-        //        // taxpicker.IsVisible = false;
-        //        taxStackLayout.IsVisible = true;
-        //        taxListView.ItemsSource = taxList_edit;
-        //        taxListView.RowHeight = 30;
-        //        taxListView.HeightRequest = 30 * taxList_edit.Count;
-
-        //        taxStackLayout.BackgroundColor = Color.FromHex("#363E4B");
-        //        taxListView.BackgroundColor = Color.FromHex("#363E4B");
-        //        taxStackLayout.CornerRadius = 20;
-
-        //       taxStackLayout.Padding = new Thickness(5);
+               taxStackLayout.Padding = new Thickness(5);
              
 
-        //        // taxpickstringList.Add(taxpicker.SelectedItem.ToString());
-        //        var taxesid =
-        //       (
-        //       from i in App.taxList
-        //       where i.Name == arg
+                // taxpickstringList.Add(taxpicker.SelectedItem.ToString());
+                var taxesid =
+               (
+               from i in App.taxList
+               where i.Name == arg
 
-        //       select new
-        //       {
-        //           i.Id,
-        //       }
-        //       ).ToList();
+               select new
+               {
+                   i.Id,
+               }
+               ).ToList();
 
-        //        foreach (var person in taxesid)
-        //        {
-        //            int selecttaxid = person.Id;
-        //            taxidList.Add(selecttaxid);
-        //            taxidList = taxidList.GroupBy(i => i).Select(g => g.First()).ToList();
-        //        }
+                foreach (var person in taxesid)
+                {
+                    int selecttaxid = person.Id;
+                    taxidList.Add(selecttaxid);
+                    taxidList = taxidList.GroupBy(i => i).Select(g => g.First()).ToList();
+                }
 
-        //        Addtax_line.IsVisible = true;
+                Addtax_line.IsVisible = true;
 
-        //    });
-
-
-        //    MessagingCenter.Subscribe<string, string>("MyApp", "taxnewPickerMsg", (sender, arg) =>
-        //    {
-
-        //        taxListView_ol.ItemsSource = null;
-
-        //        taxList_edit.Add(new taxes(arg));
-
-        //        taxList_edit = taxList_edit.GroupBy(i => i.Name).Select(g => g.First()).ToList();
-        //        // taxpicker.IsVisible = false;
-        //        taxStackLayout_ol.IsVisible = true;
-        //        taxListView_ol.ItemsSource = taxList_edit;
-        //        taxListView_ol.RowHeight = 35;
-        //        taxListView_ol.HeightRequest = 35 * taxList_edit.Count;
-
-        //        taxStackLayout_ol.BackgroundColor = Color.FromHex("#363E4B");
-        //        taxListView_ol.BackgroundColor = Color.FromHex("#363E4B");
-        //        taxStackLayout_ol.CornerRadius = 20;
-
-        //        taxStackLayout_ol.Padding = new Thickness(5);
-
-        //        // taxpickstringList.Add(taxpicker.SelectedItem.ToString());
-        //        var taxesid =
-        //       (
-        //       from i in App.taxList
-        //       where i.Name == arg
-
-        //       select new
-        //       {
-        //           i.Id,
-        //       }
-        //       ).ToList();
-
-        //        foreach (var person in taxesid)
-        //        {
-        //            int selecttaxid = person.Id;
-        //            taxidList.Add(selecttaxid);
-        //            taxidList = taxidList.GroupBy(i => i).Select(g => g.First()).ToList();
-        //        }
-
-        //        Addtax_line_ol.IsVisible = true;
-
-        //    });
+            });
 
 
-        //}
+            MessagingCenter.Subscribe<string, string>("MyApp", "serialPickerMsg", (sender, arg) =>
+            {
+
+                serialListView.ItemsSource = null;
+
+                serialList_edit.Add(new serial_list(arg));
+
+                serialList_edit = serialList_edit.GroupBy(i => i.name).Select(g => g.First()).ToList();
+              
+                serialStackLayout.IsVisible = true;
+                serialListView.ItemsSource = serialList_edit;
+                serialListView.RowHeight = 30;
+                serialListView.HeightRequest = 30 * serialList_edit.Count;
+
+                serialStackLayout.BackgroundColor = Color.FromHex("#363E4B");
+                serialListView.BackgroundColor = Color.FromHex("#363E4B");
+                serialStackLayout.CornerRadius = 20;
+
+                serialStackLayout.Padding = new Thickness(5);
+
+
+                // taxpickstringList.Add(taxpicker.SelectedItem.ToString());
+                var serialsid =
+               (
+                        from i in App.serialList
+                        where i.name == arg
+
+               select new
+               {
+                    i.id,
+               }
+               ).ToList();
+
+                foreach (var person in serialsid)
+                {
+                    int selectserialid = person.id;
+                    serialidList.Add(selectserialid);
+                    serialidList = serialidList.GroupBy(i => i).Select(g => g.First()).ToList();
+                }
+
+                Addserial_line.IsVisible = true;
+
+            });
+
+
+
+
+
+            MessagingCenter.Subscribe<string, string>("MyApp", "taxnewPickerMsg", (sender, arg) =>
+            {
+
+                taxListView_ol.ItemsSource = null;
+
+                taxList_edit.Add(new taxes(arg));
+
+                taxList_edit = taxList_edit.GroupBy(i => i.Name).Select(g => g.First()).ToList();
+                // taxpicker.IsVisible = false;
+                taxStackLayout_ol.IsVisible = true;
+                taxListView_ol.ItemsSource = taxList_edit;
+                taxListView_ol.RowHeight = 35;
+                taxListView_ol.HeightRequest = 35 * taxList_edit.Count;
+
+                taxStackLayout_ol.BackgroundColor = Color.FromHex("#363E4B");
+                taxListView_ol.BackgroundColor = Color.FromHex("#363E4B");
+                taxStackLayout_ol.CornerRadius = 20;
+
+                taxStackLayout_ol.Padding = new Thickness(5);
+
+                // taxpickstringList.Add(taxpicker.SelectedItem.ToString());
+                var taxesid =
+               (
+               from i in App.taxList
+               where i.Name == arg
+
+               select new
+               {
+                   i.Id,
+               }
+               ).ToList();
+
+                foreach (var person in taxesid)
+                {
+                    int selecttaxid = person.Id;
+                    taxidList.Add(selecttaxid);
+                    taxidList = taxidList.GroupBy(i => i).Select(g => g.First()).ToList();
+                }
+
+                Addtax_line_ol.IsVisible = true;
+
+            });
+
+
+
+            MessagingCenter.Subscribe<string, string>("MyApp", "serialnewPickerMsg", (sender, arg) =>
+            {
+
+                serialListView_ol.ItemsSource = null;
+
+                serialList_edit.Add(new serial_list(arg));
+
+                serialList_edit = serialList_edit.GroupBy(i => i.name).Select(g => g.First()).ToList();
+              
+                serialStackLayout_ol.IsVisible = true;
+                serialListView_ol.ItemsSource = serialList_edit;
+                serialListView_ol.RowHeight = 35;
+                serialListView_ol.HeightRequest = 35 * serialList_edit.Count;
+
+                serialStackLayout_ol.BackgroundColor = Color.FromHex("#363E4B");
+                serialListView_ol.BackgroundColor = Color.FromHex("#363E4B");
+                serialStackLayout_ol.CornerRadius = 20;
+
+                serialStackLayout_ol.Padding = new Thickness(5);
+
+                // taxpickstringList.Add(taxpicker.SelectedItem.ToString());
+                var serialssid =
+               (
+                        from i in App.serialList
+                        where i.name == arg
+
+               select new
+               {
+                   i.id,
+               }
+               ).ToList();
+
+                foreach (var person in serialssid)
+                {
+                    int selectserialid = person.id;
+                    serialidList.Add(selectserialid);
+                    serialidList = serialidList.GroupBy(i => i).Select(g => g.First()).ToList();
+                }
+
+                Addserial_line_ol.IsVisible = true;
+
+            });
+
+
+
+
+            MessagingCenter.Subscribe<string, List<Attachments>>("MyApp", "attachUpdated", (sender, arg) =>
+            {
+                attachres = arg;
+
+                if (attachres.Count == 0)
+                {
+                    attach_name.Text = "Attachment(s)";
+                }
+
+                else if (attachres.Count > 0)
+                {
+                    attach_name.Text = attachres.Count + " " + "Attachment(s)";
+                }
+
+                //    attach_name.Text = attachres.Count + " " + "Attachment(s)";
+
+
+            });
+
+        }
 
 
 
@@ -726,15 +878,52 @@ namespace SalesApp.views
                     taxStackLayout.Padding = 0;
                 }
 
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
 
+        }
+
+
+        public void serialListviewcloseClicked(object sender, EventArgs e1)
+        {
+            try
+            {
+                var args = (TappedEventArgs)e1;
+                serial_list t2 = args.Parameter as serial_list;
+
+                //  var itemToRemove = App.taxListRemove.Single(r => r.Name == t2.Name);
+
+                var itemToRemove = serialList_edit.Single(r => r.name == t2.name);
+
+                serialList_edit.Remove(itemToRemove);
+
+
+                serialListView.ItemsSource = null;
+
+
+                //  taxStackLayout.Padding = 0;
+
+                serialListView.ItemsSource = serialList_edit;
+                serialListView.RowHeight = 35;
+                serialListView.HeightRequest = 35 * serialList_edit.Count;
+
+
+
+                if (serialList_edit.Count == 0)
+                {
+                    serialStackLayout.BackgroundColor = Color.White;
+                    serialListView.BackgroundColor = Color.White;
+                    serialStackLayout.CornerRadius = 0;
+                    serialStackLayout.Padding = 0;
+                }
 
             }
             catch (Exception e)
             {
-
-
                 System.Diagnostics.Debug.WriteLine(e.Message);
-
             }
 
         }
@@ -764,7 +953,6 @@ namespace SalesApp.views
                 taxListView_ol.HeightRequest = 35 * taxList_edit.Count;
 
 
-
                 if (taxList_edit.Count == 0)
                 {
                     taxStackLayout_ol.BackgroundColor = Color.White;
@@ -774,11 +962,50 @@ namespace SalesApp.views
                 }
 
 
-
             }
             catch (Exception e)
             {
 
+                System.Diagnostics.Debug.WriteLine(e.Message);
+
+            }
+
+        }
+
+        public void serialListview_ol_closeClicked(object sender, EventArgs e1)
+        {
+            try
+            {
+                var args = (TappedEventArgs)e1;
+                serial_list t2 = args.Parameter as serial_list;
+                       
+                var itemToRemove = serialList_edit.Single(r => r.name == t2.name);
+
+                serialList_edit.Remove(itemToRemove);
+
+
+                serialListView_ol.ItemsSource = null;
+
+
+                //  taxStackLayout.Padding = 0;
+
+                serialListView_ol.ItemsSource = serialList_edit;
+                serialListView_ol.RowHeight = 35;
+                serialListView_ol.HeightRequest = 35 * serialList_edit.Count;
+
+
+                if (serialList_edit.Count == 0)
+                {
+                    serialStackLayout_ol.BackgroundColor = Color.White;
+                    serialListView_ol.BackgroundColor = Color.White;
+                    serialStackLayout_ol.CornerRadius = 0;
+                    serialStackLayout_ol.Padding = 0;
+                }
+
+
+            }
+            catch (Exception e)
+            {
 
                 System.Diagnostics.Debug.WriteLine(e.Message);
 
@@ -789,13 +1016,15 @@ namespace SalesApp.views
         private void OnMenuItemTapped(object sender, ItemTappedEventArgs ea)
         {
             orderLineGrid_ol.IsVisible = false;
-            discount_grid_ol.IsVisible = false;
+          //  discount_grid_ol.IsVisible = false;
             taxlistviewGrid_ol.IsVisible = false;
+            seriallistviewGrid_ol.IsVisible = false;
+
             addbtn_orderline.IsVisible = false;
 
             taxList_edit.Clear();
+            serialList_edit.Clear();
           
-
             if (editbtn_clicked == true)
             {
                 updatebtn.IsVisible = false;
@@ -803,22 +1032,27 @@ namespace SalesApp.views
                 OrderLine masterItemObj = (OrderLine)ea.Item;
 
                 listview_editlayout.IsVisible = true;
-                discount_grid.IsVisible = true;
+              //  discount_grid.IsVisible = true;
                 taxlistviewGrid.IsVisible = true;
+                seriallistviewGrid.IsVisible = true;
                 OrderLineList1.IsVisible = false;
 
                 searchprod.Text = masterItemObj.product_name;
                 orderline_des.Text = masterItemObj.product_name;
                 oqty.Text = masterItemObj.product_uom_qty;
                 up.Text = masterItemObj.price_unit;
-                dis1.Text = masterItemObj.discount;
-                multidis.Text = masterItemObj.multi_discount;
+              //  dis1.Text = masterItemObj.discount;
+             //   multidis.Text = masterItemObj.multi_discount;
                 orderline_id = masterItemObj.id;
 
+
+                product_id = masterItemObj.product_id;
+
                 taxlistviewGrid.IsVisible = true;
+                seriallistviewGrid.IsVisible = true;
+
 
                 taxes taxname = new taxes("");
-
 
                 for (int i = 0; i < masterItemObj.taxes_id.Count(); i++)
                 {
@@ -826,13 +1060,9 @@ namespace SalesApp.views
                     string taname = masterItemObj.taxes_id[i].ToString();
                     int taid = Int32.Parse (taname);
 
-                  //  var name = App.taxList.Select(x => x.Id == 4 );
-
                     var tax_list = from tx in App.taxList
                                                      where tx.Id == taid
                                    select tx;
-
-
 
                     string  name = "";
                     foreach (var tax in tax_list)
@@ -840,8 +1070,7 @@ namespace SalesApp.views
                         name = tax.Name;
                     }
 
-                     //  var taxesfinname = final_listview[i].taxes;
-
+                
                     if (masterItemObj.taxes_id[i] != null)
                     {
 
@@ -849,8 +1078,6 @@ namespace SalesApp.views
                     }
 
                 }
-
-              
 
                 taxListView.ItemsSource = taxList_edit;
                 taxListView.RowHeight = 35;
@@ -865,6 +1092,50 @@ namespace SalesApp.views
                     taxlistviewGrid.Padding = new Thickness(15, 0, 0, 0);
                     taxStackLayout.Padding = new Thickness(0, 0, 0, 0);
                 }
+
+       //serial starts here
+
+                serial_list serialname = new serial_list("");
+
+                for (int i = 0; i < masterItemObj.lots.Count(); i++)
+                {
+
+                    string sername = masterItemObj.lots[i].ToString();
+                    //int serid = Int32.Parse(sername);
+
+                    //var serial_list = from tx in App.serialList
+                    //                                    where tx.id == serid
+                    //               select tx;
+
+                    //string name = "";
+                    //foreach (var serial in serial_list)
+                    //{
+                    //    name = serial.name;
+                    //}
+
+
+                    if (masterItemObj.lots[i] != null)
+                    {
+
+                        serialList_edit.Add(new serial_list(sername));
+                    }
+
+                }
+
+                serialListView.ItemsSource = serialList_edit;
+                serialListView.RowHeight = 35;
+                serialListView.HeightRequest = 35 * serialList_edit.Count;
+                serialStackLayout.BackgroundColor = Color.FromHex("#363E4B");
+                serialListView.BackgroundColor = Color.FromHex("#363E4B");
+
+                if (serialList_edit.Count == 0)
+                {
+                    serialStackLayout.BackgroundColor = Color.FromHex("#F0EEEF");
+                    serialListView.BackgroundColor = Color.FromHex("#F0EEEF");
+                    seriallistviewGrid.Padding = new Thickness(15, 0, 0, 0);
+                    serialStackLayout.Padding = new Thickness(0, 0, 0, 0);
+                }
+
 
             }
                 
@@ -908,8 +1179,12 @@ namespace SalesApp.views
         }
 
 
-        private void ConfirmSOClicked(object sender, EventArgs ea)
+        private async void ConfirmSOClickedAsync(object sender, EventArgs ea)
         {
+
+            var currentpage = new LoadingAlert();
+            await PopupNavigation.PushAsync(currentpage);
+
            String res = "";
             try
             {
@@ -920,11 +1195,10 @@ namespace SalesApp.views
             {
                 int j = 0;
             }
-            //  String res = "Stock not available for this products : \n Down payment";
-
+          
             if (App.NetAvailable == true)
             {
-                //  var data = await DisplayAlert("Logout Alert", "Are you sure you want to log out?", "OK", "Cancel");
+               
                 if (res.Contains("\n"))
                 {
                     string[] stringSeparators = new string[] { "\n" };
@@ -933,7 +1207,10 @@ namespace SalesApp.views
                     String first = results[0];
                     String second = results[1];
 
-                    DisplayAlert(first, second, "Ok");
+                    await   DisplayAlert(first, second, "Ok");
+
+                    await PopupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
 
                 else
@@ -941,15 +1218,22 @@ namespace SalesApp.views
 
                     if (res == "Success")
                     {
-                        DisplayAlert("Alert", "Sale Order Confirmed Successfully", "Ok");
+                      
+                        await DisplayAlert("Alert", "Sale Order Confirmed Successfully", "Ok");
+                        App.load_rpc = true;
                         Application.Current.MainPage = new MasterPage(new CrmTabbedPage());
+
+
+                     //   await PopupNavigation.PopAsync();
+                        Loadingalertcall();
                     }
                     else
                     {
                         DisplayAlert("Alert", res, "Ok");
 
+                       // await PopupNavigation.PopAsync();
                         //  orderListview.ItemsSource = null;
-                        // Loadingalertcall();
+                         Loadingalertcall();
                     }
                 }
             }
@@ -973,7 +1257,8 @@ namespace SalesApp.views
             tab2borderstack.BackgroundColor = Color.White;
             orderLineList.IsVisible = true;
             OtherInfoStack1.IsVisible = false;
-            OtherInfoStack2.IsVisible = false;
+        //    OtherInfoStack2.IsVisible = false;
+            OtherInfoStack3.IsVisible = false;
             tab1frame.BackgroundColor = Color.FromHex("#363E4B");
             tab1borderstack.BackgroundColor = Color.FromHex("#363E4B");
             OrderLineList1.IsVisible = true;
@@ -989,6 +1274,10 @@ namespace SalesApp.views
 
             tab1.TextColor = Color.White;
             tab2.TextColor = Color.Black;
+
+            // AddAirCon.IsVisible = true;
+            Addtax_line_ol.IsVisible = true;
+            Add_OrderLineBtn.IsVisible = true;
         }
 
         private void Tab2Clicked(object sender, EventArgs ea)
@@ -1003,14 +1292,21 @@ namespace SalesApp.views
             tab2frame.BackgroundColor = Color.FromHex("#363E4B");
             orderLineList.IsVisible = false;
             OtherInfoStack1.IsVisible = true;
-            OtherInfoStack2.IsVisible = true;
+         //   OtherInfoStack2.IsVisible = true;
+            OtherInfoStack3.IsVisible = true;
             tab1frame.BackgroundColor = Color.FromHex("#363E4B");
             tab1borderstack.BackgroundColor = Color.White;
             OrderLineList1.IsVisible = false;
 
             listview_editlayout.IsVisible = false;
-            discount_grid.IsVisible = false;
-            taxlistviewGrid.IsVisible = false;
+
+            orderLineGrid_ol.IsVisible = false;
+            Addtax_line_ol.IsVisible = false;
+        //    airconImg1.IsVisible = false;
+
+           // discount_grid_ol.IsVisible = false;
+            taxlistviewGrid_ol.IsVisible = false;
+            seriallistviewGrid_ol.IsVisible = false;
             addbtn_orderline.IsVisible = false;
 
             tab1.TextColor = Color.Black;
@@ -1032,8 +1328,9 @@ namespace SalesApp.views
             updatebtn.IsVisible = true;
             sq_editbtn.IsVisible = false;
             orderLineGrid_ol.IsVisible = false;
-            discount_grid_ol.IsVisible = false;
+          //  discount_grid_ol.IsVisible = false;
             taxlistviewGrid_ol.IsVisible = false;
+            seriallistviewGrid_ol.IsVisible = false;
             addbtn_orderline.IsVisible = true;
 
             savebtn_layout.IsVisible = false;
@@ -1073,8 +1370,9 @@ namespace SalesApp.views
                     orderLinenew.product_id = prod_id;
                     orderLinenew.product_uom_qty = oqty_ol.Text;
                     orderLinenew.price_unit = up_ol.Text;
-                orderLinenew.discount = dis1_ol.Text;
-                orderLinenew.multi_discount = multidis_ol.Text;
+                //orderLinenew.discount = dis1_ol.Text;
+                //orderLinenew.multi_discount = multidis_ol.Text;
+               
 
 
 //  orderLinenew.taxes = tax_id;
@@ -1082,7 +1380,9 @@ namespace SalesApp.views
                 {
                     orderLinenew.price_subtotal = (Convert.ToInt32(oqty_ol.Text) * Convert.ToInt32(up_ol.Text)).ToString();
 
-                    Double tot = Double.Parse(orderLinenew.price_subtotal) * (Double.Parse(dis1_ol.Text) / 100);
+                   // Double tot = Double.Parse(orderLinenew.price_subtotal) * (Double.Parse(dis1_ol.Text) / 100);
+
+                    Double tot = Double.Parse(orderLinenew.price_subtotal) * (Double.Parse("0") / 100);
 
                     orderLinenew.price_subtotal = (Double.Parse(orderLinenew.price_subtotal) - tot).ToString();
                 }
@@ -1108,9 +1408,7 @@ namespace SalesApp.views
                         tax_list_id = tax.Id;
                     }
 
-                    //var tax_list_id = from x in App.taxList
-                    //         where x.Name == newobj.taxes[i].ToString()
-                    //select x.Id;
+                  
 
                     tax_id[i] = tax_list_id;
 
@@ -1125,45 +1423,74 @@ namespace SalesApp.views
 
                 orderLinenew.tax_names = taxname_full;
 
-  
+ //serial starts here
+
+                Object[] serial_id = new object[serialList_edit.Count()];
+
+                for (int i = 0; i < serialList_edit.Count(); i++)
+                {
+                    var ser_list = from tx in App.serialList
+                                                     where tx.name == serialList_edit[i].name.ToString()
+                                   select tx;
+
+                    int ser_list_id = 0;
+                    foreach (var ser in ser_list)
+                    {
+                        ser_list_id = ser.id;
+                    }
+
+
+
+                    serial_id[i] = ser_list_id;
+
+                    orderLinenew.lot_ids = serial_id;
+
+                //    taxname_full = taxname_full + "  " + taxList_edit[i].Name.ToString();
+
+                }
+
+                orderLinenew.lot_ids = serial_id;
+            //    orderLinenew.lotid = serial_id;
+
+            //    orderLinenew.tax_names = taxname_full;
+
+
 
                     obj.order_line.Add(orderLinenew);
 
          }
 
 
-
                 foreach (var newobj in obj.order_line)
                 {
 
-
-                   
-
                     if (newobj.id == orderline_id && newobj.id != 0)
-        {
+                  {
                         // orderLine.id = newobj.id;
                         orderLine.product_name = searchprod.Text;
 
 
-                        var productlis = from pro in App.productList
-                                         where pro.Name == newobj.product_name
-                                         select pro;
+                        //var productlis = from pro in App.productList
+                        //                 where pro.Name == newobj.product_name
+                        //                 select pro;
 
-                        int prod_id = 0;
+                        //int prod_id = 0;
 
-                        foreach (var pro in productlis)
-                        {
-                            prod_id = pro.Id;
-                        }
+                        //foreach (var pro in productlis)
+                        //{
+                        //    prod_id = pro.Id;
+                        //}
 
-                        orderLine.product_id = prod_id;
+                    orderLine.product_id = product_id;
                         orderLine.product_uom_qty = oqty.Text;
                        orderLine.price_unit = up.Text;
                         orderLine.taxes = newobj.taxes;
-                        orderLine.discount = dis1.Text;
-                        orderLine.multi_discount = multidis.Text;
+                    orderLine.lots = newobj.lots;
+                     //   orderLine.discount = dis1.Text;
+                      //  orderLine.multi_discount = multidis.Text;
                     orderLine.id = newobj.id;
                     orderline_id = newobj.id;
+                    orderLine.lot_ids = newobj.lot_ids;
 
 
                     Object[] tax_id = new object[taxList_edit.Count()];
@@ -1187,11 +1514,42 @@ namespace SalesApp.views
 
                         taxname_full = taxname_full + "  " + taxList_edit[i].Name.ToString();
 
-                    }
+                     }
 
                     orderLine.tax_id = tax_id;
                     orderLine.taxes_id = tax_id;
                     orderLine.tax_names = taxname_full;
+
+        //serial list starts here
+
+                    Object[] ser_id = new object[serialList_edit.Count()];
+
+                    for (int i = 0; i < serialList_edit.Count(); i++)
+                    {
+                        var ser_list = from tx in App.serialList
+                                                         where tx.name == serialList_edit[i].name.ToString()
+                                       select tx;
+
+                        int ser_list_id = 0;
+                        foreach (var ser in ser_list)
+                        {
+                            ser_list_id = ser.id;
+                        }
+
+
+                        ser_id[i] = ser_list_id;
+
+                        orderLine.lot_ids = ser_id;
+
+                        // orderLinenew.tax_id = tax_id;
+
+                      //  taxname_full = taxname_full + "  " + taxList_edit[i].Name.ToString();
+
+                    }
+
+                   
+
+
 
                     //  orderLine.tax_namecut = newobj.tax_namecut;
                     try
@@ -1200,7 +1558,9 @@ namespace SalesApp.views
                         orderLine.price_subtotal = (Convert.ToInt32(oqty.Text) * Convert.ToInt32(up.Text)).ToString();
                         orderLine.customer_lead = newobj.customer_lead;
 
-                        Double tot = Double.Parse(orderLine.price_subtotal) * (Double.Parse(dis1.Text) / 100);
+                      //  Double tot = Double.Parse(orderLine.price_subtotal) * (Double.Parse(dis1.Text) / 100);
+
+                        Double tot = Double.Parse(orderLine.price_subtotal) * (Double.Parse("0") / 100);
 
                         orderLine.price_subtotal = (Double.Parse(orderLine.price_subtotal) - tot).ToString();
                     }
@@ -1213,7 +1573,7 @@ namespace SalesApp.views
                   //  orderLine.price_subtotal = tot.ToString();
 
 
-        }
+                   }
 
               //  orderLine.tax_id = tax_id;
 
@@ -1232,28 +1592,30 @@ namespace SalesApp.views
                 foreach (var newobj in final_listview)
                 {
                     OrderLinesListForUpdate orderLineupdate = new OrderLinesListForUpdate();
-                    // orderLineupdate.id = newobj.id;
+                // orderLineupdate.id = newobj.id;
 
-                var productlis = from pro in App.productList
-                                 where pro.Name == newobj.product_name
-                                 select pro;
+                //var productlis = from pro in App.productList
+                //                 where pro.Name == newobj.product_name
+                //                 select pro;
 
-                int prod_id = 0;
-                foreach (var pro in productlis)
-                {
-                    prod_id = pro.Id;
-                }
+                //int prod_id = 0;
+                //foreach (var pro in productlis)
+                //{
+                //    prod_id = pro.Id;
+                //}
 
 
-                //  orderLineupdate.product_id = newobj.product_id;
-                    orderLineupdate.product_id = prod_id;
+                orderLineupdate.product_id = newobj.product_id;
+                  //  orderLineupdate.product_id = prod_id;
                     orderLineupdate.product = newobj.product_name;
                     orderLineupdate.ordered_qty = newobj.product_uom_qty;
                     orderLineupdate.unit_price = newobj.price_unit;
                 orderLineupdate.tax_names = newobj.tax_names;
                 orderLineupdate.tax_id = newobj.taxes_id;
+                orderLineupdate.serial_id = newobj.lot_ids;
                 orderLineupdate.discount = newobj.discount;
                 orderLineupdate.multi_discount = newobj.multi_discount;
+               // orderLineupdate.serial_id = newobj.lot_ids;
                 //  orderLineupdate.tax_id = newobj.taxes;
 
  
@@ -1268,49 +1630,73 @@ namespace SalesApp.views
                 final_listviewnew.Clear();
                 orderListview.ItemsSource = final_listview;
 
-                orderListview.HeightRequest = final_listview.Count * 35;
+                orderListview.HeightRequest = final_listview.Count * 50;
 
               listview_editlayout.IsVisible = false;
-              discount_grid.IsVisible = false;
+            //  discount_grid.IsVisible = false;
               taxlistviewGrid.IsVisible = false;
+              seriallistviewGrid.IsVisible = false;
 
-                Cus.Text = cuspicker1.SelectedItem.ToString();
+              //  Cus.Text = cuspicker1.SelectedItem.ToString();
+            Cus.Text = searchcus.Text.ToString();
+
+
                 // CD.Text = item.DateOrder;
               //  CD.Text = cd_Picker.Date.ToString();
-                PT.Text = ptpicker.SelectedItem.ToString();
-                CG.Text = comgroup_picker.SelectedItem.ToString();
+              //  PT.Text = ptpicker.SelectedItem.ToString();
+             //   CG.Text = comgroup_picker.SelectedItem.ToString();
                 SP.Text = salesperson_picker.SelectedItem.ToString();
-                ST.Text = salesteam_picker.SelectedItem.ToString();
+
+            //if (salesteam_picker.SelectedItem != null)
+            //{
+            //    ST.Text = salesteam_picker.SelectedItem.ToString();
+            //}
                 CR.Text = cr_entry.Text;
-                FP.Text = fp_entry.Text;
+            //    FP.Text = fp_entry.Text;
 
                 add_new_orderline = false;
 
 
             cus_edit.IsVisible = true;
           //  con_dateedit.IsVisible = true;
-            ptpicker_edit.IsVisible = true;
-            commissionpicker_edit.IsVisible = true;
-            sales_teamedit.IsVisible = true;
+         //   ptpicker_edit.IsVisible = true;
+          //  commissionpicker_edit.IsVisible = true;
+          //  sales_teamedit.IsVisible = true;
             sales_personsedit.IsVisible = true;
 
             cr_edit.IsVisible = true;
-            fp_edit.IsVisible = true;
-            is_edit.IsVisible = true;
+
+            //fp_edit.IsVisible = true;
+            //is_edit.IsVisible = true;
+
+
+            //branch_edit.IsVisible = true;
+            //analytic_edit.IsVisible = true;
+
+
+            wh_edit.IsVisible = true;
+            sp_edit.IsVisible = true;
 
             cus_noedit.IsVisible = false;
           //  con_datenoedit.IsVisible = false;
-            ptpicker_noedit.IsVisible = false;
-            commissionpicker_noedit.IsVisible = false;
-            sales_teamnoedit.IsVisible = false;
+         //   ptpicker_noedit.IsVisible = false;
+          //  commissionpicker_noedit.IsVisible = false;
+         //   sales_teamnoedit.IsVisible = false;
             sales_personsnoedit.IsVisible = false;
 
             cr_noedit.IsVisible = false;
-            fp_noedit.IsVisible = false;
-            is_noedit.IsVisible = false;
+            //fp_noedit.IsVisible = false;
+            //is_noedit.IsVisible = false;
+
+            //branch_noedit.IsVisible = false;
+            //analytic_noedit.IsVisible = false;
+
+            wh_noedit.IsVisible = false;
+            sp_noedit.IsVisible = false;
 
                 OtherInfoStack1.IsVisible = false;
-                OtherInfoStack2.IsVisible = false;
+            //    OtherInfoStack2.IsVisible = false;
+               OtherInfoStack3.IsVisible = false;
 
            // }
         }
@@ -1326,11 +1712,10 @@ namespace SalesApp.views
 
             savebtn_layout.IsVisible = false;
             orderLineGrid_ol.IsVisible = false;
-            discount_grid_ol.IsVisible = false;
+          //  discount_grid_ol.IsVisible = false;
             taxlistviewGrid_ol.IsVisible = false;
+            seriallistviewGrid_ol.IsVisible = false;
 
-
-            OtherInfoStack1.IsVisible = false;
             
             OrderLineList1.IsVisible = true;
             orderListview.ItemsSource = final_listviewnew;
@@ -1342,188 +1727,197 @@ namespace SalesApp.views
 
             cus_edit.IsVisible = false;
            // con_dateedit.IsVisible = false;
-            ptpicker_edit.IsVisible = false;
-            sales_teamedit.IsVisible = false;
+          //  ptpicker_edit.IsVisible = false;
+          //  sales_teamedit.IsVisible = false;
             sales_personsedit.IsVisible = false;
 
             cr_edit.IsVisible = false;
-            fp_edit.IsVisible = false;
-            is_edit.IsVisible = false;
+            //fp_edit.IsVisible = false;
+            //is_edit.IsVisible = false;
+
+            //branch_edit.IsVisible = false;
+            //analytic_edit.IsVisible = false;
+
+            wh_edit.IsVisible = false;
+            sp_edit.IsVisible = false;
 
             cus_noedit.IsVisible = true;
           //  con_datenoedit.IsVisible = true;
-            ptpicker_noedit.IsVisible = true;
-            sales_teamnoedit.IsVisible = true;
+          //  ptpicker_noedit.IsVisible = true;
+          //  sales_teamnoedit.IsVisible = true;
             sales_personsnoedit.IsVisible = true;
 
             cr_noedit.IsVisible = true;
-            fp_noedit.IsVisible = true;
-            is_noedit.IsVisible = true;
+            //fp_noedit.IsVisible = true;
+            //is_noedit.IsVisible = true;
+
+            //branch_noedit.IsVisible = true;
+            //analytic_noedit.IsVisible = true;
+
+            wh_noedit.IsVisible = true;
+            sp_noedit.IsVisible = true;
 
             sq_editbtn.IsVisible = true;
 
             listview_editlayout.IsVisible = false;
-            discount_grid.IsVisible = false;
+          //  discount_grid.IsVisible = false;
             taxlistviewGrid.IsVisible = false;
+            seriallistviewGrid.IsVisible = false;
 
             updatebtn.IsVisible = true;
             addbtn_orderline.IsVisible = false;
-
-            OtherInfoStack2.IsVisible = false;
-            commissionpicker_edit.IsVisible = false;
-            commissionpicker_noedit.IsVisible = true;
+            OtherInfoStack1.IsVisible = false;
+        //    OtherInfoStack2.IsVisible = false;
+            OtherInfoStack3.IsVisible = false;
+            //commissionpicker_edit.IsVisible = false;
+            //commissionpicker_noedit.IsVisible = true;
         }
 
-        void multidiscount_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            bool entry = false;
+        //void multidiscount_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    bool entry = false;
 
-            //  bool res = Regex.IsMatch(dis1.Text, @"^-?\d+$");
+        //    //  bool res = Regex.IsMatch(dis1.Text, @"^-?\d+$");
 
-            //    bool res1 = Regex.IsMatch(multidis.Text, @"^\d+$");
+        //    //    bool res1 = Regex.IsMatch(multidis.Text, @"^\d+$");
 
-            bool res = Regex.IsMatch(multidis.Text, @"\d");
-
-
-            if (multidis.Text == "+")
-            {
-                entry = true;
-            }
-
-            else if (multidis.Text == "+" || multidis.Text == "." || res == true)
-            {
-                entry = true;
-            }
-
-            else
-            {
-                entry = false;
-            }
-
-            if (entry && res)
-            {
-
-                var foos = multidis.Text;
-                var fooArray = foos.Split('+');
-
-                double discount_per = 100;
-
-                //string[] stringArray = foos.Split(',').ToArray();
-
-                //foos = String.Join(",", fooArray).toa;
+        //    bool res = Regex.IsMatch(multidis.Text, @"\d");
 
 
-                for (int i = 0; i < fooArray.Length; i++)
-                {
-                    if (fooArray[i] != "")
-                    {
-                        double val = Convert.ToDouble(fooArray[i]);
-                        discount_per = discount_per - ((val / 100) * discount_per);
-                    }
-                }
+        //    if (multidis.Text == "+")
+        //    {
+        //        entry = true;
+        //    }
+
+        //    else if (multidis.Text == "+" || multidis.Text == "." || res == true)
+        //    {
+        //        entry = true;
+        //    }
+
+        //    else
+        //    {
+        //        entry = false;
+        //    }
+
+        //    if (entry && res)
+        //    {
+
+        //        var foos = multidis.Text;
+        //        var fooArray = foos.Split('+');
+
+        //        double discount_per = 100;
+
+        //        //string[] stringArray = foos.Split(',').ToArray();
+
+        //        //foos = String.Join(",", fooArray).toa;
 
 
-                double overper = 100 - discount_per;
-
-                overper = Convert.ToDouble(overper.ToString("n2"));
-
-                overper_string = overper.ToString();
-
-                dis1.Text = overper.ToString();
-
-            }
-
-
-            else
-            {
-              //  DisplayAlert("Alert", "Please give valid input", "Ok");
-
-            }
-
-            //if(e.NewTextValue != "+" && !="")
-            //{
-
-            //}
-
-            //else
-
-        }
+        //        for (int i = 0; i < fooArray.Length; i++)
+        //        {
+        //            if (fooArray[i] != "")
+        //            {
+        //                double val = Convert.ToDouble(fooArray[i]);
+        //                discount_per = discount_per - ((val / 100) * discount_per);
+        //            }
+        //        }
 
 
-        void multidiscount_ol__TextChanged(object sender, TextChangedEventArgs e)
-        {
-            bool entry = false;
+        //        double overper = 100 - discount_per;
 
-            //  bool res = Regex.IsMatch(dis1.Text, @"^-?\d+$");
+        //        overper = Convert.ToDouble(overper.ToString("n2"));
 
-            //    bool res1 = Regex.IsMatch(multidis.Text, @"^\d+$");
+        //        overper_string = overper.ToString();
 
-            bool res = Regex.IsMatch(multidis_ol.Text, @"\d");
+        //        dis1.Text = overper.ToString();
 
-
-            if (multidis_ol.Text == "+")
-            {
-                entry = true;
-            }
-
-            else if (multidis_ol.Text == "+" || multidis_ol.Text == "." || res == true)
-            {
-                entry = true;
-            }
-
-            else
-            {
-                entry = false;
-            }
-
-            if (entry && res)
-            {
-
-                var foos = multidis_ol.Text;
-                var fooArray = foos.Split('+');
-
-                double discount_per = 100;
-
-                //string[] stringArray = foos.Split(',').ToArray();
-
-                //foos = String.Join(",", fooArray).toa;
+        //    }
 
 
-                for (int i = 0; i < fooArray.Length; i++)
-                {
-                    if (fooArray[i] != "")
-                    {
-                        double val = Convert.ToDouble(fooArray[i]);
-                        discount_per = discount_per - ((val / 100) * discount_per);
-                    }
-                }
+        //    else
+        //    {
+        //      //  DisplayAlert("Alert", "Please give valid input", "Ok");
+
+        //    }
+
+        //    //if(e.NewTextValue != "+" && !="")
+        //    //{
+
+        //    //}
+
+        //    //else
+
+        //}
 
 
-                double overper = 100 - discount_per;
+        //void multidiscount_ol__TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    bool entry = false;
 
-                overper = Convert.ToDouble(overper.ToString("n2"));
+        //    //  bool res = Regex.IsMatch(dis1.Text, @"^-?\d+$");
 
-                overper_string = overper.ToString();
+        //    //    bool res1 = Regex.IsMatch(multidis.Text, @"^\d+$");
 
-                dis1_ol.Text = overper.ToString();
-
-            }
+        //    bool res = Regex.IsMatch(multidis_ol.Text, @"\d");
 
 
-            else
-            {
-              //  DisplayAlert("Alert", "Please give valid input", "Ok");
+        //    if (multidis_ol.Text == "+")
+        //    {
+        //        entry = true;
+        //    }
 
-            }
+        //    else if (multidis_ol.Text == "+" || multidis_ol.Text == "." || res == true)
+        //    {
+        //        entry = true;
+        //    }
 
-            //if(e.NewTextValue != "+" && !="")
-            //{
+        //    else
+        //    {
+        //        entry = false;
+        //    }
 
-            //}
+        //    if (entry && res)
+        //    {
 
-            //else
+        //        var foos = multidis_ol.Text;
+        //        var fooArray = foos.Split('+');
 
-        }
+        //        double discount_per = 100;
+
+        //        //string[] stringArray = foos.Split(',').ToArray();
+
+        //        //foos = String.Join(",", fooArray).toa;
+
+
+        //        for (int i = 0; i < fooArray.Length; i++)
+        //        {
+        //            if (fooArray[i] != "")
+        //            {
+        //                double val = Convert.ToDouble(fooArray[i]);
+        //                discount_per = discount_per - ((val / 100) * discount_per);
+        //            }
+        //        }
+
+
+        //        double overper = 100 - discount_per;
+
+        //        overper = Convert.ToDouble(overper.ToString("n2"));
+
+        //        overper_string = overper.ToString();
+
+        //        dis1_ol.Text = overper.ToString();
+
+        //    }
+
+
+        //    else
+        //    {
+        //      //  DisplayAlert("Alert", "Please give valid input", "Ok");
+
+        //    }
+
+        
+
+        //}
 
   // ******************************* Update Clicks*****************************
 
@@ -1541,55 +1935,55 @@ namespace SalesApp.views
                 {
 
 
-                    if (ptpicker.SelectedItem == null)
-                    {
-                        vals["payment_terms"] = false;
-                    }
+                   // if (ptpicker.SelectedItem == null)
+                   // {
+                   //     vals["payment_terms"] = false;
+                   // }
 
-                    else
-                    {
-                        var paytermid =
-                        (
-                                from i in App.paytermList
-                                where i.name == ptpicker.SelectedItem.ToString()
-                                select new
-                                {
-                                    i.id,
-                                }
-                   ).ToList();
+                   // else
+                   // {
+                   //     var paytermid =
+                   //     (
+                   //             from i in App.paytermList
+                   //             where i.name == ptpicker.SelectedItem.ToString()
+                   //             select new
+                   //             {
+                   //                 i.id,
+                   //             }
+                   //).ToList();
 
-                        foreach (var person in paytermid)
-                        {
-                            selectpaytermid = person.id;
-                        }
+                    //    foreach (var person in paytermid)
+                    //    {
+                    //        selectpaytermid = person.id;
+                    //    }
 
-                        vals["payment_terms"] = selectpaytermid;
-                    }
+                    //    vals["payment_terms"] = selectpaytermid;
+                    //}
 
-                    if (comgroup_picker.SelectedItem == null)
-                    {
-                        vals["commission_group"] = false;
-                    }
+                   // if (comgroup_picker.SelectedItem == null)
+                   // {
+                   //     vals["commission_group"] = false;
+                   // }
 
-                    else
-                    {
-                        var comgroupid =
-                        (
-                                from i in App.commisiongroupList
-                                where i.name == comgroup_picker.SelectedItem.ToString()
-                                select new
-                                {
-                                    i.id,
-                                }
-                   ).ToList();
+                   // else
+                   // {
+                   //     var comgroupid =
+                   //     (
+                   //             from i in App.commisiongroupList
+                   //             where i.name == comgroup_picker.SelectedItem.ToString()
+                   //             select new
+                   //             {
+                   //                 i.id,
+                   //             }
+                   //).ToList();
 
-                        foreach (var comgroup in comgroupid)
-                        {
-                            selectcomgroupid = comgroup.id;
-                        }
+                    //    foreach (var comgroup in comgroupid)
+                    //    {
+                    //        selectcomgroupid = comgroup.id;
+                    //    }
 
-                        vals["commission_group"] = selectcomgroupid;
-                    }
+                    //    vals["commission_group"] = selectcomgroupid;
+                    //}
 
                 }
 
@@ -1607,34 +2001,19 @@ namespace SalesApp.views
 
                     String exp_date_string = String.Format("{0:yyyy-MM-dd HH:mm:ss}", expir_Picker.Date);
 
-                    String po_date_string = String.Format("{0:yyyy-MM-dd HH:mm:ss}", podate_Picker.Date);
+                    //String po_date_string = String.Format("{0:yyyy-MM-dd HH:mm:ss}", podate_Picker.Date);
 
-                    String deldead_string = String.Format("{0:yyyy-MM-dd HH:mm:ss}", delidead_Picker.Date);
+                    //String deldead_string = String.Format("{0:yyyy-MM-dd HH:mm:ss}", delidead_Picker.Date);
 
 
-                    if (taxterm_Picker.SelectedIndex == 0)
-                    {
-                        vals["tax_term"] = "free";
-                    }
-
-                    else if (taxterm_Picker.SelectedIndex == 1)
-
-                    {
-                        vals["tax_term"] = "company";
-                    }
-
-                    else
-                    {
-                        vals["tax_term"] = "customer";
-                    }
-
+            
 
                     vals["user_id"] = App.userid;
 
-                    var cusid = App.cusdict.FirstOrDefault(x => x.Value == cuspicker1.SelectedItem.ToString()).Key;
+                    var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
                     vals["customer"] = cusid;
 
-                    vals["delivery_deadline"] = deldead_string;
+                  //  vals["delivery_deadline"] = deldead_string;
 
 
                     vals["order_date"] = order_date_string;
@@ -1644,7 +2023,7 @@ namespace SalesApp.views
 
                     try
                     {
-                        string ids = App.product_PriceList.First(c => c.name == pricelist_Picker.SelectedItem.ToString()).id;
+                        string ids = App.product_PriceList.First(c => c.name == price_list_label.Text.ToString()).id;
 
                         vals["pricelist_id"] = Int32.Parse(ids);
                     }
@@ -1654,22 +2033,22 @@ namespace SalesApp.views
                         vals["pricelist_id"] = false;
                     }
 
-                    vals["po_number_reference"] = ponumref_entry.Text;
+                 //   vals["po_number_reference"] = ponumref_entry.Text;
 
 
-                    vals["po_date"] = po_date_string;
+                  //  vals["po_date"] = po_date_string;
 
                     vals["po_file"] = file_uploadstring;
                     vals["file_name"] = file_uploadname;
 
-                    vals["franco"] = franco_entry.Text;
+                //    vals["franco"] = franco_entry.Text;
 
-                    vals["special_notes"] = comments.Text;
+                 //   vals["special_notes"] = comments.Text;
 
                    
                     try
                     {
-                        string ids = App.product_PriceList.First(c => c.name == pricelist_Picker.SelectedItem.ToString()).id;
+                        string ids = App.product_PriceList.First(c => c.name == price_list_label.Text.ToString()).id;
 
                         vals["pricelist_id"] = Int32.Parse(ids);
                     }
@@ -1679,68 +2058,131 @@ namespace SalesApp.views
                         vals["pricelist_id"] = false;
                     }
 
-                    try
-                    {
+       
 
-                        var inv_id = cus_selectdict.FirstOrDefault(x => x.Value == invaddr_Picker.SelectedItem.ToString()).Key;
-                        vals["partner_invoice_id"] = inv_id;
+                    //try
 
-                        if(inv_id ==0)
-                        {
-                            vals["partner_invoice_id"] = cusid;
-                        }
-                    }
+                    //{
 
-                    catch
-                    {
-                        vals["partner_invoice_id"] = false;
-                    }
+                    //    var delmethod_id = App.all_delivery_method.FirstOrDefault(x => x.name == delmethod_Picker.SelectedItem.ToString()).id;
+                    //    vals["carrier_id"] = Int32.Parse(delmethod_id);
+                    //}
 
-                    try
-                    {
-                        var delvaddr_id = cus_selectdict.FirstOrDefault(x => x.Value == deladdr_Picker.SelectedItem.ToString()).Key;
-                        vals["partner_shipping_id"] = delvaddr_id;
-
-                        if (delvaddr_id == 0)
-                        {
-                            vals["partner_shipping_id"] = cusid;
-                        }
-
-                    }
-
-                    catch
-                    {
-                        vals["partner_shipping_id"] = false;
-                    }
+                    //catch
+                    //{
+                    //    vals["carrier_id"] = false;
+                    //}
 
 
-                    try
-                    {
-                        var conperson_id = cus_selectdict.FirstOrDefault(x => x.Value == contperson_Picker.SelectedItem.ToString()).Key;
-                        vals["contact_person_id"] = conperson_id;
-                    }
-
-                    catch
-                    {
-                        vals["contact_person_id"] = false;
-                    }
-
-                    try
-
-                    {
-
-                        var delmethod_id = App.all_delivery_method.FirstOrDefault(x => x.name == delmethod_Picker.SelectedItem.ToString()).id;
-                        vals["carrier_id"] = Int32.Parse(delmethod_id);
-                    }
-
-                    catch
-                    {
-                        vals["carrier_id"] = false;
-                    }
                     // vals["order_lines"] = final_listview;
                     vals["order_lines"] = orderLinelist;
 
                     vals["state"] = "draft";
+
+                    if (shipping_picker.SelectedIndex == 0)
+                    {
+
+                        vals["picking_policy"] = "direct";
+                    }
+
+                    else if (shipping_picker.SelectedIndex == 1)
+                    {
+                        vals["picking_policy"] = "one";
+                    }
+
+                    else
+                    {
+                        vals["picking_policy"] = false;
+                    }
+
+
+                    vals["client_order_ref"] = cr_entry.Text;
+                    //  vals["discount"] = dis1.Text;
+                    // vals["multi_discount"] = overper_string;
+
+
+                    try
+                    {
+                        var warehouse_id = App.warehousList.FirstOrDefault(x => x.name == warehouse_picker.SelectedItem.ToString()).id;
+                        vals["warehouse_id"] = warehouse_id;
+
+                        if (warehouse_id == 0)
+                        {
+                            vals["warehouse_id"] = false;
+                        }
+                    }
+
+                    catch
+                    {
+                        vals["warehouse_id"] = false;
+                    }
+
+
+                    //try
+                    //{
+                    //    var team_id = App.salesteam.FirstOrDefault(x => x.Value == salesteam_picker.SelectedItem.ToString()).Key;
+                    //    vals["team_id"] = team_id;
+
+                    //    if (team_id == 0)
+                    //    {
+                    //        vals["team_id"] = false;
+                    //    }
+                    //}
+
+                    //catch
+                    //{
+                    //    vals["team_id"] = false;
+                    //}
+
+                    //try
+                    //{
+                    //    var analaytic_id = App.analayticList.FirstOrDefault(x => x.name == analytic_picker.SelectedItem.ToString()).id;
+                    //    vals["project_id"] = analaytic_id;
+
+                    //    if (analaytic_id == 0)
+                    //    {
+                    //        vals["project_id"] = false;
+                    //    }
+                    //}
+
+                    //catch
+                    //{
+                    //    vals["project_id"] = false;
+                    //}
+
+
+                    //try
+                    //{
+                    //    var branch_id = App.branchList.FirstOrDefault(x => x.name == branch_picker.SelectedItem.ToString()).id;
+                    //    vals["branch_id"] = branch_id;
+
+                    //    if (branch_id == 0)
+                    //    {
+                    //        vals["branch_id"] = false;
+                    //    }
+                    //}
+
+                    //catch
+                    //{
+                    //    vals["branch_id"] = false;
+                    //}
+
+
+                    try
+                    {
+                        var payment_journal_id = App.journalList.FirstOrDefault(x => x.name == payment_Picker.SelectedItem.ToString()).id;
+                        vals["journal_id"] = payment_journal_id;
+
+                        if (payment_journal_id == 0)
+                        {
+                            vals["journal_id"] = false;
+                        }
+                    }
+
+                    catch
+                    {
+                        vals["journal_id"] = false;
+                    }
 
                 }
 
@@ -1814,17 +2256,15 @@ namespace SalesApp.views
                     if (!string.IsNullOrEmpty(filedata.FileName)) //Just the file name, it doesn't has the path
                     {
                         byte[] bydata = filedata.DataArray;
-                      //  String UploadData = Convert.ToBase64String(bydata);
+                     
                         file_uploadstring = Convert.ToBase64String(bydata);
                         file_uploadname = filedata.FileName;
-                        //  topimg = UploadData;
-                        // var stream = new MemoryStream(bydata);
-                        // user_img.Source = ImageSource.FromStream(() => stream);
+                       
                     }
-                    file_frame.IsVisible = true;
-                    file_grid.IsVisible = true;
-                    pofile_noedit.IsVisible = false;
-                    fileframname_lbl.Text = filedata.FileName;
+                    //file_frame.IsVisible = true;
+                    //file_grid.IsVisible = true;
+                    //pofile_noedit.IsVisible = false;
+                    //fileframname_lbl.Text = filedata.FileName;
                 }
 
                 else
@@ -1842,33 +2282,38 @@ namespace SalesApp.views
 
 
 
-        protected override void OnAppearing()
+        //protected override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+
+        //    MessagingCenter.Subscribe<string, List<Attachments>>("MyApp", "attachUpdated", (sender, arg) =>
+        //    {
+        //        // List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
+
+        //        //   List<Attachments> attch = new List<Attachments>();
+        //        //  crmLeadListView.ItemsSource = App.crmList;
+
+        //        attachres = arg;
+
+        //        if (attachres.Count == 0)
+        //        {
+        //            attach_name.Text = "Attachment(s)";
+        //        }
+
+        //        else if (attachres.Count > 0)
+        //        {
+        //            attach_name.Text = attachres.Count + " " + "Attachment(s)";
+        //        }
+
+        //        //    attach_name.Text = attachres.Count + " " + "Attachment(s)";
+
+
+        //    });
+        //}
+
+        void customerentry(object sender, EventArgs args)
         {
-            base.OnAppearing();
-
-            MessagingCenter.Subscribe<string, List<Attachments>>("MyApp", "attachUpdated", (sender, arg) =>
-            {
-                // List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
-
-                //   List<Attachments> attch = new List<Attachments>();
-                //  crmLeadListView.ItemsSource = App.crmList;
-
-                attachres = arg;
-
-                if (attachres.Count == 0)
-                {
-                    attach_name.Text = "Attachment(s)";
-                }
-
-                else if (attachres.Count > 0)
-                {
-                    attach_name.Text = attachres.Count + " " + "Attachment(s)";
-                }
-
-                //    attach_name.Text = attachres.Count + " " + "Attachment(s)";
-
-
-            });
+            Navigation.PushPopupAsync(new CustomerSelectionPage());
         }
 
         private async void attachStackClicked(object sender, EventArgs e)

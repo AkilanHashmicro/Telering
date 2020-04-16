@@ -122,7 +122,7 @@ namespace SalesApp.views
 
         }
 
-        private async Task OnMenuItemTappedAsync(object sender, ItemTappedEventArgs ea)
+        private async void OnMenuItemTappedAsync(object sender, ItemTappedEventArgs ea)
         {
           
             try

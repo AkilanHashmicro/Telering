@@ -30,13 +30,20 @@ namespace SalesApp.views
 
             Cus.Text = item.customer;
             CD.Text = item.DateOrder;
-            PT.Text = item.payment_term;
+            //PT.Text = item.payment_term;
             SP.Text = item.sales_person;
-            ST.Text = item.sales_team;
-            CR.Text = item.customer_reference;
-            FP.Text = item.fiscal_position;
+            //ST.Text = item.team_id;
+            CR.Text = item.client_order_ref;
+            //FP.Text = item.fiscal_position;
+
+          //  branch_name.Text = item.branch_id;
+            WH.Text = item.warehouse_id;
+            shipping_policy.Text = item.picking_policy;
+         //   analytic_account.Text = item.project_id;
 
             orderListview.ItemsSource = item.order_line;
+
+            payment_journal.Text = item.journal_id;
 
             saleoder_id = item.id;
 
@@ -53,27 +60,27 @@ namespace SalesApp.views
                 attach_name.Text = attachres.Count + " " + "Attachment(s)";
             }
 
-            orderListview.HeightRequest = item.order_line.Count * 35;
+            orderListview.HeightRequest = item.order_line.Count * 50;
 
             amt_untax.Text = item.amount_untaxed;
             amt_tax.Text = item.amount_tax;
             amt_total.Text = item.amount_total;
 
-            quotref.Text = item.quotation_reference;
+        //    quotref.Text = item.quotation_reference;
             order_date.Text = item.DateOrder;
             expir_date.Text = item.validity_date;
-            delidead_date.Text = item.delivery_deadline;
-            con_person.Text = item.contact_person;
+          //  delidead_date.Text = item.delivery_deadline;
+          //  con_person.Text = item.contact_person;
             pricelist.Text = item.pricelist;
-            invaddr.Text = item.invoice_address;
-            deladdr.Text = item.delivery_deadline;
-            taxterm.Text = item.tax_term;
-            ponum_ref.Text = item.po_number_reference;
-            podate_date.Text = item.po_date;
-            franco_lbl.Text = item.franco;
-            pofile_lbl.Text = item.file_name;
-            delmethod_lbl.Text = item.carrier;
-            comments.Text = item.special_notes;
+          //  invaddr.Text = item.invoice_address;
+           // deladdr.Text = item.delivery_deadline;
+           // taxterm.Text = item.tax_term;
+           // ponum_ref.Text = item.po_number_reference;
+           // podate_date.Text = item.po_date;
+           // franco_lbl.Text = item.franco;
+           // pofile_lbl.Text = item.file_name;
+          //  delmethod_lbl.Text = item.carrier;
+          //  comments.Text = item.special_notes;
            
            
 
@@ -108,11 +115,11 @@ namespace SalesApp.views
 
             Cus.Text = item.customer;
             CD.Text = item.DateOrder;
-            PT.Text = item.payment_term;
+         //   PT.Text = item.payment_term;
             SP.Text = item.sales_person;
-            ST.Text = item.sales_team;
+            //ST.Text = item.sales_team;
             CR.Text = item.customer_reference;
-            FP.Text = item.fiscal_position;
+            //FP.Text = item.fiscal_position;
 
                    List<OrderLine> or_linelistdb = new List<OrderLine>();
 
@@ -135,8 +142,6 @@ namespace SalesApp.views
 
                     int cus_lead = 0;
                     string prod_name = "";
-
-
 
 
                     foreach (JObject obj in stringres)
@@ -209,7 +214,8 @@ namespace SalesApp.views
             tab2borderstack.BackgroundColor = Color.White;
             orderLineList.IsVisible = true;
             OtherInfoStack1.IsVisible = false;
-            OtherInfoStack2.IsVisible = false;
+         //   OtherInfoStack2.IsVisible = false;
+            OtherInfoStack3.IsVisible = false;
             tab1frame.BackgroundColor = Color.FromHex("#363E4B");
             tab1borderstack.BackgroundColor = Color.FromHex("#363E4B");
             OrderLineList1.IsVisible = true;
@@ -244,7 +250,8 @@ namespace SalesApp.views
             tab2frame.BackgroundColor = Color.FromHex("#363E4B");
             orderLineList.IsVisible = false;
             OtherInfoStack1.IsVisible = true;
-            OtherInfoStack2.IsVisible = true;
+         //   OtherInfoStack2.IsVisible = true;
+            OtherInfoStack3.IsVisible = true;
             tab1frame.BackgroundColor = Color.FromHex("#363E4B");
             tab1borderstack.BackgroundColor = Color.White;
             OrderLineList1.IsVisible = false;

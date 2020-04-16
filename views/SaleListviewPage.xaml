@@ -18,9 +18,7 @@
                         <Label Text="Sales Details" x:Name="HideLbl" Margin="15,3,0,5" HorizontalOptions="Center" FontSize="Large"  TextColor="White" />
                     </StackLayout>
                 </StackLayout>
-
-      
-                        
+         
          <ListView x:Name="salesOrderListView" ItemTapped="OnMenuItemTapped" HasUnevenRows="True" >
                         <ListView.ItemTemplate>
                             <DataTemplate>

@@ -323,7 +323,7 @@ namespace SalesApp.Pages
 
         }
 
-        async Task Handle_Clicked(object sender, System.EventArgs e)
+        async void Handle_Clicked(object sender, System.EventArgs e)
         {
 
             try

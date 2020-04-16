@@ -69,6 +69,9 @@ namespace SalesApp.views
                 RefreshDataconstructor();
             }
 
+              //  RefreshDataconstructor();
+          
+
             if (App.NetAvailable == true)
             {
 
@@ -177,7 +180,7 @@ namespace SalesApp.views
             salesQuotationListView.IsRefreshing = true;
             //   await Task.Delay(200);
 
-           await RefreshData();
+         //  await RefreshData();
 
             if (App.filterstring == "Month")
             {
