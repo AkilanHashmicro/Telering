@@ -10,8 +10,10 @@
        
        <ScrollView>
         <!--<AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" > AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"-->
-            
-            <StackLayout Padding="10,0,10,0"  x:Name="loginFormLayout" >
+
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+            <StackLayout Padding="10,0,10,0"  x:Name="loginFormLayout" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
 
                    <Grid>
                     <Grid.RowDefinitions>
@@ -196,6 +198,13 @@
                     <Label x:Name="by_hashmicro" Text="HashMicro" HorizontalTextAlignment="Start" FontAttributes="Bold" TextColor="White" FontSize="Small" VerticalTextAlignment="Center"/>
                 </StackLayout>
             </StackLayout>
+
+      <StackLayout IsVisible="true" Padding="12"
+                 AbsoluteLayout.LayoutFlags="PositionProportional"
+                 AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1">
+       <ActivityIndicator  x:Name="act_ind"  IsRunning="false" Color ="Red"/>
+     </StackLayout>
+    </AbsoluteLayout>
 
             </ScrollView>
                

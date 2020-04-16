@@ -76,12 +76,16 @@ namespace SalesApp.OdooRpc
   
                     int userId = (int)tempId;
                     this.Uid = userId;
+                    Settings.UserId = userId;
+
+                Settings.UserDbName = this.Database;
 
                     if (userId == 0)
                     {
                         if (App.userid == 0)
                         {
                             userId = App.userid_db;
+                        Settings.UserId = userId;
 
                         }
 
@@ -94,6 +98,8 @@ namespace SalesApp.OdooRpc
                      }
 
                 return userId;
+
+
             
 
                 //if(tempId !=0)
@@ -125,9 +131,27 @@ namespace SalesApp.OdooRpc
         }
 
 
+        public List<SalesQuotation> odooMethodCall_getsalequotations<T>(string model, string method)
+        {
+            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { Settings.UserDbName, Settings.UserId, Settings.UserPassword, model, method, new object[] { }, App.filterdict });
+            JArray sqData = odooServerCall<JArray>(jsonRpcUrl, parameters);
+
+            List<SalesQuotation> result = sqData.ToObject<List<SalesQuotation>>();
+            return result;
+        }
+
+        public List<SalesOrder> odooMethodCall_getsaleorder<T>(string model, string method)
+        {
+            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { Settings.UserDbName, Settings.UserId, Settings.UserPassword, model, method, new object[] { }, App.filterdict });
+            JArray sqData = odooServerCall<JArray>(jsonRpcUrl, parameters);
+
+            List<SalesOrder> result = sqData.ToObject<List<SalesOrder>>();
+            return result;
+        }
+
+
         public T odooSearchCall<T>(string model, object[] domain, bool innerArray)
         {
-            
             
             JsonRpcRequestParameter parameters;
             if (innerArray)
@@ -751,7 +775,7 @@ namespace SalesApp.OdooRpc
 
         public JObject odooMethodCall_promotions<T>(string model, string method, int sale_id)
         {
-            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { this.Database, this.Uid, Settings.UserPassword, model, method, new object[] { sale_id } });
+            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { Settings.UserDbName, Settings.UserId, Settings.UserPassword, model, method, new object[] { sale_id } });
             JObject responseData = odooServerCall<JObject>(jsonRpcUrl, parameters);
             //List<CRMModel> result = responseData.ToObject<List<CRMModel>>();
             return responseData;

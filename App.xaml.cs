@@ -135,6 +135,12 @@ namespace SalesApp
 
         public static int createContact_Id = 0;
 
+        public static bool sq_rpc = false;
+        public static bool so_rpc = false;
+
+        public static bool so_tapped = true;
+
+
         public App()
         {
             InitializeComponent();
@@ -227,9 +233,9 @@ namespace SalesApp
 
                     try
                     {
-                       res = Controller.InstanceCreation().login(Settings.UserUrlName, Settings.UserDbName, Settings.UserName, Settings.UserPassword);
-                       App.Current.MainPage = new MasterPage(new CrmTabbedPage());
-
+                     //  res = Controller.InstanceCreation().login(Settings.UserUrlName, Settings.UserDbName, Settings.UserName, Settings.UserPassword);
+                       App.Current.MainPage = new MasterPage(new CrmTabbedPage("tab4"));
+                       App.sq_rpc = true;
                      //   PopupNavigation.PushAsync( new CalendarPopupPage());
                     }
 

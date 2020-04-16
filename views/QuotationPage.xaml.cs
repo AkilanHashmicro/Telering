@@ -30,70 +30,43 @@ namespace SalesApp.views
             MessagingCenter.Subscribe<string, string>("MyApp", "QuotListUpdated", (sender, arg) =>
             {
 
-                   // salesQuotationListView.IsRefreshing = true;
-                   //   List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
-                 //   await RefreshData();
-                    salesQuotationListView.ItemsSource = App.salesQuotList;
-
-               //   MessagingCenter.Unsubscribe<string, string>("MyApp", "QuotListUpdated");
-                  //  salesQuotationListView.IsRefreshing = false;               
-
+                //    salesQuotationListView.ItemsSource = App.salesQuotList;
             });
         }
 
 
-        private async void RefreshDataconstructor()
-        {
-            await RefreshData();
-        }
-
+      
         public  QuotationPage()
         {
             Title = "Sales Quotations";
 
             BackgroundColor = Color.White;
             InitializeComponent();
-                                   
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                //Fixes an android bug where the search bar would be hidden
-                searchBar.HeightRequest = 40.0;
-            }
+
+            //if (Device.RuntimePlatform == Device.Android)
+            //{
+            //    //Fixes an android bug where the search bar would be hidden
+            //    searchBar.HeightRequest = 40.0;
+            //}
             //  salesQuotationListView.ItemsSource = getSalesQuotationDetails();
 
-            //   List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
-
-            if (App.filterstring == "Month" && App.load_rpc == true)
+            if (App.sq_rpc)
             {
+                App.salesQuotList = Controller.InstanceCreation().GetSalesQuotations();
+                salesQuotationListView.ItemsSource = App.salesQuotList;
 
-                RefreshDataconstructor();
+                App.sq_rpc = false;
+                    
             }
 
-              //  RefreshDataconstructor();
+            else
+            {
+                salesQuotationListView.ItemsSource = App.salesQuotList;
+            }
           
 
-            if (App.NetAvailable == true)
-            {
 
-              //  salesQuotationListView.ItemsSource = App.salesQuotList;
-
-                var result1 = from y in App.SalesQuotationListDb
-                              where y.yellowimg_string == "yellowcircle.png"
-                              select y;
-
-                if (result1.Count() == 0)
-                {
-                    salesQuotationListView.ItemsSource = App.salesQuotList;
-                }
-
-                else
-                {
-                    salesQuotationListView.ItemsSource = App.SalesQuotationListDb;
-                }
-            }
-
-
-            else if(App.NetAvailable == false)
+            if(App.NetAvailable == false)
             {
                 salesQuotationListView.ItemsSource = App.SalesQuotationListDb;
             }
@@ -170,40 +143,21 @@ namespace SalesApp.views
 
         }
 
-        async Task  RefreshData()
-        {
-            List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
-        }
+   
 
         private async void RefreshRequested(object sender, object e)
         {
             salesQuotationListView.IsRefreshing = true;
-            //   await Task.Delay(200);
+        
+            App.salesQuotList = Controller.InstanceCreation().GetSalesQuotations();
+            salesQuotationListView.ItemsSource = App.salesQuotList;
+            //else if(App.NetAvailable ==false)
+            //{
+            //   // await Task.Delay(500);
+            //    salesQuotationListView.ItemsSource = App.SalesQuotationListDb;
+            //    salesQuotationListView.EndRefresh();
+            //}
 
-         //  await RefreshData();
-
-            if (App.filterstring == "Month")
-            {
-                RefreshDataconstructor();
-            }
-           
-            if(App.NetAvailable == true)
-            {
-
-             //   List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
-                salesQuotationListView.ItemsSource = App.salesQuotList;
-               // salesQuotationListView.EndRefresh(); 
-
-                salesQuotationListView.IsRefreshing = false;
-            }
-
-       
-            else if(App.NetAvailable ==false)
-            {
-               // await Task.Delay(500);
-                salesQuotationListView.ItemsSource = App.SalesQuotationListDb;
-                salesQuotationListView.EndRefresh();
-            }
             salesQuotationListView.EndRefresh();
         }
 

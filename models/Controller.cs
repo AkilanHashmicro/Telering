@@ -41,12 +41,18 @@ namespace SalesApp.models
             return st;
         }
 
+
+       
+
         public String login(String url, String database, String username, String password)
         {
             try
             {
                 odooConnector = OdooRPC.InstanceCreation(url);
                 App.userid = odooConnector.login(database, username, password);
+
+                Settings.UserUrlName = url;
+
                 //object[] domain = new object[] { "id", "=", App.userid };
                 //JArray userData = odooConnector.odooSearchReadCall<JArray>("res.users", domain, new string[] { "name", "email", "partner_id","groups_id","image_medium" }, false);
 
@@ -72,6 +78,9 @@ namespace SalesApp.models
                 {
                     return "true";
                 }
+
+
+
                
             }
             catch (Exception ea)
@@ -80,6 +89,40 @@ namespace SalesApp.models
                 return "false";
                 //System.Diagnostics.Debug.WriteLine("SYSTEMRES???????????????" + ea.Message);
             }
+        }
+
+        public JObject getuserdata(String modelname, String methodname)
+        {
+            JObject dt = odooConnector.odooMethodCall_promotions<dynamic>(modelname, methodname, Settings.UserId);
+            return dt;
+        }
+
+        public List<SalesQuotation> GetSalesQuotations()
+        {
+            odooConnector = OdooRPC.InstanceCreation(Settings.UserUrlName);
+            List<SalesQuotation> quotList = new List<SalesQuotation>();
+
+            App.filterdict["range"] = false;
+            App.filterdict["days"] = false;
+            App.filterdict["month"] = true;
+            App.filterdict["sale_order"] = false;
+            quotList = odooConnector.odooMethodCall_getsalequotations<JArray>("sale.order", "get_sales_data");
+          //  tarList = result.ToObject<List<SalesQuotation>>();
+            return quotList;
+        }
+
+        public List<SalesOrder> GetSalesQrder()
+        {
+            odooConnector = OdooRPC.InstanceCreation(Settings.UserUrlName);
+            List<SalesOrder> quotList = new List<SalesOrder>();
+
+            App.filterdict["range"] = false;
+            App.filterdict["days"] = false;
+            App.filterdict["month"] = true;
+            App.filterdict["sale_order"] = true;
+            quotList = odooConnector.odooMethodCall_getsaleorder<JArray>("sale.order", "get_sales_data");
+            //  tarList = result.ToObject<List<SalesQuotation>>();
+            return quotList;
         }
 
 

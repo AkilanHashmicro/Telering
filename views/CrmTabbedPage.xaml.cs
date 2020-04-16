@@ -49,6 +49,8 @@ namespace SalesApp.views
             //salesOrderPage.Title = "Sales Order";
             Children.Add(salesOrderPage);
 
+            this.CurrentPageChanged += CurrentPageHasChanged;
+
             //App._connection = DependencyService.Get<ISQLiteDb>().GetConnection();
             //App._connection.CreateTable<SalesOrderDB>();
 
@@ -78,17 +80,18 @@ namespace SalesApp.views
 
             var quotationPage = new NavigationPage(new QuotationPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
             quotationPage.Icon = "quotations.png";
+
             Children.Add(quotationPage);
 
             var salesOrderPage = new NavigationPage(new SalesOrderPage()) { BarBackgroundColor = Color.FromHex("#363E4B") };
             salesOrderPage.Icon = "salesorder.png";
-            //salesOrderPage.Title = "Sales Order";
+          //  salesOrderPage.Title = "Sales Order";
             Children.Add(salesOrderPage);
 
             //App._connection = DependencyService.Get<ISQLiteDb>().GetConnection();
             //App._connection.CreateTable<SalesOrderDB>();
 
-
+            this.CurrentPageChanged += CurrentPageHasChanged;
 
             var tabPage = this as TabbedPage;
 
@@ -116,6 +119,21 @@ namespace SalesApp.views
             else if (tabs == "tab5")
             {
                 tabPage.CurrentPage = tabPage.Children[1];
+            }
+
+
+        }
+       
+
+        protected void CurrentPageHasChanged(object sender, EventArgs e)
+        {
+
+            // ImageSource icon = CurrentPage.IconImageSource;
+            string icon_name = CurrentPage.Icon;
+
+            if(icon_name == "salesorder.png")
+            {
+                MessagingCenter.Send<string, string>("MyApp", "so_swipped", "true");
             }
 
 

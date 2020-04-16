@@ -12,6 +12,7 @@ using Rg.Plugins.Popup.Services;
 using SalesApp.Pages;
 using static SalesApp.models.CRMModel;
 using Syncfusion.SfBusyIndicator.XForms;
+using Newtonsoft.Json.Linq;
 
 namespace SalesApp.views
 {
@@ -200,8 +201,10 @@ namespace SalesApp.views
             try
             {
                 
-                var currentpage = new LoadingAlert();
-                await PopupNavigation.PushAsync(currentpage);
+                //var currentpage = new LoadingAlert();
+                //await PopupNavigation.PushAsync(currentpage);
+
+                act_ind.IsRunning = true;
 
                 Settings.UserName = loginEntry.Text;
                 Settings.UserPassword = passwordEntry.Text;
@@ -231,7 +234,7 @@ namespace SalesApp.views
                     loginfailedAlert.Text = "Invalid Username or Password.";
                     loginfailedAlert.IsVisible = true;
 
-                    Loadingalertcall();
+                    act_ind.IsRunning = false;
                 }
 
                 else
@@ -239,7 +242,10 @@ namespace SalesApp.views
                    // loginfailedAlert.Text = "Invalid Username or Password.";
                     loginfailedAlert.IsVisible = false;
 
-                    Page pageRef = new CrmTabbedPage();
+                  JObject obj =   controllerObj.getuserdata("res.users","get_user_data");
+
+                    App.sq_rpc = true;
+                    Page pageRef = new CrmTabbedPage("tab4");
                     App.Current.MainPage = new MasterPage(pageRef);
 
                     //await Task.Run(() =>
@@ -258,8 +264,9 @@ namespace SalesApp.views
                     //    });
                     //});
 
-                   Loadingalertcall();
+                 //  Loadingalertcall();
                      
+                    act_ind.IsRunning = false;
                    
                 }
 
@@ -270,8 +277,8 @@ namespace SalesApp.views
 
                 loginfailedAlert.Text = "Invalid Username or Password.";
                 loginfailedAlert.IsVisible = true;
-
-                Loadingalertcall();
+                act_ind.IsRunning = false;
+              //  Loadingalertcall();
             }
 
 
