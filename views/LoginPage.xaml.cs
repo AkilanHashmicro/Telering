@@ -13,6 +13,7 @@ using SalesApp.Pages;
 using static SalesApp.models.CRMModel;
 using Syncfusion.SfBusyIndicator.XForms;
 using Newtonsoft.Json.Linq;
+using SalesApp.DBModel;
 
 namespace SalesApp.views
 {
@@ -20,6 +21,31 @@ namespace SalesApp.views
     public partial class LoginPage : ContentPage
     {
         private Controller controllerObj = Controller.InstanceCreation();
+
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            MessagingCenter.Subscribe<string, string>("MyApp", "Login", async (sender, arg) =>
+            {
+                await Task.Run(() =>
+                {
+                    var user_details = (from y in App._connection.Table<UserModelDB>() select y).ToList();
+                    if (App.cusList.Count == 0 && user_details.Count == 0 && Settings.UserId != 0)
+                    {                        
+                        JObject sales_persons = Controller.InstanceCreation().GetSalespersonsList();
+                        App.cusList = Controller.InstanceCreation().GetCustomersList();
+                        App.salespersons = sales_persons.ToObject<Dictionary<int, string>>();
+                        App.journalList = Controller.InstanceCreation().GetjournalList();
+                        App.taxList = Controller.InstanceCreation().GettaxList();
+                        App.warehousList = Controller.InstanceCreation().GetwarehouseList();
+                        App.productList = Controller.InstanceCreation().GetProductssList();
+                        MessagingCenter.Send<string, string>("MyApp", "FieldsListUpdated", "true");
+
+                    }
+                });
+            });
+        }
 
         public LoginPage()
         {
@@ -195,40 +221,31 @@ namespace SalesApp.views
             await PopupNavigation.PopAllAsync();
         }
 
+
+ 
+
         public async void SignInActionAsync(object sender, EventArgs ea)
         {
          
             try
             {
                 
-                //var currentpage = new LoadingAlert();
-                //await PopupNavigation.PushAsync(currentpage);
 
                 act_ind.IsRunning = true;
 
                 Settings.UserName = loginEntry.Text;
                 Settings.UserPassword = passwordEntry.Text;
 
-            // Settings.UserUrlName = "http://laborindo.equip-sapphire.com";
-
-             //   Settings.UserUrlName = "https://laborindo.hashmicro.com";
-              //  dbPicker.SelectedItem = "laborindo";
-               // dbPicker.SelectedItem = "test22";
+           
                 Settings.UserUrlName = "https://telering.hashmicro.com";
                 dbPicker.SelectedItem = "apk15";
 
-                  //Settings.UserUrlName = "http://beta-dev1.hashmicro.com";
-                  //dbPicker.SelectedItem = "MBTurssco";
 
                 Settings.UserDbName = dbPicker.SelectedItem.ToString();
 
+             String res =  await Task.Run(() => controllerObj.login(Settings.UserUrlName, Settings.UserDbName, Settings.UserName, Settings.UserPassword));
 
-                //controllerObj.login("http://salesapp.hashmicro.com", "salesapp", "admin", "admin");
-
-            String res =    await Task.Run(() => controllerObj.login(Settings.UserUrlName, Settings.UserDbName, Settings.UserName, Settings.UserPassword));
-
-                //    await Task.Run(() => controllerObj.login("http://beta-dev2.hashmicro.com", "PNM", "admin", "admin"));
-
+    
                 if (res == "false")
                 {
                     loginfailedAlert.Text = "Invalid Username or Password.";
@@ -239,33 +256,22 @@ namespace SalesApp.views
 
                 else
                 {
-                   // loginfailedAlert.Text = "Invalid Username or Password.";
+            
                     loginfailedAlert.IsVisible = false;
-
-                  JObject obj =   controllerObj.getuserdata("res.users","get_user_data");
+                                      
+                 MessagingCenter.Send<string, string>("MyApp", "Login", "true");
+                    JObject obj = controllerObj.getuserdata("res.users", "get_user_data");
+     
+                    App.partner_id = obj["partner_id"].ToObject<int>();
+                    App.partner_name = obj["user_name"].ToObject<string>();
+                    App.partner_image    = obj["image_medium"].ToObject<string>();
+                    App.partner_email = obj["user_email"].ToObject<string>();
 
                     App.sq_rpc = true;
                     Page pageRef = new CrmTabbedPage("tab4");
                     App.Current.MainPage = new MasterPage(pageRef);
 
-                    //await Task.Run(() =>
-                    //{
-
-                    //    Device.BeginInvokeOnMainThread(() =>
-                    //    {
-
-                    //        indi.IsVisible = true;
-                    //        indi.IsRunning = true;
-                           
-                    //        Page pageRef = new CrmTabbedPage();
-                    //        App.Current.MainPage = new MasterPage(pageRef);
-                    //        indi.IsVisible = false;
-                    //        indi.IsRunning = false;
-                    //    });
-                    //});
-
-                 //  Loadingalertcall();
-                     
+  
                     act_ind.IsRunning = false;
                    
                 }

@@ -42,7 +42,7 @@ namespace SalesApp.models
         }
 
 
-       
+
 
         public String login(String url, String database, String username, String password)
         {
@@ -81,11 +81,11 @@ namespace SalesApp.models
 
 
 
-               
+
             }
             catch (Exception ea)
             {
-              //  return "server";   
+                //  return "server";   
                 return "false";
                 //System.Diagnostics.Debug.WriteLine("SYSTEMRES???????????????" + ea.Message);
             }
@@ -107,13 +107,13 @@ namespace SalesApp.models
             App.filterdict["month"] = true;
             App.filterdict["sale_order"] = false;
             quotList = odooConnector.odooMethodCall_getsalequotations<JArray>("sale.order", "get_sales_data");
-          //  tarList = result.ToObject<List<SalesQuotation>>();
+            //  tarList = result.ToObject<List<SalesQuotation>>();
             return quotList;
         }
 
         public List<SalesOrder> GetSalesQrder()
         {
-            odooConnector = OdooRPC.InstanceCreation(Settings.UserUrlName);
+           
             List<SalesOrder> quotList = new List<SalesOrder>();
 
             App.filterdict["range"] = false;
@@ -123,6 +123,57 @@ namespace SalesApp.models
             quotList = odooConnector.odooMethodCall_getsaleorder<JArray>("sale.order", "get_sales_data");
             //  tarList = result.ToObject<List<SalesQuotation>>();
             return quotList;
+        }
+
+        public List<Customers> GetCustomersList()
+        {
+           
+            List<Customers> cusList = new List<Customers>();
+            JArray result = odooConnector.odooMethodCall_getcommonfields("res.partner", "get_partner_data");
+            cusList = result.ToObject<List<Customers>>();
+            return cusList;
+        }
+
+        public List<ProductsList> GetProductssList()
+        {
+           
+            List<ProductsList> proList = new List<ProductsList>();
+            JArray result = odooConnector.odooMethodCall_getcommonfields("product.product", "get_product_data");
+            proList = result.ToObject<List<ProductsList>>();
+            return proList;
+        }
+
+
+        public List<account_journal> GetjournalList()
+        {
+            List<account_journal> proList = new List<account_journal>();
+            JArray result = odooConnector.odooMethodCall_getcommonfields("account.journal", "get_account_journal_data");
+            proList = result.ToObject<List<account_journal>>();
+            return proList;
+        }
+
+        public List<taxes> GettaxList()
+        {           
+            List<taxes> proList = new List<taxes>();
+            JArray result = odooConnector.odooMethodCall_getcommonfields("account.tax", "get_account_tax_data");
+            proList = result.ToObject<List<taxes>>();
+            return proList;
+        }
+
+        public List<warehouse> GetwarehouseList()
+        {
+            List<warehouse> proList = new List<warehouse>();
+            JArray result = odooConnector.odooMethodCall_getcommonfields("stock.warehouse", "get_warehouse_data");
+            proList = result.ToObject<List<warehouse>>();
+            return proList;
+        }
+
+
+
+        public JObject GetSalespersonsList()
+        {
+            JObject dt = odooConnector.odooCustomerDataCall<dynamic>("res.users", "get_salesperson_data");
+            return dt;
         }
 
 
@@ -768,7 +819,7 @@ namespace SalesApp.models
         {
             List<CustomersModel> data = new List<CustomersModel>();
 
-            JArray dt = odooConnector.odooCustomerDataCall<dynamic>("res.partner", "get_customer_list");
+            JArray dt = odooConnector.odooCustomerDataCall<JArray>("res.partner", "get_partner_data");
             data = dt.ToObject<List<CustomersModel>>();
             return data;
 

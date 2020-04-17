@@ -34,11 +34,10 @@ namespace SalesApp.DBModel
         public string user_email { get; set; }
         public string tagsPicker { get; set; }
         public string next_activity { get; set; }
-
         public string tax_list { get; set; }
-
+        public string journal_list { get; set; }
+        public string warehouse_list { get; set; }
         public string payment_terms { get; set; }
-
         public string commission_group { get; set; }
 
     }

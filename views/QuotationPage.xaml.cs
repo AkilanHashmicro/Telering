@@ -15,6 +15,7 @@ using SalesApp.DBModel;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
+using SalesApp.Persistance;
 
 namespace SalesApp.views
 {
@@ -27,10 +28,57 @@ namespace SalesApp.views
         {
             base.OnAppearing();
            
-            MessagingCenter.Subscribe<string, string>("MyApp", "QuotListUpdated", (sender, arg) =>
+            MessagingCenter.Subscribe<string, string>("MyApp", "FieldsListUpdated", (sender, arg) =>
             {
+                App._connection = DependencyService.Get<ISQLiteDb>().GetConnection();
+                App._connection.CreateTable<UserModelDB>();
 
-                //    salesQuotationListView.ItemsSource = App.salesQuotList;
+                if (App.UserListDb.Count == 0)
+                {
+                    var json_salespersons = Newtonsoft.Json.JsonConvert.SerializeObject(App.salespersons);
+                    var json_customers_list = Newtonsoft.Json.JsonConvert.SerializeObject(App.cusList);
+                    var jso_products_list = Newtonsoft.Json.JsonConvert.SerializeObject(App.productList);
+                    var jso_warehoue_list = Newtonsoft.Json.JsonConvert.SerializeObject(App.warehousList);
+                    var jso_journal_list = Newtonsoft.Json.JsonConvert.SerializeObject(App.journalList);
+                    var jso_tax_list = Newtonsoft.Json.JsonConvert.SerializeObject(App.taxList);
+
+                    var sample = new UserModelDB
+                    {
+                        userid = App.userid,
+                        partnerid = App.partner_id,
+                        user_image_medium = App.partner_image,
+                        user_email = App.partner_email,
+                        user_name = App.partner_name,
+                        sales_persons = json_salespersons,
+                        customers_list = json_customers_list,
+                        products = jso_products_list,
+                        warehouse_list = jso_warehoue_list,
+                        journal_list = jso_journal_list,
+                        tax_list = jso_tax_list
+                    };
+                    App._connection.Insert(sample);
+                }
+
+            });
+
+            MessagingCenter.Subscribe<string, string>("MyApp", "Login", async(sender, arg) =>
+            {
+                await Task.Run(() =>
+               {
+                   var user_details = (from y in App._connection.Table<UserModelDB>() select y).ToList();
+                   if (App.cusList.Count == 0 && user_details.Count == 0 && Settings.UserId != 0)
+                   {
+                       App.cusList = Controller.InstanceCreation().GetCustomersList();
+                       JObject sales_persons = Controller.InstanceCreation().GetSalespersonsList();
+                       App.salespersons = sales_persons.ToObject<Dictionary<int, string>>();
+                       App.journalList = Controller.InstanceCreation().GetjournalList();
+                       App.taxList = Controller.InstanceCreation().GettaxList();
+                       App.warehousList = Controller.InstanceCreation().GetwarehouseList();
+                       App.productList = Controller.InstanceCreation().GetProductssList();
+                       MessagingCenter.Send<string, string>("MyApp", "FieldsListUpdated", "true");
+
+                   }
+               });
             });
         }
 
@@ -52,6 +100,8 @@ namespace SalesApp.views
 
             if (App.sq_rpc)
             {
+
+
                 App.salesQuotList = Controller.InstanceCreation().GetSalesQuotations();
                 salesQuotationListView.ItemsSource = App.salesQuotList;
 
@@ -65,7 +115,6 @@ namespace SalesApp.views
             }
           
 
-
             if(App.NetAvailable == false)
             {
                 salesQuotationListView.ItemsSource = App.SalesQuotationListDb;
@@ -73,14 +122,16 @@ namespace SalesApp.views
 
 
             var plusRecognizer = new TapGestureRecognizer();
-            plusRecognizer.Tapped += (s, e) => {
-                                            
-                Navigation.PushPopupAsync(new SalesQuotationCreationPage());
+            plusRecognizer.Tapped += async (s, e) => {
 
-                  
+                act_ind.IsRunning = true;
+
+                await Task.Run(() =>  Navigation.PushPopupAsync(new SalesQuotationCreationPage()));
+
+                act_ind.IsRunning = false;
+                                  
             };
             plus.GestureRecognizers.Add(plusRecognizer);
-
 
             salesQuotationListView.Refreshing += this.RefreshRequested;
         }

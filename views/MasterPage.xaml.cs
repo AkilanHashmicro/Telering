@@ -13,7 +13,7 @@ using Xamarin.Forms.Xaml;
 using Acr.UserDialogs;
 using SalesApp.Pages;
 using Rg.Plugins.Popup.Services;
-
+using SalesApp.DBModel;
 
 namespace SalesApp.views
 {
@@ -123,8 +123,7 @@ namespace SalesApp.views
         }
 
         private async void OnMenuItemTappedAsync(object sender, ItemTappedEventArgs ea)
-        {
-          
+        {          
             try
             {
 
@@ -149,6 +148,11 @@ namespace SalesApp.views
                         Settings.UserPassword = "";
                         Settings.PrefKeyUserDetails = "";
                         App.userid = 0;
+                        Settings.UserId = 0;
+                        App.cusList.Clear();
+                        App.so_tapped = true;
+                        App._connection.CreateTable<UserModelDB>();
+                        App._connection.Query<UserModelDB>("DELETE from UserModelDB");
                         App.Current.MainPage = new NavigationPage(new LoginPage());
                     }
                     else
@@ -161,28 +165,15 @@ namespace SalesApp.views
                 {
                     Type page = masterItemObj.TargetType;
 
-                  //  masterItemObj.Icon = "crmcolor.png";
+                    act_ind.IsRunning = true;
 
-                    var currentpage = new LoadingAlert();
-                    await PopupNavigation.PushAsync(currentpage);
-
-                    Detail = new NavigationPage((Page)Activator.CreateInstance(page)) { BarBackgroundColor = Color.FromHex("#363E4B") };
+                    await Task.Run(() =>   Detail = new NavigationPage((Page)Activator.CreateInstance(page)) { BarBackgroundColor = Color.FromHex("#363E4B") });
 
                     IsPresented = false;
 
-
-                    //await Task.Run(() =>
-                    //{
-                    //    Device.BeginInvokeOnMainThread(() =>
-                    //    {
-                    //        Detail = new NavigationPage((Page)Activator.CreateInstance(page)) ;  
-                    //        //{ BarBackgroundColor = Color.FromHex("#414141") }
-                    //        IsPresented = false;
-
-                    //    });
-                    //});
-
-                    Loadingalertcall();
+                    act_ind.IsRunning = false;
+     
+                   // Loadingalertcall();
                 }
             }
 
@@ -193,7 +184,6 @@ namespace SalesApp.views
                     await DisplayAlert("Alert", "Need Internet Connection", "Ok");
                     Loadingalertcall();
                 }
-
             }
 
         }

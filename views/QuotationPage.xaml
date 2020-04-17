@@ -7,10 +7,15 @@
         <ToolbarItem Icon="search.png" Activated="Toolbar_Search_Activated"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        
-            <RelativeLayout>
+
+    <RelativeLayout>
                 <ContentView RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"  
              RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
+        
+       <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+             <StackLayout  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+        
+            
                     <BoxView Color="Transparent" HeightRequest="5"/>
 
                     <StackLayout>
@@ -70,7 +75,18 @@
                 </ListView>
                         </StackLayout>
 
-                </ContentView>
+              
+
+                         </StackLayout>
+
+      <StackLayout IsVisible="true" Padding="12"
+                 AbsoluteLayout.LayoutFlags="PositionProportional"
+                 AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1">
+       <ActivityIndicator  x:Name="act_ind"  IsRunning="false" Color ="Red"/>
+     </StackLayout>
+    </AbsoluteLayout>
+
+                  </ContentView>
                 <Image Source="fab.png" x:Name="plus" WidthRequest="50" HeightRequest="60" 
                 RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-55}"  
                 RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-65}" />

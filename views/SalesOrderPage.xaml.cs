@@ -38,7 +38,6 @@ namespace SalesApp.views
             {
                 if(App.so_tapped)
                 {
-
                     act_ind.IsRunning = true;
                            
                     await Task.Run(() =>  App.salesOrderList = Controller.InstanceCreation().GetSalesQrder());
@@ -47,7 +46,6 @@ namespace SalesApp.views
 
                     act_ind.IsRunning = false;
                 }
-
                 else
                 {
                     salesOrderListView.ItemsSource = App.salesOrderList;

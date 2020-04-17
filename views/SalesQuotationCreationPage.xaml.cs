@@ -36,14 +36,11 @@ namespace SalesApp.views
 
         Dictionary<int, string> cus_selectdict = new Dictionary<int, string>();
 
-        void Handle_Focused(object sender, Xamarin.Forms.FocusEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        //void Handle_Focused(object sender, Xamarin.Forms.FocusEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-      
-
-       
 
         //void multidiscount_TextChanged(object sender, TextChangedEventArgs e)
         //{
@@ -134,9 +131,6 @@ namespace SalesApp.views
 
      //   Dictionary<int, object> salesteamdict = new Dictionary<int, object>(
 
-
-
-
         //void podateentry_focused(object sender, FocusEventArgs e)
         //{
         //    podate_entry_stack.IsVisible = false;
@@ -186,10 +180,12 @@ namespace SalesApp.views
 
                 //cuspicker1.ItemsSource = App.cusdict.Select(x => x.Value).ToList();
                 //cuspicker1.SelectedIndex = 0;
-                var first = App.cusdict.First();
-                searchcus.Text = first.Value;
 
-                var customer_id = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
+                //var first = App.cusdict.First();
+
+                searchcus.Text = App.cusList[0].name;
+
+                var customer_id = App.cusList.FirstOrDefault(x => x.name == searchcus.Text.ToString()).id;
 
                 //var currentpage = new LoadingAlert();
                 //PopupNavigation.PushAsync(currentpage);
