@@ -8,6 +8,10 @@
     <ContentPage.Content>
         <ScrollView x:Name="scroll" Padding="0,50,0,0" >
 
+            <AbsoluteLayout>
+
+          <!--  <StackLayout  AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+-->
 
                <Grid Padding="10" BackgroundColor="#363E4B" >
 
@@ -616,9 +620,9 @@
                                 
                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width=".50*"/>
-                                        <ColumnDefinition Width=".25*"/>
                                         <ColumnDefinition Width=".10*"/>
                                         <ColumnDefinition Width=".15*"/>
+                                        <ColumnDefinition Width=".25*"/>
                                         <!--<ColumnDefinition Width=".15*"/>-->
                                     </Grid.ColumnDefinitions>
                             
@@ -626,14 +630,14 @@
                     <Label Grid.Row="0" Grid.Column="0" Text="Product" Margin="5,0,0,0"  TextColor="White" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
                     <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="0"  HorizontalOptions="End" BackgroundColor="White"/>
 
-                    <Label Grid.Row="0" Grid.Column="1" Text="Price Subtotal" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
-                    <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="1"  HorizontalOptions="End" BackgroundColor="White"/>
+                    <Label Grid.Row="0" Grid.Column="3" Text="Subtotal" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
+                    <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="3"  HorizontalOptions="End" BackgroundColor="White"/>
                    
-                    <Label Grid.Row="0" Grid.Column="2" Text="Qty" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-                    <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="2"  HorizontalOptions="End" BackgroundColor="White"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="Qty" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                    <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="1"  HorizontalOptions="End" BackgroundColor="White"/>
 
-                     <Label Grid.Row="0" Grid.Column="3" Text="Tax" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-                   <!-- <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="3"  HorizontalOptions="End" BackgroundColor="White"/>-->
+                     <Label Grid.Row="0" Grid.Column="2" Text="Tax" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                   <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="2"  HorizontalOptions="End" BackgroundColor="White"/>
 
              <!--       <Label Grid.Row="0" Grid.Column="4" Text="Dis %" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
                     <BoxView WidthRequest="1" Grid.Row="0" Grid.Column="4"  HorizontalOptions="End" BackgroundColor="White"/>
@@ -652,16 +656,16 @@
                                                 
                                        <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width=".50*"/>
-                                        <ColumnDefinition Width=".25*"/>
                                         <ColumnDefinition Width=".10*"/>
                                         <ColumnDefinition Width=".15*"/>
+                                        <ColumnDefinition Width=".25*"/>
                                        <!-- <ColumnDefinition Width=".15*"/>-->
                                     </Grid.ColumnDefinitions>
                                                                                 
                                         <Label x:Name="pro" Grid.Column="0"  Text="{Binding product}" TextColor="Black" Margin="2,0,0,5" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>                                                                              
-                                            <Label  x:Name="unprice" Grid.Column="1" Text="{Binding unit_price}" TextColor="Black" Margin="2,0" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"/>                                                                                    
-                                            <Label  Grid.Column="2"  Text="{Binding ordered_qty}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>
-                                                <Label  Grid.Column="3"  Text="{Binding taxstring}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>
+                                            <Label  x:Name="unprice" Grid.Column="3" Text="{Binding subtotal}" TextColor="Black" Margin="2,0" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand" VerticalTextAlignment="Center"/>                                                                                    
+                                            <Label  Grid.Column="1"  Text="{Binding ordered_qty}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>
+                                                <Label  Grid.Column="2"  Text="{Binding taxstring}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>
                                               <!--  <Label  Grid.Column="4"  Text="{Binding discount}" Margin="2,0" TextColor="Black" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand"  VerticalTextAlignment="Center"/>-->
                      
                                          </Grid>
@@ -1015,6 +1019,15 @@
                 </Frame>
 
             </Grid>
+
+                   <!--  </StackLayout>-->
+
+      <StackLayout IsVisible="true" Padding="12"
+                 AbsoluteLayout.LayoutBounds=".5,420,1,50" AbsoluteLayout.LayoutFlags="XProportional,WidthProportional">
+       <ActivityIndicator  x:Name="act_ind"   IsRunning="false" Color ="Red"/>
+     </StackLayout>                
+    </AbsoluteLayout>
+            
         </ScrollView>
     </ContentPage.Content>
 </pages:PopupPage>

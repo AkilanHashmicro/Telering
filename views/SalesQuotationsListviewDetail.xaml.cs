@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.FilePicker;
@@ -349,10 +350,10 @@ namespace SalesApp.views
      //newly added ends here
 
                       //  var cusid = App.cusdict.FirstOrDefault(x => x.Value == cuspicker1.SelectedItem.ToString()).Key;
-                        var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
-                        JObject con_dict = App.cus_address.FirstOrDefault(x => x.Key == cusid.ToString()).Value;
+                        var cusid = App.cusList.FirstOrDefault(x => x.name == searchcus.Text.ToString()).id;
+                        //JObject con_dict = App.cus_address.FirstOrDefault(x => x.Key == cusid.ToString()).Value;
 
-                        cus_selectdict = con_dict.ToObject<Dictionary<int, string>>();
+                        //cus_selectdict = con_dict.ToObject<Dictionary<int, string>>();
 
                         //pricelist_Picker.ItemsSource = App.product_PriceList.Select(x => x.name).ToList();
                         //pricelist_Picker.SelectedItem = item.pricelist;
@@ -549,7 +550,7 @@ namespace SalesApp.views
 
 
                     string order_date = od_Picker.Date.ToString("yyyy-MM-dd");
-                    var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
+                    var cusid = App.cusList.FirstOrDefault(x => x.name == searchcus.Text.ToString()).id;
 
                     string pricelist = Controller.InstanceCreation().getpricelistData("product.product", "get_pricelist_price", product_id, cusid, price_list_id, Convert.ToDouble(oqty.Text), order_date);
 
@@ -607,7 +608,7 @@ namespace SalesApp.views
                     }
                 }
 
-                var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text).Key;
+                var cusid = App.cusList.FirstOrDefault(x => x.name == searchcus.Text).id;
 
                 JObject obj = Controller.InstanceCreation().GetCustomerUnitPriceData(cusid);
 
@@ -2010,7 +2011,7 @@ namespace SalesApp.views
 
                     vals["user_id"] = App.userid;
 
-                    var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
+                    var cusid = App.cusList.FirstOrDefault(x => x.name == searchcus.Text.ToString()).id;
                     vals["customer"] = cusid;
 
                   //  vals["delivery_deadline"] = deldead_string;
@@ -2191,24 +2192,27 @@ namespace SalesApp.views
                     await DisplayAlert("Alert-2", "Test No 2.", "Ok");
                 }
 
-                var currentpage = new LoadingAlert();
-                await PopupNavigation.PushAsync(currentpage);
+                //var currentpage = new LoadingAlert();
+                //await PopupNavigation.PushAsync(currentpage);
+                act_ind.IsRunning = true;
 
                 try
                 {
 
-                    bool updated = Controller.InstanceCreation().UpdateSaleOrder("sale.order", "update_sale_quotation", saleoder_id, vals);
+                    bool updated =   await Task.Run(() =>  Controller.InstanceCreation().UpdateSaleOrder("sale.order", "update_sale_quotation", saleoder_id, vals));
 
                     if (updated == true)
                     {
                         App.Current.MainPage = new MasterPage(new CrmTabbedPage("tab4"));
+                        act_ind.IsRunning = false;
                         await Navigation.PopAllPopupAsync();
                     }
 
                     else
                     {
                         await DisplayAlert("Alert", "Please try again", "Ok");
-                        await Navigation.PopAllPopupAsync();
+                       
+                       // await Navigation.PopAllPopupAsync();
 
                     }
                 }
@@ -2216,7 +2220,8 @@ namespace SalesApp.views
                 catch
                 {
                     await DisplayAlert("Alert-3", "Test No 3.", "Ok");
-                    await Navigation.PopAllPopupAsync();
+                    act_ind.IsRunning = false;
+                  //  await Navigation.PopAllPopupAsync();
                 }
                
 
@@ -2225,7 +2230,8 @@ namespace SalesApp.views
             else
             {
                 await DisplayAlert("Alert", "Need Internet Connection", "Ok");
-                await Navigation.PopAllPopupAsync();
+                act_ind.IsRunning = false;
+              //  await Navigation.PopAllPopupAsync();
               //  await Navigation.PopAllPopupAsync();
             }
         }

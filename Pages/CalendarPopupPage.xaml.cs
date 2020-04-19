@@ -71,9 +71,9 @@ namespace SalesApp.Pages
             st_date.Date = caldate;
 
             atnIdsList.Add(App.partner_id);
-
-            var keyValuePair = App.cusdict.Single(x => x.Key == App.partner_id);
-            string value = keyValuePair.Value;
+           
+            string value = App.cusList.FirstOrDefault(x => x.id == App.partner_id).name;
+          //  string value = keyValuePair.Value;
             attList.Add(new AttendeesList(value));
             attnListView.ItemsSource = attList;
 
@@ -341,68 +341,7 @@ namespace SalesApp.Pages
 
 
 
-               
 
-
-                // DateTime startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "M/d/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-
-             //  startdateTime = DateTime.ParseExact("24/01/2019 00:00:00", "dd/MM/yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-
-                //try
-                //{
-                //    startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-                //}
-
-                //catch (Exception exe)
-                //{
-                //    try
-                //    {
-                //        startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "MM/dd/yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-                //    }
-
-                //    catch (Exception ea)
-                //    {
-                //        try
-                //        {
-                //            startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                //        }
-                //        catch (Exception ea1)
-                //        {
-
-                //            try
-                //            {
-                //                startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                //            }
-                //            catch
-                //            {
-
-                //                try
-                //                {
-                //                    startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "dd/MM/yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-                //                }
-                //                catch
-                //                {
-                //                    try
-                //                    {
-                //                        startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                //                    }
-                //                    catch
-                //                    {
-
-                //                        try
-                //                        {
-                //                            startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                //                        }
-                //                        catch
-                //                        {
-                //                            startdateTime = DateTime.ParseExact(st_date.Date.ToString(), "M/d/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                //                        }
-                //                    }
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
 
                 String convertstartdate = st_date.Date.ToString("yyyy-MM-dd");
 
@@ -422,86 +361,6 @@ namespace SalesApp.Pages
             //    convertstarttime = startDate.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");
 
                 convertstarttime = startDate.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");
-
-
-                //try
-                //{
-                //    stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "dd-MM-yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-                //}
-
-                //catch (Exception exc)
-                //{
-                //    try
-                //    {
-                //        stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "MM/dd/yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-
-                //    }
-                //    catch (Exception a)
-                //    {
-
-                //        try
-                //        {
-                //            stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                //        }
-
-                //        catch
-                //        {
-
-                //            try
-                //            {
-                //                stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "dd-MM-yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                //            }
-                //            catch
-                //            {
-
-                //                try
-                //                {
-                //                    stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "dd/MM/yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-                //                }
-
-                //                catch
-                //                {                                 
-                //                        try
-                //                        {
-                //                            stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                //                        }
-
-                //                    catch
-                //                    {
-                //                        try
-                //                        {
-                //                            stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                //                        }
-                //                        catch
-                //                        {
-                //                            try
-                //                            {
-                //                                stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "dd/MM/yyyy HH:mm:ss tt", CultureInfo.InvariantCulture);
-                //                            }
-
-                //                            catch
-                //                            {
-                //                                try
-                //                                {
-                //                                    stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "M/d/yyyy hh:mm:ss", CultureInfo.InvariantCulture);
-                //                                }
-                //                                catch
-                //                                {
-                //                                    stopdateTime = DateTime.ParseExact(stop_date.Date.ToString(), "M/d/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                //                                }
-                //                            }
-
-
-                //                        }
-
-                //                    }
-                //                }
-
-
-                //            }
-                //        }
-                //    }
-                //}
 
 
 
@@ -599,20 +458,27 @@ namespace SalesApp.Pages
 
                 else
                 {
-                    var updated = Controller.InstanceCreation().UpdateCRMOpporData("calendar.event", "create_calendar_event_app", vals);
+
+                    act_ind.IsRunning = true;
+
+                    var updated = await Task.Run(() =>  Controller.InstanceCreation().UpdateCRMOpporData("calendar.event", "create_calendar_event_app", vals));
                     if (updated == "true")
                     {
                         date_alert.IsVisible = false;
-                        var currentpage = new LoadingAlert();
-                        await PopupNavigation.PushAsync(currentpage);
+                        //var currentpage = new LoadingAlert();
+                        //await PopupNavigation.PushAsync(currentpage);
+
                         App.Current.MainPage = new MasterPage(new CalendarPage());
                         await  DisplayAlert("Alert", "Created Successfull", "Ok");
+
+                        act_ind.IsRunning = false;
                         Loadingalertcall();
                         //   Navigation.PopAllPopupAsync();
                     }
                     else
                     {
                         await DisplayAlert("Alert", "Please try again", "Ok");
+                        act_ind.IsRunning = false;
                     }
                 }
             }

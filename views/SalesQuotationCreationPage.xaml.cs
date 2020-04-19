@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.FilePicker;
@@ -615,7 +616,7 @@ namespace SalesApp.views
 
           
                     string order_date = orDatePicker.Date.ToString("yyyy-MM-dd");
-                    var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
+                    var cusid = App.cusList.FirstOrDefault(x => x.name == searchcus.Text.ToString()).id;
 
                     string pricelist = Controller.InstanceCreation().getpricelistData("product.product", "get_pricelist_price", product_id, cus_id, price_list_id, Convert.ToDouble(oqty.Text), order_date);
 
@@ -773,8 +774,8 @@ namespace SalesApp.views
 
         private async void Button_Create_ClickedAsync(object sender, EventArgs e)
         {
-            var currentpage = new LoadingAlert();
-            await PopupNavigation.PushAsync(currentpage);
+            //var currentpage = new LoadingAlert();
+            //await PopupNavigation.PushAsync(currentpage);
 
             int selectpaytermid = 0;
             int selectcomgroupid = 0;
@@ -1017,7 +1018,7 @@ namespace SalesApp.views
                 //}
 
 
-                vals["user_id"] = App.userid;
+                vals["user_id"] = Settings.UserId;
 
                 vals["pricelist_id"] = price_list_id;
             //    vals["delivery_deadline"] = deldead_string;
@@ -1060,7 +1061,7 @@ namespace SalesApp.views
 
              //   vals["special_notes"] = comments.Text;
 
-                var cusid = App.cusdict.FirstOrDefault(x => x.Value == searchcus.Text.ToString()).Key;
+                var cusid = App.cusList.FirstOrDefault(x => x.name == searchcus.Text.ToString()).id;
                 vals["customer"] = cusid;
 
                 vals["pricelist_id"] = price_list_id;
@@ -1252,8 +1253,10 @@ namespace SalesApp.views
 
                 if (App.NetAvailable == true)
                 {
+                    act_ind.IsRunning = true;
 
-                    string updated = Controller.InstanceCreation().UpdateCRMOpporData("sale.crm", "create_sale_quotation", vals);
+           
+                    string updated = await Task.Run(() => Controller.InstanceCreation().UpdateCRMOpporData("sale.crm", "create_sale_quotation", vals));
 
                     if (updated == "true")
                     {
@@ -1263,7 +1266,10 @@ namespace SalesApp.views
                         //  await Navigation.PopAllPopupAsync();
 
                         App.load_rpc = true;
-                        App.Current.MainPage = new MasterPage(new CrmTabbedPage());
+                        App.sq_rpc = true;
+                        App.Current.MainPage = new MasterPage(new CrmTabbedPage("tab4"));
+
+                        act_ind.IsRunning = false;
 
                         Loadingalertcall();
                     }
@@ -1271,7 +1277,7 @@ namespace SalesApp.views
                     else
                     {
                         await DisplayAlert("Alert", "Please try again", "Ok");
-                        Loadingalertcall();
+                        act_ind.IsRunning = false;
                     }
                 }
 
@@ -1440,7 +1446,7 @@ namespace SalesApp.views
 
 
 
-        private void ol_clicked(object sender, EventArgs e)
+        private async void ol_clicked(object sender, EventArgs e)
         {
 
 
@@ -1512,12 +1518,19 @@ namespace SalesApp.views
                     taxname = taxname.Substring(2);
                 }
 
-             //   product_id =  App.productList.FirstOrDefault(x => x.Name == searchprod.Text).Id;
+                //   product_id =  App.productList.FirstOrDefault(x => x.Name == searchprod.Text).Id;
 
 
-               // orderLineList1.Add(new OrderLinesList(searchprod.Text, product_id, Convert.ToDouble(oqty.Text), Convert.ToDouble(up.Text), taxidList, orderline_des.Text, taxname, dis1.Text, multidis.Text,serialidList));
+                // orderLineList1.Add(new OrderLinesList(searchprod.Text, product_id, Convert.ToDouble(oqty.Text), Convert.ToDouble(up.Text), taxidList, orderline_des.Text, taxname, dis1.Text, multidis.Text,serialidList));
 
-                orderLineList1.Add(new OrderLinesList(searchprod.Text, product_id, Convert.ToDouble(oqty.Text), Convert.ToDouble(up.Text), taxidList, orderline_des.Text, taxname, "0", "0", serialidList));
+                act_ind.IsRunning = true; 
+
+                float subtotal = await Task.Run(() => Controller.InstanceCreation().getsubtotal("sale.order", "get_sub_total", float.Parse(up.Text), float.Parse(oqty.Text), taxidList, float.Parse("0")));
+                int subtotal1 = (int)subtotal;
+
+               
+
+                orderLineList1.Add(new OrderLinesList(searchprod.Text, product_id, Convert.ToDouble(oqty.Text), Convert.ToDouble(up.Text), taxidList, orderline_des.Text, taxname, "0", "0", serialidList,subtotal1));
 
                 orderListview.ItemsSource = orderLineList1;
                 orderListview.RowHeight = 40;
@@ -1538,6 +1551,8 @@ namespace SalesApp.views
 
                 Addtax_line.IsVisible = false;
                 Addserial_line.IsVisible = false;
+
+                act_ind.IsRunning = false; 
 
 
             }

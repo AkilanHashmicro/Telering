@@ -9,15 +9,17 @@
    
     <ScrollView Padding="0,50,0,0">
 
+         <AbsoluteLayout  Padding="10">
+            
         <Frame
         x:Name="FrameContainer"            
         HorizontalOptions="Center"
             VerticalOptions="Center"
-            Padding="0,5,0,0" CornerRadius="20" BackgroundColor="#F0EEEF">
+            Padding="0,0,0,0" CornerRadius="20" BackgroundColor="#F0EEEF">
                               
                 <StackLayout  x:Name="mainstack" HeightRequest="960" WidthRequest="340" HorizontalOptions="StartAndExpand" VerticalOptions="StartAndExpand">                            
 
-                <StackLayout BackgroundColor="#F0EEEF">
+                <StackLayout  BackgroundColor="#F0EEEF">
                                        
                     <StackLayout HorizontalOptions="End" Padding="0,5,10,0">
                         <Image Source="cancel.png" x:Name="overall_close" WidthRequest="25" HeightRequest="25"/>
@@ -325,5 +327,12 @@
                 </StackLayout>
            
        </Frame>
+
+          <StackLayout IsVisible="true" Padding="12"
+                 AbsoluteLayout.LayoutBounds=".5,550,1,50" AbsoluteLayout.LayoutFlags="XProportional,WidthProportional">
+       <ActivityIndicator  x:Name="act_ind"   IsRunning="false" Color ="Red"/>
+     </StackLayout>                
+    </AbsoluteLayout>
+            
     </ScrollView>
 </pages:PopupPage>

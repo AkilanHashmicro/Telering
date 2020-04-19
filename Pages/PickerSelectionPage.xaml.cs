@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -55,21 +56,20 @@ namespace SalesApp.Pages
 
         private async void pickerListView_ItemTappedAsync(object sender, ItemTappedEventArgs ea)
         {
-            var currentpage = new LoadingAlert();
-            await PopupNavigation.PushAsync(currentpage);
+            //var currentpage = new LoadingAlert();
+            //await PopupNavigation.PushAsync(currentpage);
 
-     
+            act_ind.IsRunning = true;
             ProductsList masterItemObj = (ProductsList)ea.Item;
 
             MessagingCenter.Send<string, int>("MyApp", "PickerMsg", masterItemObj.Id);
 
-
-
          //   MessagingCenter.Send<string, int>("MyApp", "pricelistMsg", masterItemObj.Id);
 
-            App.serialList = Controller.InstanceCreation().getserialList(masterItemObj.Id);
+            await Task.Run(() =>  App.serialList = Controller.InstanceCreation().getserialList(masterItemObj.Id));
 
-            await   Navigation.PopPopupAsync();
+            act_ind.IsRunning = false;
+           // await   Navigation.PopPopupAsync();
             await PopupNavigation.PopAsync();
          //   await Navigation.PopAllPopupAsync();
            // Navigation.PushPopupAsync(new CrmLeadDetailWizard(masterItemObj, "Lead"));

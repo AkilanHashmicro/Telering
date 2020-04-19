@@ -750,6 +750,7 @@ namespace SalesApp.models
 
             public List<int> tax_id { get; set; }
             public List<int> serial_id { get; set; }
+            public int subtotal { get; set; }
 
             //public int warehouse_id { get; set; }
             //public string picking_policy { get; set; }
@@ -765,7 +766,7 @@ namespace SalesApp.models
             //{
 
             public OrderLinesList(string Product,int Product_Id, double Ordered_Qty, double UnitPrice, List<int> TaxesIdList, string order_description, string tax_string, 
-                                  string fin_discount, string multidiscount,List<int> SerialIdList
+                                  string fin_discount, string multidiscount,List<int> SerialIdList,int sub_total
                                   )
             {
                 product = Product;
@@ -778,6 +779,7 @@ namespace SalesApp.models
                 discount = fin_discount;
                 multi_discount = multidiscount;
                 serial_id = SerialIdList;
+                subtotal = sub_total;
                 //warehouse_id = Warehouse_id;
                 //picking_policy = Picking_policy;
                 //user_id = User_id;

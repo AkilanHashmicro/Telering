@@ -9,6 +9,8 @@
             xmlns:controls1="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
     <ContentPage.Content>
         <ScrollView>
+
+         <AbsoluteLayout>
         <StackLayout BackgroundColor="#F0EEEF">
 
               <StackLayout BackgroundColor="#363E4B" x:Name="back" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5">
@@ -275,6 +277,13 @@
             </StackLayout>
                     
         </StackLayout>
+
+      <StackLayout IsVisible="true" Padding="12"
+                 AbsoluteLayout.LayoutBounds=".5,1120,1,50" AbsoluteLayout.LayoutFlags="XProportional,WidthProportional">
+       <ActivityIndicator  x:Name="act_ind"   IsRunning="false" Color ="Red"/>
+     </StackLayout>                
+    </AbsoluteLayout>
+            
         </ScrollView>
     </ContentPage.Content>
 </pages:PopupPage>

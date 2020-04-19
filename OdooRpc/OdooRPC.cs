@@ -550,6 +550,19 @@ namespace SalesApp.OdooRpc
             return responseData;
         }
 
+
+        public float odoogetSubtotal(string model, string method, float unit_price, float quantity, List<int> taxids, float disount)
+        {
+            if (this.Uid == 0)
+            {
+                this.Uid = App.userid_db;
+            }
+
+            JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { Settings.UserDbName, Settings.UserId, Settings.UserPassword, model, method, new object[] { }, unit_price, quantity, taxids, disount });
+            float result = odooServerCall<float>(jsonRpcUrl, parameters);
+            return result;
+        }
+
         public dynamic odooMethodCall_serial<T>(string model, string method, int product_id)
         {
             JsonRpcRequestParameter parameters = new JsonRpcRequestParameter("object", "execute", new object[] { Settings.UserDbName, Settings.UserId, Settings.UserPassword, model, method, new object[] {product_id } });

@@ -136,62 +136,11 @@ namespace SalesApp.views
             salesQuotationListView.Refreshing += this.RefreshRequested;
         }
 
-        private void OnMenuItemTapped(object sender, ItemTappedEventArgs ea)
+        private async void OnMenuItemTappedAsync(object sender, ItemTappedEventArgs ea)
         {
-
-            //  List<CRMLead> crmLeadData = Controller.InstanceCreation().crmLeadData();
-
-
-            if (App.NetAvailable)
-            {
-
-                var result1 = from y in App.SalesQuotationListDb
-                              where y.yellowimg_string == "yellowcircle.png"
-                              select y;
-
-                if (result1.Count() == 0)
-                {
-                    try
-                    {
-                        Navigation.PushPopupAsync(new SalesQuotationsListviewDetail(ea.Item as SalesQuotation));
-
-                      //  App.Current.MainPage = new MasterPage(new SalesQuotationsListviewDetail(ea.Item as SalesQuotation));
-                    }
-                    catch
-                    {
-                       // Navigation.PushPopupAsync(new SalesQuotationsListviewDetail(ea.Item as SalesQuotationDB));
-                       // App.Current.MainPage = new MasterPage(new SalesQuotationsListviewDetail(ea.Item as SalesQuotationDB));
-                    }
-                }
-
-                else
-                {
-                    try
-                    {
-                      //  Navigation.PushPopupAsync(new SalesQuotationsListviewDetail(ea.Item as SalesQuotationDB));
-                    }
-                    catch
-                    {
-                        Navigation.PushPopupAsync(new SalesQuotationsListviewDetail(ea.Item as SalesQuotation));
-                    }
-                 }
-
-
-            }
-
-            else if(App.NetAvailable == false)
-            {
-                try
-                {
-                  //  Navigation.PushPopupAsync(new SalesQuotationsListviewDetail(ea.Item as SalesQuotationDB));
-                }
-
-                catch
-                {
-                    Navigation.PushPopupAsync(new SalesQuotationsListviewDetail(ea.Item as SalesQuotation));
-                }
-            }
-
+            act_ind.IsRunning = true;
+            await Task.Run(() => Navigation.PushPopupAsync(new SalesQuotationsListviewDetail(ea.Item as SalesQuotation)));
+            act_ind.IsRunning = false;
         }
 
    

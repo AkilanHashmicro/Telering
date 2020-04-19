@@ -270,10 +270,14 @@ namespace SalesApp.views
 
             else
             {
-                var currentpage = new LoadingAlert();
-                await PopupNavigation.PushAsync(currentpage);
+                //var currentpage = new LoadingAlert();
+                //await PopupNavigation.PushAsync(currentpage);
+
+                act_ind.IsRunning = true;
                               
-                var updated = Controller.InstanceCreation().UpdateCRMOpporData("res.partner", "create_customer_app", vals);
+                var updated = await Task.Run(() => Controller.InstanceCreation().UpdateCRMOpporData("res.partner", "create_customer_app", vals));
+
+                act_ind.IsRunning = false;
 
                 if (updated == "true")
                 {
@@ -283,6 +287,7 @@ namespace SalesApp.views
                 else
                 {
                     await DisplayAlert("Alert", "Please try again", "Ok");
+                    act_ind.IsRunning = true;
                 }
 
                 Loadingalertcall();

@@ -30,11 +30,12 @@ namespace SalesApp.views
             Customerlist.ItemsSource = customerdata;
              
             var plusRecognizer = new TapGestureRecognizer();
-            plusRecognizer.Tapped += (s, e) =>
+            plusRecognizer.Tapped += async(s, e) =>
             {
               //  App.Current.MainPage = new MasterPage(new CRMLeadCreationPage());
-
-                Navigation.PushPopupAsync( new CRMLeadCreationPage());
+                act_ind.IsRunning = true;
+                await Task.Run(() => Navigation.PushPopupAsync( new CRMLeadCreationPage()));
+                act_ind.IsRunning = false;
             };
             plus.GestureRecognizers.Add(plusRecognizer);
 
@@ -43,12 +44,14 @@ namespace SalesApp.views
         private async void CustomerListView_ItemTappedAsync(object sender, ItemTappedEventArgs e)
         {
 
-            var currentpage = new LoadingAlert();
-            await PopupNavigation.PushAsync(currentpage);
+            //var currentpage = new LoadingAlert();
+            //await PopupNavigation.PushAsync(currentpage);
 
             CustomersModel modelObj = e.Item as CustomersModel;
-            await Navigation.PushPopupAsync(new CustomerListviewDetailPage(modelObj.id));
-          
+
+            act_ind.IsRunning = true;
+            await Task.Run(()=> Navigation.PushPopupAsync(new CustomerListviewDetailPage(modelObj.id)));
+            act_ind.IsRunning = false;
 
          //   Navigation.PushPopupAsync(new CustomerListviewDetailPage(modelObj));
         //    Navigation.PushAsync(new CustomerListviewDetailPage(modelObj));

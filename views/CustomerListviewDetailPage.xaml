@@ -10,6 +10,10 @@
   <ContentPage.Content>
     <ScrollView>
 
+    <RelativeLayout>
+                <ContentView RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"  
+             RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
+ 
       <StackLayout BackgroundColor="#F0EEEF">
 
         <StackLayout BackgroundColor="#363E4B" x:Name="back" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5">
@@ -269,8 +273,13 @@
           <Button Text="Cancel" TextColor="Black" BackgroundColor="White" Clicked="updatecancel_clickedAsync"/>
         </StackLayout>
 
-
       </StackLayout>
+
+             </ContentView>
+              <ActivityIndicator  x:Name="act_ind"  IsRunning="false"  Color ="Red" 
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-205}"  
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-275}" />         
+            </RelativeLayout>
     </ScrollView>
 
   </ContentPage.Content>

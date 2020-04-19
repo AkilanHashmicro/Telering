@@ -207,6 +207,12 @@ namespace SalesApp.models
             return tarList;
         }
 
+        public float getsubtotal(string modelName, string methodName, float unit_price, float quantity, List<int> taxids, float disount)
+        {
+            float flag = odooConnector.odoogetSubtotal(modelName, methodName, unit_price, quantity, taxids, disount);
+            return flag;
+        }
+
         public List<serial_list> getserialList(int product_id)
         {
             List<serial_list> serList = new List<serial_list>();

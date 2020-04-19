@@ -161,10 +161,12 @@ namespace SalesApp
                         App.warehousList = JsonConvert.DeserializeObject<List<warehouse>>(res.warehouse_list);
                         App.journalList = JsonConvert.DeserializeObject<List<account_journal>>(res.journal_list);
                         App.salespersons = JsonConvert.DeserializeObject<Dictionary<int, string>>(res.sales_persons);
+                        App.taxList = JsonConvert.DeserializeObject<List<taxes>>(res.tax_list);
                         App.partner_id = res.partnerid;
                         App.partner_name = res.user_name;
                         App.partner_image = res.user_image_medium;
                         App.partner_email = res.user_email;
+                        App.userid = res.userid;
                     }
                 }
             }
